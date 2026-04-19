@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adventures - Lucas Gravina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;cursor:none!important}
+    :root{
+      --bg:#06080f;--fg:#ecedf5;--accent:#5b9cf6;
+      --accent-glow:rgba(91,156,246,0.15);
+      --accent-grad:linear-gradient(135deg,#5b9cf6 0%,#8fb8ff 100%);
+      --border:#141720;
+      --font-display:'Barlow Condensed',sans-serif;
+      --font-serif:'DM Serif Display',serif;
+      --font-mono:'Space Mono',monospace;
+    }
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--fg);font-family:var(--font-mono);overflow-x:hidden}
+    body::after{content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity:0.028}
+
+    #cursor-dot{position:fixed;width:6px;height:6px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);box-shadow:0 0 12px var(--accent-glow)}
+    #cursor-ring{position:fixed;width:40px;height:40px;border:1.5px solid rgba(91,156,246,0.45);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);transition:width .38s cubic-bezier(.25,.46,.45,.94),height .38s cubic-bezier(.25,.46,.45,.94),background-color .38s,border-color .38s}
+    #cursor-ring.hover{width:64px;height:64px;background-color:var(--accent-glow);border-color:var(--accent)}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:28px 52px;background:rgba(6,8,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+    .nav-logo{font-family:var(--font-display);font-size:1.7rem;font-weight:800;letter-spacing:0.08em;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none}
+    .nav-back{display:flex;align-items:center;gap:10px;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(236,237,245,0.4);text-decoration:none;transition:color .25s}
+    .nav-back:hover{color:var(--accent)}
+    .nav-back-arrow{display:inline-block;transition:transform .25s}
+    .nav-back:hover .nav-back-arrow{transform:translateX(-4px)}
+
+    /* PAGE HEADER */
+    .page-header{padding:140px 52px 60px;max-width:1440px;margin:0 auto;border-bottom:1px solid var(--border)}
+    .page-header-label{font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
+    .page-header-title{font-family:var(--font-serif);font-style:italic;font-size:clamp(3rem,7vw,7rem);line-height:0.9;letter-spacing:-0.02em;color:var(--fg)}
+    .page-header-title span{background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .page-header-sub{margin-top:24px;font-size:0.68rem;line-height:1.9;color:rgba(236,237,245,0.42);max-width:520px}
+
+    /* PROFILE STRIP */
+    .profile-strip{max-width:1440px;margin:0 auto;padding:48px 52px;display:flex;align-items:center;gap:40px;border-bottom:1px solid var(--border)}
+    .profile-avatar{width:80px;height:80px;border-radius:50%;border:2px solid rgba(91,156,246,0.3);overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,#1a1f35,#0d1a30)}
+    .profile-avatar img{width:100%;height:100%;object-fit:cover}
+    .profile-info{display:flex;flex-direction:column;gap:6px}
+    .profile-handle{font-size:0.78rem;letter-spacing:0.06em;color:var(--fg)}
+    .profile-name{font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(236,237,245,0.35)}
+    .profile-stats{display:flex;gap:36px;margin-left:auto}
+    .profile-stat{display:flex;flex-direction:column;align-items:center;gap:4px}
+    .profile-stat-val{font-family:var(--font-display);font-weight:800;font-size:1.4rem;line-height:1;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .profile-stat-lbl{font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(236,237,245,0.3)}
+    .profile-ig-link{display:flex;align-items:center;gap:8px;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);text-decoration:none;border:1px solid rgba(91,156,246,0.3);padding:10px 20px;transition:background .25s,border-color .25s;margin-left:40px}
+    .profile-ig-link:hover{background:rgba(91,156,246,0.08);border-color:var(--accent)}
+
+    /* GRID */
+    .grid-wrap{max-width:1440px;margin:0 auto;padding:0 52px 100px}
+    .grid-section-label{font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(236,237,245,0.2);padding:32px 0 20px;border-bottom:1px solid var(--border);margin-bottom:3px}
+    .photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+
+    /* PHOTO TILES */
+    .photo-tile{position:relative;aspect-ratio:1;overflow:hidden;background:#0c0e1a}
+    .photo-tile img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(0.16,1,0.3,1),filter .5s}
+    .photo-tile:hover img{transform:scale(1.04);filter:brightness(0.7)}
+    .photo-tile-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;background:linear-gradient(to top,rgba(6,8,15,0.85) 0%,transparent 60%);opacity:0;transition:opacity .35s}
+    .photo-tile:hover .photo-tile-overlay{opacity:1}
+    .photo-tile-caption{font-size:0.62rem;line-height:1.6;color:var(--fg)}
+    .photo-tile-loc{font-size:0.55rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-top:4px}
+
+    /* Placeholder tile for empty slots */
+    .photo-placeholder{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:var(--border);color:rgba(236,237,245,0.1);font-size:0.55rem;letter-spacing:0.16em;text-transform:uppercase}
+
+    /* Wide tile (spans 2 cols) */
+    .photo-tile.wide{grid-column:span 2;aspect-ratio:2/1}
+    .photo-tile.tall{grid-row:span 2}
+
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(0.16,1,0.3,1),transform .8s cubic-bezier(0.16,1,0.3,1)}
+    .reveal.visible{opacity:1;transform:none}
+    .d1{transition-delay:.05s}.d2{transition-delay:.1s}.d3{transition-delay:.15s}.d4{transition-delay:.2s}.d5{transition-delay:.25s}.d6{transition-delay:.3s}
+
+    @media(max-width:900px){
+      nav{padding:20px 24px}
+      .page-header{padding:100px 24px 48px}
+      .profile-strip{padding:36px 24px;flex-wrap:wrap}
+      .profile-stats{margin-left:0}
+      .profile-ig-link{margin-left:0}
+      .grid-wrap{padding:0 24px 60px}
+      .photo-grid{grid-template-columns:repeat(2,1fr)}
+      .photo-tile.wide{grid-column:span 2;aspect-ratio:2/1}
+    }
+    @media(max-width:560px){
+      .photo-grid{grid-template-columns:repeat(2,1fr)}
+      .photo-tile.wide{grid-column:span 2}
+    }
+  </style>
+</head>
+<body>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo">LG</a>
+    <a href="index.html" class="nav-back"><span class="nav-back-arrow">&#8592;</span>&nbsp;Back</a>
+  </nav>
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-header-label">05 — Adventures</div>
+    <h1 class="page-header-title">Out<br><span>There</span></h1>
+    <p class="page-header-sub">Backpacking, surfing, traveling. Life outside the screen — Stanford Outdoors trip leader, chronic over-packer, occasional altitude idiot.</p>
+  </div>
+
+  <!-- PROFILE STRIP -->
+  <div class="profile-strip">
+    <div class="profile-avatar">
+      <!-- Replace src with your actual photo -->
+      <img src="" alt="Lucas Gravina" onerror="this.style.display='none'">
+    </div>
+    <div class="profile-info">
+      <div class="profile-handle">@lucasgravina18</div>
+      <div class="profile-name">Lucas Gravina</div>
+    </div>
+    <div class="profile-stats">
+      <div class="profile-stat">
+        <div class="profile-stat-val">10M+</div>
+        <div class="profile-stat-lbl">Views</div>
+      </div>
+      <div class="profile-stat">
+        <div class="profile-stat-val">50+</div>
+        <div class="profile-stat-lbl">Countries</div>
+      </div>
+      <div class="profile-stat">
+        <div class="profile-stat-val">∞</div>
+        <div class="profile-stat-lbl">Miles</div>
+      </div>
+    </div>
+    <a href="https://www.instagram.com/lucasgravina18/" target="_blank" rel="noopener" class="profile-ig-link">
+      Instagram &nbsp;&#8599;
+    </a>
+  </div>
+
+  <!-- PHOTO GRID -->
+  <div class="grid-wrap">
+    <div class="grid-section-label">Recent</div>
+    <div class="photo-grid">
+
+      <!-- ROW 1: wide + square -->
+      <div class="photo-tile wide reveal">
+        <img src="" alt="">
+        <div class="photo-tile-overlay">
+          <div class="photo-tile-caption">Add caption here</div>
+          <div class="photo-tile-loc">Location</div>
+        </div>
+      </div>
+      <div class="photo-tile reveal d1">
+        <img src="" alt="">
+        <div class="photo-tile-overlay">
+          <div class="photo-tile-caption">Add caption here</div>
+          <div class="photo-tile-loc">Location</div>
+        </div>
+      </div>
+
+      <!-- ROW 2: 3 squares -->
+      <div class="photo-tile reveal">
+        <img src="" alt="">
+        <div class="photo-tile-overlay">
+          <div class="photo-tile-caption">Add caption here</div>
+          <div class="photo-tile-loc">Location</div>
+        </div>
+      </div>
+      <div class="photo-tile reveal d1">
+        <img src="" alt="">
+        <div class="photo-tile-overlay">
+          <div class="photo-tile-caption">Add caption here</div>
+          <div class="photo-tile-loc">Location</div>
+        </div>
+      </div>
+      <div class="photo-tile reveal d2">
+        <img src="" alt="">
+        <div class="photo-tile-overlay">
+          <div class="photo-tile-caption">Add caption here</div>
+          <div class="photo-tile-loc">Location</div>
+        </div>
+      </div>
+
+      <!-- ROW 3: square + wide -->
+      <div class="photo-tile reveal">
+        <img src="" alt="">
+        <div class="photo-tile-overlay">
+          <div class="photo-tile-caption">Add caption here</div>
+          <div class="photo-tile-loc">Location</div>
+        </div>
+      </div>
+      <div class="photo-tile wide reveal d1">
+        <img src="" alt="">
+        <div class="photo-tile-overlay">
+          <div class="photo-tile-caption">Add caption here</div>
+          <div class="photo-tile-loc">Location</div>
+        </div>
+      </div>
+
+      <!-- ROW 4: 3 squares -->
+      <div class="photo-tile reveal">
+        <img src="" alt="">
+        <div class="photo-tile-overlay">
+          <div class="photo-tile-caption">Add caption here</div>
+          <div class="photo-tile-loc">Location</div>
+        </div>
+      </div>
+      <div class="photo-tile reveal d1">
+        <img src="" alt="">
+        <div class="photo-tile-overlay">
+          <div class="photo-tile-caption">Add caption here</div>
+          <div class="photo-tile-loc">Location</div>
+        </div>
+      </div>
+      <div class="photo-tile reveal d2">
+        <img src="" alt="">
+        <div class="photo-tile-overlay">
+          <div class="photo-tile-caption">Add caption here</div>
+          <div class="photo-tile-loc">Location</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
+    let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('hover'));el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));});
+    (function tick(){rx+=(mx-rx)*0.11;ry+=(my-ry)*0.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+    const io=new IntersectionObserver(e=>e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}}),{threshold:0.06});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    /* Hide broken image tiles gracefully */
+    document.querySelectorAll('.photo-tile img').forEach(img=>{
+      img.addEventListener('error',()=>{
+        img.style.display='none';
+        img.parentElement.style.background='linear-gradient(135deg,#0d1120,#111828)';
+      });
+      if(!img.src||img.src===window.location.href)img.dispatchEvent(new Event('error'));
+    });
+  </script>
+</body>
+</html>

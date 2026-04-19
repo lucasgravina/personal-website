@@ -99,7 +99,7 @@
     .exp-company-row{display:flex;align-items:center;gap:18px}
     .exp-logo{width:28px;height:28px;object-fit:contain;opacity:0.7;flex-shrink:0;mix-blend-mode:screen;filter:brightness(2);transition:opacity .3s}
     .exp-item:hover .exp-logo{opacity:1}
-    .exp-company{font-family:var(--font-serif);font-size:clamp(2rem,3.8vw,3.4rem);line-height:1;letter-spacing:-0.025em;color:var(--fg);transition:color .3s}
+    .exp-company{font-family:var(--font-serif);font-size:clamp(2.5rem,5vw,5rem);line-height:1;letter-spacing:-0.025em;color:var(--fg);transition:color .3s}
     .exp-item:hover .exp-company{color:var(--accent)}
     .exp-role{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(236,237,245,0.35)}
     .exp-desc{font-size:0.72rem;line-height:2;color:rgba(236,237,245,0.35);max-width:580px;margin-top:6px}
@@ -108,7 +108,7 @@
     .exp-badge{display:inline-block;padding:5px 13px;border:1px solid var(--border);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(236,237,245,0.28);transition:border-color .3s,color .3s}
     .exp-item:hover .exp-badge{border-color:rgba(91,156,246,0.35);color:var(--accent)}
     /* ABOUT */
-    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:start}
+    .about-grid{max-width:760px}
     .about-headline{font-family:var(--font-serif);font-size:clamp(1.7rem,2.8vw,2.8rem);line-height:1.25;letter-spacing:-0.02em;color:var(--fg)}
     .about-headline em{font-style:italic;color:var(--accent)}
     .stats-strip{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin-top:52px}
@@ -126,7 +126,7 @@
     .project-card:hover::before{width:3px}
     .proj-num{font-size:0.6rem;letter-spacing:0.16em;color:var(--accent);opacity:0.5;align-self:flex-start;padding-top:4px}
     .proj-body{display:flex;flex-direction:column;gap:10px}
-    .proj-title{font-family:var(--font-serif);font-size:clamp(1.6rem,2.5vw,2.4rem);line-height:1;letter-spacing:-0.025em;color:var(--fg);transition:color .3s}
+    .proj-title{font-family:var(--font-serif);font-size:clamp(2rem,3.2vw,3.5rem);line-height:1;letter-spacing:-0.025em;color:var(--fg);transition:color .3s}
     .project-card:hover .proj-title{color:var(--accent)}
     .proj-tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
     .proj-tag{font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(91,156,246,0.18);color:rgba(91,156,246,0.55)}
@@ -236,13 +236,6 @@
     <div class="stripe-inner">
       <div class="section-label reveal">01 - About</div>
       <div class="about-grid">
-        <div>
-          <h2 class="about-headline reveal">I build at the intersection of <em>technology</em> and <em>strategy</em>.</h2>
-          <div class="stats-strip reveal d2">
-            <div class="stat-box"><div class="stat-val">10M+</div><div class="stat-lbl">Content Views</div></div>
-            <div class="stat-box"><div class="stat-val">$200K</div><div class="stat-lbl">Budget Managed</div></div>
-          </div>
-        </div>
         <div class="about-body reveal d1">
           <p>I'm a sophomore at Stanford studying Management Science &amp; Engineering and Computer Science.</p>
           <p>My work spans AI research, product development, and financial analysis. I've co-founded a startup, shipped internal tools at a PE firm, and developed product strategy for two YC companies.</p>
