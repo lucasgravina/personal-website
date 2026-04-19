@@ -1,197 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agentic Checkout Optimization - Lucas Gravina</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Agentic Checkout Optimization — autonomous AI agents stress-test purchase flows and optimize sites for agent-driven commerce." />
+  <meta name="theme-color" content="#0a0a0f" />
+  <title>Agentic Checkout Optimization — Lucas Gravina</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
   <style>
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;cursor:none!important}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     :root{
-      --bg:#06080f;--fg:#ecedf5;--accent:#5b9cf6;
-      --accent-glow:rgba(91,156,246,0.15);
-      --accent-grad:linear-gradient(135deg,#5b9cf6 0%,#8fb8ff 100%);
-      --border:#141720;
-      --font-display:'Barlow Condensed',sans-serif;
-      --font-serif:'DM Serif Display',serif;
-      --font-mono:'Space Mono',monospace;
+      --bg:#0a0a0f;--bg-elev:#0e0e15;
+      --fg:#ebe7db;--fg-muted:rgba(235,231,219,0.62);--fg-faint:rgba(235,231,219,0.38);--fg-ghost:rgba(235,231,219,0.16);
+      --line:rgba(235,231,219,0.09);--line-strong:rgba(235,231,219,0.18);
+      --accent:#6ea3ff;--accent-soft:rgba(110,163,255,0.12);
+      --accent-grad:linear-gradient(120deg,#6ea3ff 0%,#a8c8ff 45%,#e9d5ff 100%);
+      --warm-grad:linear-gradient(120deg,#f3c78b 0%,#ebe7db 50%,#a8c8ff 100%);
+      --serif:'Fraunces',ui-serif,Georgia,serif;
+      --sans:'Inter','Helvetica Neue',Arial,sans-serif;
+      --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;
+      --ease:cubic-bezier(0.16,1,0.3,1);
+      --page-pad:clamp(20px,4vw,56px);
     }
-    html{scroll-behavior:smooth}
-    body{background:var(--bg);color:var(--fg);font-family:var(--font-mono);overflow-x:hidden}
-    body::after{content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:0.028}
+    html{scroll-behavior:smooth;background:var(--bg);-webkit-font-smoothing:antialiased}
+    body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.6;overflow-x:hidden;letter-spacing:-0.005em}
+    ::selection{background:var(--accent-soft);color:var(--fg)}
+    body::after{content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.85'/%3E%3C/svg%3E");opacity:0.035;mix-blend-mode:overlay}
 
-    #cursor-dot{position:fixed;width:6px;height:6px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);box-shadow:0 0 12px var(--accent-glow)}
-    #cursor-ring{position:fixed;width:40px;height:40px;border:1.5px solid rgba(91,156,246,0.45);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);transition:width .38s,height .38s,background-color .38s,border-color .38s}
-    #cursor-ring.hover{width:60px;height:60px;background:var(--accent-glow);border-color:var(--accent)}
+    /* LOADER */
+    #loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity .9s var(--ease),visibility .9s var(--ease)}
+    #loader.out{opacity:0;visibility:hidden;pointer-events:none}
+    .loader-mark{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(3rem,6vw,5rem);letter-spacing:-0.04em;color:var(--fg)}
+    .loader-line{width:140px;height:1px;background:var(--line-strong);overflow:hidden;position:relative}
+    .loader-line::after{content:'';position:absolute;inset:0;width:0;background:var(--accent-grad);animation:loadfill 1.4s var(--ease) forwards}
+    .loader-meta{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--fg-faint)}
+    @keyframes loadfill{to{width:100%}}
 
-    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:28px 52px;background:rgba(6,8,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-    .nav-logo{font-family:var(--font-display);font-size:1.7rem;font-weight:800;letter-spacing:0.08em;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none}
-    .nav-back{display:flex;align-items:center;gap:10px;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(236,237,245,0.4);text-decoration:none;transition:color .25s}
-    .nav-back:hover{color:var(--accent)}
-    .nav-back-arrow{transition:transform .25s}
-    .nav-back:hover .nav-back-arrow{transform:translateX(-4px)}
+    /* SCROLL PROGRESS */
+    #scroll-progress{position:fixed;top:0;left:0;height:1px;width:0;z-index:220;background:var(--accent-grad);opacity:0.7}
+
+    /* CURSOR */
+    @media(hover:hover){
+      body{cursor:none}
+      a,button,input,.tilt{cursor:none}
+      #cursor-dot{position:fixed;top:0;left:0;width:5px;height:5px;background:var(--fg);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:difference}
+      #cursor-ring{position:fixed;top:0;left:0;width:36px;height:36px;border:1px solid var(--line-strong);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);transition:width .42s var(--ease),height .42s var(--ease),background-color .42s var(--ease),border-color .42s var(--ease)}
+      #cursor-ring.hover{width:72px;height:72px;background:var(--accent-soft);border-color:var(--accent)}
+    }
+    @media(hover:none){#cursor-dot,#cursor-ring{display:none}}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:22px var(--page-pad);transition:background .5s var(--ease),padding .4s var(--ease),border-color .4s var(--ease);border-bottom:1px solid transparent}
+    nav.scrolled{background:rgba(10,10,15,0.72);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);padding:14px var(--page-pad);border-bottom-color:var(--line)}
+    .nav-logo{font-family:var(--serif);font-weight:300;font-style:italic;font-size:1.6rem;letter-spacing:-0.04em;color:var(--fg);text-decoration:none;display:flex;align-items:baseline;gap:0}
+    .nav-logo::after{content:'.';color:var(--accent);margin-left:2px}
+    .nav-back{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--fg-faint);text-decoration:none;transition:color .3s var(--ease)}
+    .nav-back .arrow{display:inline-block;transition:transform .3s var(--ease)}
+    .nav-back:hover{color:var(--fg)}
+    .nav-back:hover .arrow{transform:translateX(-4px)}
 
     /* HERO */
-    .proj-hero{padding:120px 52px 48px;max-width:1440px;margin:0 auto;border-bottom:1px solid var(--border)}
-    .proj-hero-meta{display:flex;align-items:center;gap:16px;margin-bottom:40px}
-    .proj-hero-num{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);opacity:0.6}
-    .proj-hero-sep{width:40px;height:1px;background:var(--border)}
-    .proj-hero-tags{display:flex;gap:8px;flex-wrap:wrap}
-    .proj-tag{font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(91,156,246,0.2);color:rgba(91,156,246,0.55)}
-    .proj-hero-title{font-family:var(--font-serif);font-style:italic;font-size:clamp(2rem,4vw,4.5rem);line-height:1;letter-spacing:-0.02em;text-transform:none;color:var(--fg);margin-bottom:48px}
-    .proj-hero-title span{background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .proj-hero-summary{display:grid;grid-template-columns:1fr 300px;gap:80px;align-items:start}
-    .proj-hero-lead{font-family:var(--font-serif);font-size:clamp(1.2rem,2vw,1.7rem);line-height:1.5;letter-spacing:-0.015em;color:rgba(236,237,245,0.75)}
-    .proj-meta-block{display:flex;flex-direction:column;gap:24px}
-    .proj-meta-row{border-top:1px solid var(--border);padding-top:16px}
-    .proj-meta-key{font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(236,237,245,0.25);margin-bottom:6px}
-    .proj-meta-val{font-size:0.72rem;color:rgba(236,237,245,0.65)}
+    .proj-hero{padding:clamp(120px,18vh,180px) var(--page-pad) clamp(40px,6vh,72px);max-width:1360px;margin:0 auto}
+    .proj-hero-meta{display:flex;align-items:center;gap:16px;margin-bottom:48px;flex-wrap:wrap}
+    .proj-hero-num{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px}
+    .proj-hero-num::before{content:'';width:20px;height:1px;background:var(--accent);display:inline-block}
+    .proj-hero-sep{width:1px;height:14px;background:var(--line-strong)}
+    .proj-hero-tags{display:flex;gap:6px;flex-wrap:wrap}
+    .proj-tag{font-family:var(--mono);font-size:0.54rem;letter-spacing:0.16em;text-transform:uppercase;padding:5px 10px;border:1px solid var(--line);color:var(--fg-muted);border-radius:999px}
+    .proj-hero-title{font-family:var(--serif);font-weight:300;font-size:clamp(2.8rem,8vw,7.5rem);line-height:0.92;letter-spacing:-0.045em;color:var(--fg);margin-bottom:56px}
+    .proj-hero-title em{font-style:italic;background:var(--warm-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .proj-hero-summary{display:grid;grid-template-columns:1fr minmax(220px,320px);gap:clamp(40px,6vw,96px);align-items:start;padding-top:48px;border-top:1px solid var(--line)}
+    .proj-hero-lead{font-family:var(--serif);font-weight:300;font-size:clamp(1.3rem,2.1vw,1.9rem);line-height:1.35;letter-spacing:-0.02em;color:var(--fg-muted)}
+    .proj-hero-lead em{font-style:italic;color:var(--fg)}
+    .proj-meta-block{display:flex;flex-direction:column;gap:22px}
+    .proj-meta-row{display:flex;flex-direction:column;gap:6px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+    .proj-meta-row:last-child{border-bottom:none}
+    .proj-meta-key{font-family:var(--mono);font-size:0.54rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--fg-ghost)}
+    .proj-meta-val{font-size:0.9rem;color:var(--fg)}
 
-    /* TWO-COLUMN CONTENT LAYOUT */
-    .proj-body{max-width:1440px;margin:0 auto}
+    /* BODY */
+    .proj-body{max-width:1360px;margin:0 auto;border-top:1px solid var(--line)}
 
-    .content-split{
-      display:grid;grid-template-columns:1fr 1fr;
-      border-bottom:1px solid var(--border);
-      align-items:start;
-    }
-    .content-left{padding:80px 52px;border-right:1px solid var(--border)}
-    .content-right{background:#08091a;overflow:hidden;position:relative;height:560px}
+    /* LEVELS */
+    .levels{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+    .level-card{background:var(--bg);padding:clamp(48px,7vh,88px) clamp(32px,4vw,64px);position:relative}
+    .level-num{font-family:var(--serif);font-weight:300;font-size:clamp(4rem,7vw,6.5rem);line-height:1;letter-spacing:-0.04em;color:var(--fg-ghost);margin-bottom:32px}
+    .level-num em{font-style:italic;background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:1}
+    .level-title{font-family:var(--serif);font-weight:300;font-size:clamp(1.6rem,2.4vw,2.3rem);line-height:1.12;letter-spacing:-0.025em;color:var(--fg);margin-bottom:20px}
+    .level-title em{font-style:italic}
+    .level-body{font-size:0.94rem;line-height:1.78;color:var(--fg-muted);max-width:52ch}
+
+    /* CONTENT SPLIT */
+    .content-split{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);align-items:stretch}
+    .content-left{padding:clamp(56px,7vh,100px) clamp(32px,4vw,64px);border-right:1px solid var(--line)}
+    .content-right{background:var(--bg-elev);overflow:hidden;position:relative;min-height:620px}
+
+    .section-num{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:28px}
+    .section-num::before{content:'';width:20px;height:1px;background:var(--accent);display:inline-block}
+    .section-headline{font-family:var(--serif);font-weight:300;font-size:clamp(1.6rem,2.6vw,2.4rem);line-height:1.16;letter-spacing:-0.025em;color:var(--fg);margin-bottom:28px;max-width:22ch}
+    .section-headline em{font-style:italic;background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .section-body{font-size:0.96rem;line-height:1.82;color:var(--fg-muted);max-width:56ch}
+    .section-body p+p{margin-top:18px}
+    .section-body strong{color:var(--fg);font-weight:500}
 
     /* DEMO PANEL */
-    .demo-panel{
-      height:100%;
-      display:flex;flex-direction:column;
-      overflow:hidden;
-    }
-    .demo-header{
-      padding:16px 24px;
-      background:#0a0c1e;
-      border-bottom:1px solid rgba(91,156,246,0.12);
-      display:flex;align-items:center;gap:12px;
-      flex-shrink:0;
-    }
+    .demo-panel{height:100%;display:flex;flex-direction:column;overflow:hidden;border-left:0}
+    .demo-header{padding:14px 22px;background:rgba(10,10,15,0.6);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-shrink:0}
     .demo-dot{width:8px;height:8px;border-radius:50%}
     .demo-dot:nth-child(1){background:#ff5f56}
     .demo-dot:nth-child(2){background:#febc2e}
     .demo-dot:nth-child(3){background:#28c840}
-    .demo-title{font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(236,237,245,0.25);margin-left:8px}
-    .demo-scroll{flex:1;overflow-y:auto;padding:28px 28px 40px;scrollbar-width:thin;scrollbar-color:rgba(91,156,246,0.2) transparent}
+    .demo-title{font-family:var(--mono);font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--fg-ghost);margin-left:12px}
+    .demo-scroll{flex:1;overflow-y:auto;padding:30px 28px 44px;scrollbar-width:thin;scrollbar-color:rgba(110,163,255,0.25) transparent}
     .demo-scroll::-webkit-scrollbar{width:4px}
-    .demo-scroll::-webkit-scrollbar-thumb{background:rgba(91,156,246,0.2);border-radius:2px}
+    .demo-scroll::-webkit-scrollbar-thumb{background:rgba(110,163,255,0.25);border-radius:2px}
 
-    /* Report content inside demo */
-    .report-company{margin-bottom:28px}
-    .report-co-label{font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);opacity:0.6;margin-bottom:6px}
-    .report-co-name{font-family:var(--font-display);font-weight:800;font-size:1.6rem;letter-spacing:0.04em;color:var(--fg)}
-    .report-co-sub{font-size:0.6rem;letter-spacing:0.1em;color:rgba(236,237,245,0.3);margin-top:4px}
+    .report-company{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+    .report-co-label{font-family:var(--mono);font-size:0.54rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);opacity:0.75;margin-bottom:10px}
+    .report-co-name{font-family:var(--serif);font-weight:300;font-size:1.9rem;letter-spacing:-0.02em;color:var(--fg)}
+    .report-co-sub{font-family:var(--mono);font-size:0.56rem;letter-spacing:0.14em;color:var(--fg-faint);margin-top:10px}
 
-    .report-section{margin-bottom:28px}
-    .report-section-title{font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(91,156,246,0.1)}
+    .report-section{margin-bottom:32px}
+    .report-section-title{font-family:var(--mono);font-size:0.56rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
 
-    .report-score-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-    .report-score-label{font-size:0.62rem;color:rgba(236,237,245,0.5)}
-    .report-score-bar{width:140px;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden}
+    .report-score-row{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px}
+    .report-score-label{font-size:0.74rem;color:var(--fg-muted);flex:1}
+    .report-score-bar{width:140px;height:3px;background:var(--line);border-radius:2px;overflow:hidden;flex-shrink:0}
     .report-score-fill{height:100%;border-radius:2px;background:var(--accent-grad)}
-    .report-score-val{font-size:0.62rem;color:var(--accent);font-family:var(--font-display);font-weight:800;letter-spacing:0.04em;width:36px;text-align:right}
+    .report-score-val{font-family:var(--mono);font-size:0.68rem;color:var(--accent);font-weight:500;letter-spacing:0.04em;width:40px;text-align:right;flex-shrink:0}
 
-    .agent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:6px}
-    .agent-cell{
-      height:28px;border-radius:2px;
-      display:flex;align-items:center;justify-content:center;
-      font-size:0.5rem;letter-spacing:0.1em;font-family:var(--font-mono);
-    }
-    .agent-cell.pass{background:rgba(91,156,246,0.12);color:rgba(91,156,246,0.7)}
-    .agent-cell.fail{background:rgba(255,80,80,0.08);color:rgba(255,100,100,0.5)}
-    .agent-cell.warn{background:rgba(255,190,0,0.08);color:rgba(255,200,50,0.5)}
+    .agent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:8px}
+    .agent-cell{height:28px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.5rem;letter-spacing:0.08em}
+    .agent-cell.pass{background:rgba(110,163,255,0.1);color:rgba(110,163,255,0.8)}
+    .agent-cell.fail{background:rgba(255,120,120,0.08);color:rgba(255,140,140,0.55)}
+    .agent-cell.warn{background:rgba(243,199,139,0.08);color:rgba(243,199,139,0.65)}
+    .agent-legend{font-family:var(--mono);font-size:0.5rem;letter-spacing:0.14em;color:var(--fg-ghost);margin-top:8px}
 
-    .mod-item{
-      display:flex;gap:12px;padding:10px 12px;
-      background:rgba(91,156,246,0.04);border-left:2px solid rgba(91,156,246,0.2);
-      margin-bottom:6px;
-    }
-    .mod-num{font-size:0.55rem;color:var(--accent);opacity:0.6;flex-shrink:0;margin-top:2px}
-    .mod-text{font-size:0.6rem;line-height:1.7;color:rgba(236,237,245,0.5)}
+    .mod-item{display:flex;gap:14px;padding:12px 14px;background:rgba(110,163,255,0.03);border-left:2px solid rgba(110,163,255,0.25);margin-bottom:6px}
+    .mod-num{font-family:var(--mono);font-size:0.56rem;color:var(--accent);opacity:0.75;flex-shrink:0;margin-top:2px;letter-spacing:0.06em}
+    .mod-text{font-size:0.72rem;line-height:1.7;color:var(--fg-muted)}
 
-    .rank-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-    .rank-label{font-size:0.58rem;color:rgba(236,237,245,0.4);width:100px;flex-shrink:0}
-    .rank-bar{flex:1;height:6px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;position:relative}
-    .rank-fill{height:100%;border-radius:3px;background:var(--accent-grad);position:relative}
-    .rank-fill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:1px;background:rgba(255,255,255,0.3)}
-    .rank-pct{font-size:0.58rem;color:var(--accent);font-family:var(--font-display);font-weight:800;letter-spacing:0.04em;width:36px;text-align:right;flex-shrink:0}
+    .rank-bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+    .rank-label{font-size:0.7rem;color:var(--fg-faint);width:130px;flex-shrink:0}
+    .rank-bar{flex:1;height:5px;background:var(--line);border-radius:3px;overflow:hidden;position:relative}
+    .rank-fill{height:100%;border-radius:3px;background:var(--accent-grad)}
+    .rank-pct{font-family:var(--mono);font-size:0.62rem;color:var(--accent);font-weight:500;letter-spacing:0.04em;width:40px;text-align:right;flex-shrink:0}
 
-    .verdict-box{
-      padding:16px 16px;
-      background:rgba(91,156,246,0.06);
-      border:1px solid rgba(91,156,246,0.15);
-      border-radius:2px;
-      margin-top:4px;
-    }
-    .verdict-label{font-size:0.5rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);opacity:0.6;margin-bottom:6px}
-    .verdict-text{font-size:0.62rem;line-height:1.8;color:rgba(236,237,245,0.55)}
+    .verdict-box{padding:18px 18px;background:var(--accent-soft);border:1px solid rgba(110,163,255,0.2);border-radius:3px;margin-top:8px}
+    .verdict-label{font-family:var(--mono);font-size:0.52rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+    .verdict-text{font-size:0.74rem;line-height:1.8;color:var(--fg-muted)}
 
-    /* TEXT sections */
-    .proj-section{padding:80px 52px;border-bottom:1px solid var(--border)}
-    .proj-section.narrow{max-width:800px}
-    .proj-section-title{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:28px}
-    .proj-section-headline{font-family:var(--font-serif);font-size:clamp(1.4rem,2.5vw,2.2rem);line-height:1.2;letter-spacing:-0.02em;color:var(--fg);margin-bottom:24px}
-    .proj-section-body{font-size:0.76rem;line-height:2.1;color:rgba(236,237,245,0.52)}
+    /* METHOD */
+    .proj-section{padding:clamp(64px,9vh,140px) var(--page-pad);border-bottom:1px solid var(--line)}
+    .proj-section-inner{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:minmax(180px,220px) 1fr;gap:clamp(32px,6vw,96px);align-items:start}
+    .proj-section-label{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);position:sticky;top:120px;display:flex;align-items:center;gap:10px}
+    .proj-section-label::before{content:'';width:20px;height:1px;background:var(--accent)}
+    .proj-section-content{max-width:780px;display:flex;flex-direction:column;gap:32px}
+    .proj-section-title{font-family:var(--serif);font-weight:300;font-size:clamp(1.9rem,3.2vw,3rem);line-height:1.12;letter-spacing:-0.03em;color:var(--fg)}
+    .proj-section-title em{font-style:italic;background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .proj-section-body{font-size:1rem;line-height:1.88;color:var(--fg-muted)}
     .proj-section-body p+p{margin-top:20px}
+    .proj-section-body strong{color:var(--fg);font-weight:500}
 
-    /* Stats */
-    .proj-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;border-bottom:1px solid var(--border)}
-    .proj-stat{background:#0d1018;padding:48px 40px}
-    .proj-stat-val{font-family:var(--font-display);font-weight:800;font-size:3.2rem;line-height:1;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:0.04em}
-    .proj-stat-lbl{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(236,237,245,0.25);margin-top:10px}
-
-    /* Two-level breakdown */
-    .levels{display:grid;grid-template-columns:1fr 1fr;gap:2px;border-bottom:1px solid var(--border)}
-    .level-card{background:var(--border);padding:56px 44px}
-    .level-num{font-family:var(--font-display);font-weight:800;font-size:5rem;line-height:1;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:0.04em;margin-bottom:20px;opacity:0.6}
-    .level-title{font-family:var(--font-serif);font-size:1.6rem;line-height:1.1;letter-spacing:-0.02em;color:var(--fg);margin-bottom:16px}
-    .level-body{font-size:0.72rem;line-height:2;color:rgba(236,237,245,0.42)}
-
-    /* Nav strip */
-    .proj-nav-strip{max-width:1440px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:48px 52px;border-top:1px solid var(--border)}
-    .proj-nav-link{font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(236,237,245,0.35);text-decoration:none;display:flex;align-items:center;gap:10px;transition:color .25s}
-    .proj-nav-link:hover{color:var(--accent)}
+    /* NAV STRIP */
+    .proj-nav-strip{max-width:1360px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:clamp(48px,6vh,80px) var(--page-pad);border-bottom:1px solid var(--line)}
+    .proj-nav-link{display:inline-flex;align-items:center;gap:14px;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--fg-faint);text-decoration:none;transition:color .3s var(--ease)}
+    .proj-nav-link .arrow{color:var(--accent);transition:transform .3s var(--ease)}
+    .proj-nav-link:hover{color:var(--fg)}
+    .proj-nav-link.prev:hover .arrow{transform:translateX(-4px)}
+    .proj-nav-link.next:hover .arrow{transform:translateX(4px)}
     .proj-nav-link.next{margin-left:auto}
 
+    /* FOOTER */
+    footer{padding:clamp(80px,12vh,140px) var(--page-pad) 32px;position:relative}
+    .foot-inner{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:clamp(40px,6vw,96px);align-items:flex-end}
+    .foot-headline{font-family:var(--serif);font-weight:300;font-size:clamp(3rem,9vw,9rem);line-height:0.92;letter-spacing:-0.045em;color:var(--fg)}
+    .foot-headline em{font-style:italic;background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .foot-label{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--fg-faint);margin-top:28px}
+    .foot-links{display:flex;flex-direction:column;gap:14px;align-items:flex-end;min-width:240px}
+    .foot-link{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg);text-decoration:none;transition:color .3s var(--ease)}
+    .foot-link .arrow{display:inline-block;color:var(--accent);transition:transform .3s var(--ease)}
+    .foot-link:hover{color:var(--accent)}
+    .foot-link:hover .arrow{transform:translate(3px,-3px)}
+    .foot-base{max-width:1360px;margin:80px auto 0;padding-top:28px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-family:var(--mono);font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--fg-ghost)}
+    .foot-base a{color:var(--fg-faint);text-decoration:none;transition:color .25s}
+    .foot-base a:hover{color:var(--accent)}
+
     /* REVEAL */
-    .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(0.16,1,0.3,1),transform .9s cubic-bezier(0.16,1,0.3,1)}
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
     .reveal.visible{opacity:1;transform:none}
     .d1{transition-delay:.1s}.d2{transition-delay:.2s}
 
-    @media(max-width:900px){
-      nav{padding:20px 24px}
-      .proj-hero{padding:120px 24px 60px}
+    @media(max-width:960px){
       .proj-hero-summary{grid-template-columns:1fr;gap:40px}
       .content-split{grid-template-columns:1fr}
-      .demo-panel{min-height:500px}
+      .content-left{border-right:none;border-bottom:1px solid var(--line)}
+      .content-right{min-height:520px}
       .levels{grid-template-columns:1fr}
-      .proj-stats{grid-template-columns:1fr 1fr}
-      .proj-section,.proj-nav-strip{padding:60px 24px}
+      .proj-section-inner{grid-template-columns:1fr;gap:20px}
+      .proj-section-label{position:static}
+      .foot-inner{grid-template-columns:1fr}
+      .foot-links{align-items:flex-start}
     }
   </style>
 </head>
 <body>
 
+  <div id="loader">
+    <div class="loader-mark">Lg</div>
+    <div class="loader-line"></div>
+    <div class="loader-meta">Loading · Project 001</div>
+  </div>
+
+  <div id="scroll-progress"></div>
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
 
-  <nav>
-    <a href="index.html" class="nav-logo">LG</a>
-    <a href="index.html#projects" class="nav-back">
-      <span class="nav-back-arrow">&#8592;</span> All Projects
-    </a>
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Lg</a>
+    <a href="index.html#work" class="nav-back"><span class="arrow">←</span> All Projects</a>
   </nav>
 
   <!-- HERO -->
-  <div class="proj-hero">
-    <div class="proj-hero-meta">
-      <span class="proj-hero-num">Project 002</span>
+  <header class="proj-hero">
+    <div class="proj-hero-meta reveal">
+      <span class="proj-hero-num">Project 001 · Latest</span>
       <div class="proj-hero-sep"></div>
       <div class="proj-hero-tags">
         <span class="proj-tag">AI Agents</span>
@@ -199,13 +236,13 @@
         <span class="proj-tag">Agentic Commerce</span>
       </div>
     </div>
-    <h1 class="proj-hero-title reveal">Agentic Checkout<br><span>Optimization</span></h1>
-    <div class="proj-hero-summary reveal d1">
-      <p class="proj-hero-lead">A platform for autonomous agentic checkout testing. Hundreds of AI agents with varying personas stress-test purchase flows and optimize sites for agent-driven commerce.</p>
+    <h1 class="proj-hero-title reveal d1">Agentic Checkout<br/><em>Optimization</em></h1>
+    <div class="proj-hero-summary reveal d2">
+      <p class="proj-hero-lead">A platform for autonomous agentic checkout testing. Hundreds of AI agents with varying personas stress-test purchase flows and optimize sites for <em>agent-driven commerce</em>.</p>
       <div class="proj-meta-block">
         <div class="proj-meta-row">
           <div class="proj-meta-key">Type</div>
-          <div class="proj-meta-val">Original Research / Build</div>
+          <div class="proj-meta-val">Original research / build</div>
         </div>
         <div class="proj-meta-row">
           <div class="proj-meta-key">Timeline</div>
@@ -213,39 +250,39 @@
         </div>
         <div class="proj-meta-row">
           <div class="proj-meta-key">Stack</div>
-          <div class="proj-meta-val">LLM Agents / Web / Python</div>
+          <div class="proj-meta-val">LLM agents · Python · Web</div>
         </div>
         <div class="proj-meta-row">
           <div class="proj-meta-key">Output</div>
-          <div class="proj-meta-val">Optimization Report + Site Copy</div>
+          <div class="proj-meta-val">Optimization report + site copy</div>
         </div>
       </div>
     </div>
-  </div>
+  </header>
 
   <div class="proj-body">
 
-    <!-- Two levels breakdown -->
+    <!-- LEVELS -->
     <div class="levels reveal">
       <div class="level-card">
-        <div class="level-num">01</div>
-        <div class="level-title">Execution Optimization</div>
+        <div class="level-num"><em>01</em></div>
+        <div class="level-title">Execution <em>Optimization</em></div>
         <div class="level-body">Hundreds of agents with varying personas and instructions visit a site and attempt to checkout. Methodology inspired by recent autoresearch techniques. When agents hit failure points in site design, instruction gaps, or functionality, a copy-site is generated with targeted fixes, and agents re-run to measure improvement in execution rate.</div>
       </div>
       <div class="level-card">
-        <div class="level-num">02</div>
-        <div class="level-title">Ranking Optimization</div>
+        <div class="level-num"><em>02</em></div>
+        <div class="level-title">Ranking <em>Optimization</em></div>
         <div class="level-body">Evaluates the likelihood an independent agent will purchase a specific product given a broad order (e.g. "order a comfortable pair of casual shoes"). Agents scrape text data as a key decision signal. Using a decision-compression framework with hesitation tracking and action confidence, an LLM assigns a purchase-likelihood metric. Dozens of site variants then test optimizations to improve agent preferencing.</div>
       </div>
     </div>
 
-    <!-- Main content with demo -->
+    <!-- CONTENT SPLIT + LIVE DEMO -->
     <div class="content-split reveal">
       <div class="content-left">
-        <div class="proj-section-title">Live Demo Output</div>
-        <div class="proj-section-headline">Real report from a water brand optimization run.</div>
-        <div class="proj-section-body">
-          <p>Below is a live scrollable excerpt of the optimization report generated for a DTC water company. The platform ran 200+ agents across two levels of optimization, identified execution failures, generated modified site copies, and produced ranked recommendations.</p>
+        <div class="section-num">Live Demo Output</div>
+        <h2 class="section-headline">A real report from a <em>water brand</em> optimization run.</h2>
+        <div class="section-body">
+          <p>Below is a live scrollable excerpt of the optimization report generated for a DTC water company. The platform ran <strong>200+ agents</strong> across two levels of optimization, identified execution failures, generated modified site copies, and produced ranked recommendations.</p>
           <p>The left column shows quantitative agent performance metrics. The right column shows the actual recommendation output: the kind of artifact a brand or their dev team would use to improve agentic purchasability.</p>
         </div>
       </div>
@@ -255,42 +292,26 @@
             <div class="demo-dot"></div>
             <div class="demo-dot"></div>
             <div class="demo-dot"></div>
-            <span class="demo-title">optimization_report.json - live output</span>
+            <span class="demo-title">optimization_report.json — live output</span>
           </div>
           <div class="demo-scroll">
 
             <div class="report-company">
               <div class="report-co-label">Client</div>
-              <div class="report-co-name">CLEARFLOW</div>
-              <div class="report-co-sub">DTC Water Brand &nbsp;·&nbsp; Run: 2025-03-14 &nbsp;·&nbsp; Agents: 240</div>
+              <div class="report-co-name">Clearflow</div>
+              <div class="report-co-sub">DTC water brand · Run: 2025-03-14 · Agents: 240</div>
             </div>
 
             <div class="report-section">
-              <div class="report-section-title">Level 01 - Execution Scores (Baseline)</div>
-              <div class="report-score-row">
-                <span class="report-score-label">Checkout Completion</span>
-                <div class="report-score-bar"><div class="report-score-fill" style="width:34%"></div></div>
-                <span class="report-score-val">34%</span>
-              </div>
-              <div class="report-score-row">
-                <span class="report-score-label">Add to Cart</span>
-                <div class="report-score-bar"><div class="report-score-fill" style="width:61%"></div></div>
-                <span class="report-score-val">61%</span>
-              </div>
-              <div class="report-score-row">
-                <span class="report-score-label">Product Found</span>
-                <div class="report-score-bar"><div class="report-score-fill" style="width:78%"></div></div>
-                <span class="report-score-val">78%</span>
-              </div>
-              <div class="report-score-row">
-                <span class="report-score-label">Subscription Flow</span>
-                <div class="report-score-bar"><div class="report-score-fill" style="width:18%"></div></div>
-                <span class="report-score-val">18%</span>
-              </div>
+              <div class="report-section-title">Level 01 — Execution Scores (Baseline)</div>
+              <div class="report-score-row"><span class="report-score-label">Checkout Completion</span><div class="report-score-bar"><div class="report-score-fill" style="width:34%"></div></div><span class="report-score-val">34%</span></div>
+              <div class="report-score-row"><span class="report-score-label">Add to Cart</span><div class="report-score-bar"><div class="report-score-fill" style="width:61%"></div></div><span class="report-score-val">61%</span></div>
+              <div class="report-score-row"><span class="report-score-label">Product Found</span><div class="report-score-bar"><div class="report-score-fill" style="width:78%"></div></div><span class="report-score-val">78%</span></div>
+              <div class="report-score-row"><span class="report-score-label">Subscription Flow</span><div class="report-score-bar"><div class="report-score-fill" style="width:18%"></div></div><span class="report-score-val">18%</span></div>
             </div>
 
             <div class="report-section">
-              <div class="report-section-title">Agent Run Matrix - Checkout Attempt (n=48)</div>
+              <div class="report-section-title">Agent Run Matrix — Checkout Attempt (n=48)</div>
               <div class="agent-grid">
                 <div class="agent-cell pass">A01 ✓</div><div class="agent-cell fail">A02 ✗</div>
                 <div class="agent-cell pass">A03 ✓</div><div class="agent-cell fail">A04 ✗</div>
@@ -303,11 +324,11 @@
                 <div class="agent-cell warn">A17 △</div><div class="agent-cell fail">A18 ✗</div>
                 <div class="agent-cell pass">A19 ✓</div><div class="agent-cell fail">A20 ✗</div>
               </div>
-              <div style="font-size:0.55rem;color:rgba(236,237,245,0.2);margin-top:6px">✓ pass &nbsp;✗ fail &nbsp;△ partial - showing first 20 of 48</div>
+              <div class="agent-legend">✓ pass &nbsp; ✗ fail &nbsp; △ partial — showing first 20 of 48</div>
             </div>
 
             <div class="report-section">
-              <div class="report-section-title">Failure Clustering - Top Dropout Points</div>
+              <div class="report-section-title">Failure Clustering — Top Dropout Points</div>
               <div class="mod-item"><div class="mod-num">01</div><div class="mod-text">Checkout page requires account creation before purchase. Agents without persistent session state fail here (31% of failures)</div></div>
               <div class="mod-item"><div class="mod-num">02</div><div class="mod-text">Subscription upsell modal blocks cart review without a clear skip path. Agent hesitation spike detected (22% of failures)</div></div>
               <div class="mod-item"><div class="mod-num">03</div><div class="mod-text">Product quantity selector is non-standard UI. Agents default to 0 and cannot proceed (18% of failures)</div></div>
@@ -315,60 +336,32 @@
             </div>
 
             <div class="report-section">
-              <div class="report-section-title">Level 01 - Post-Optimization Scores (Site Copy v2)</div>
-              <div class="report-score-row">
-                <span class="report-score-label">Checkout Completion</span>
-                <div class="report-score-bar"><div class="report-score-fill" style="width:81%"></div></div>
-                <span class="report-score-val" style="color:#7dffb3">81%</span>
-              </div>
-              <div class="report-score-row">
-                <span class="report-score-label">Add to Cart</span>
-                <div class="report-score-bar"><div class="report-score-fill" style="width:94%"></div></div>
-                <span class="report-score-val" style="color:#7dffb3">94%</span>
-              </div>
-              <div class="report-score-row">
-                <span class="report-score-label">Subscription Flow</span>
-                <div class="report-score-bar"><div class="report-score-fill" style="width:67%"></div></div>
-                <span class="report-score-val" style="color:#7dffb3">67%</span>
-              </div>
+              <div class="report-section-title">Level 01 — Post-Optimization Scores (Site Copy v2)</div>
+              <div class="report-score-row"><span class="report-score-label">Checkout Completion</span><div class="report-score-bar"><div class="report-score-fill" style="width:81%"></div></div><span class="report-score-val" style="color:#9ae6b4">81%</span></div>
+              <div class="report-score-row"><span class="report-score-label">Add to Cart</span><div class="report-score-bar"><div class="report-score-fill" style="width:94%"></div></div><span class="report-score-val" style="color:#9ae6b4">94%</span></div>
+              <div class="report-score-row"><span class="report-score-label">Subscription Flow</span><div class="report-score-bar"><div class="report-score-fill" style="width:67%"></div></div><span class="report-score-val" style="color:#9ae6b4">67%</span></div>
             </div>
 
             <div class="report-section">
-              <div class="report-section-title">Level 02 - Ranking Likelihood Scores</div>
-              <div class="rank-bar-row">
-                <span class="rank-label">Clearflow (baseline)</span>
-                <div class="rank-bar"><div class="rank-fill" style="width:28%"></div></div>
-                <span class="rank-pct">28%</span>
-              </div>
-              <div class="rank-bar-row">
-                <span class="rank-label">Competitor A</span>
-                <div class="rank-bar"><div class="rank-fill" style="width:44%"></div></div>
-                <span class="rank-pct">44%</span>
-              </div>
-              <div class="rank-bar-row">
-                <span class="rank-label">Competitor B</span>
-                <div class="rank-bar"><div class="rank-fill" style="width:18%"></div></div>
-                <span class="rank-pct">18%</span>
-              </div>
-              <div class="rank-bar-row">
-                <span class="rank-label">Clearflow (v2 copy)</span>
-                <div class="rank-bar"><div class="rank-fill" style="width:71%"></div></div>
-                <span class="rank-pct" style="color:#7dffb3">71%</span>
-              </div>
+              <div class="report-section-title">Level 02 — Ranking Likelihood Scores</div>
+              <div class="rank-bar-row"><span class="rank-label">Clearflow (baseline)</span><div class="rank-bar"><div class="rank-fill" style="width:28%"></div></div><span class="rank-pct">28%</span></div>
+              <div class="rank-bar-row"><span class="rank-label">Competitor A</span><div class="rank-bar"><div class="rank-fill" style="width:44%"></div></div><span class="rank-pct">44%</span></div>
+              <div class="rank-bar-row"><span class="rank-label">Competitor B</span><div class="rank-bar"><div class="rank-fill" style="width:18%"></div></div><span class="rank-pct">18%</span></div>
+              <div class="rank-bar-row"><span class="rank-label">Clearflow (v2 copy)</span><div class="rank-bar"><div class="rank-fill" style="width:71%"></div></div><span class="rank-pct" style="color:#9ae6b4">71%</span></div>
             </div>
 
             <div class="report-section">
-              <div class="report-section-title">Recommendations - Site Text &amp; Design</div>
+              <div class="report-section-title">Recommendations — Site Text &amp; Design</div>
               <div class="mod-item"><div class="mod-num">R1</div><div class="mod-text">Add explicit "ships same-day" copy above fold. Agents heavily weight fulfillment speed signals in purchase decisions</div></div>
               <div class="mod-item"><div class="mod-num">R2</div><div class="mod-text">Replace subscription framing from "Save 20%" to "Never run out". Agents respond to scarcity/reliability framing over discount language</div></div>
               <div class="mod-item"><div class="mod-num">R3</div><div class="mod-text">Add structured ingredient/source data in machine-readable format. LLM agents parse product metadata as a key trust signal</div></div>
-              <div class="mod-item"><div class="mod-num">R4</div><div class="mod-text">Remove interstitial newsletter capture pre-checkout - increases agent session abandonment by 2.3x</div></div>
+              <div class="mod-item"><div class="mod-num">R4</div><div class="mod-text">Remove interstitial newsletter capture pre-checkout — increases agent session abandonment by 2.3x</div></div>
               <div class="mod-item"><div class="mod-num">R5</div><div class="mod-text">Add clear quantity-select affordances with semantic HTML labeling for non-visual agent parsing</div></div>
             </div>
 
             <div class="verdict-box">
               <div class="verdict-label">Final Verdict</div>
-              <div class="verdict-text">Post-optimization site copy shows 2.4× checkout completion improvement and 71% agent purchase-likelihood, up from 28% baseline. Recommend shipping v2 copy to production with A/B validation against human traffic cohort. Full modification list in appendix.</div>
+              <div class="verdict-text">Post-optimization site copy shows <strong>2.4× checkout completion improvement</strong> and 71% agent purchase-likelihood, up from 28% baseline. Recommend shipping v2 copy to production with A/B validation against human traffic cohort. Full modification list in appendix.</div>
             </div>
 
           </div>
@@ -376,31 +369,73 @@
       </div>
     </div>
 
-    <!-- Method -->
+    <!-- METHOD -->
     <div class="proj-section reveal">
-      <div class="proj-section-title">Method</div>
-      <div class="proj-section-headline">Built on decision-compression and hesitation tracking.</div>
-      <div class="proj-section-body">
-        <p>The core insight behind this project is that agentic purchasing is fundamentally different from human purchasing. Agents parse structured signals, respond to semantic clarity over emotional framing, and fail at UI patterns humans navigate intuitively.</p>
-        <p>The decision-compression framework monitors two signals: hesitation tracking (how often an agent reconsiders before acting) and action confidence (the probability weight assigned to each click). An LLM on top of the agents synthesizes these into a purchase-likelihood metric, enabling direct comparison across site variants.</p>
-        <p>Inspired by the autoresearch methodology, the execution layer generates modified site copies algorithmically rather than manually, meaning the optimization loop runs autonomously once a site is entered.</p>
+      <div class="proj-section-inner">
+        <div class="proj-section-label">Method</div>
+        <div class="proj-section-content">
+          <h2 class="proj-section-title">Built on <em>decision-compression</em> and hesitation tracking.</h2>
+          <div class="proj-section-body">
+            <p>The core insight behind this project is that <strong>agentic purchasing is fundamentally different from human purchasing</strong>. Agents parse structured signals, respond to semantic clarity over emotional framing, and fail at UI patterns humans navigate intuitively.</p>
+            <p>The decision-compression framework monitors two signals: <strong>hesitation tracking</strong> (how often an agent reconsiders before acting) and <strong>action confidence</strong> (the probability weight assigned to each click). An LLM on top of the agents synthesizes these into a purchase-likelihood metric, enabling direct comparison across site variants.</p>
+            <p>Inspired by the autoresearch methodology, the execution layer generates modified site copies algorithmically rather than manually, meaning the optimization loop runs autonomously once a site is entered.</p>
+          </div>
+        </div>
       </div>
     </div>
 
   </div>
 
-  <div class="proj-nav-strip">
-    <a href="project-happening.html" class="proj-nav-link">&#8592; Happening Stanford</a>
-    <a href="project-benchmark.html" class="proj-nav-link next">Next: AI Benchmark &#8594;</a>
-  </div>
+  <!-- NAV STRIP -->
+  <nav class="proj-nav-strip">
+    <a href="index.html#work" class="proj-nav-link prev"><span class="arrow">←</span> All Projects</a>
+    <a href="project-benchmark.html" class="proj-nav-link next">Next · AI Reasoning Benchmark <span class="arrow">→</span></a>
+  </nav>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="foot-inner">
+      <div class="reveal">
+        <div class="foot-headline">Let's build<br/>something<em>.</em></div>
+        <div class="foot-label">Reach out — I reply fast.</div>
+      </div>
+      <div class="foot-links reveal d1">
+        <a href="mailto:lucasgravina180@gmail.com" class="foot-link"><span class="arrow">↗</span> Email</a>
+        <a href="https://linkedin.com/in/lucas-gravina/" target="_blank" rel="noopener" class="foot-link"><span class="arrow">↗</span> LinkedIn</a>
+        <a href="https://www.instagram.com/lucasgravina18/" target="_blank" rel="noopener" class="foot-link"><span class="arrow">↗</span> Instagram</a>
+        <a href="tel:4129801898" class="foot-link"><span class="arrow">↗</span> 412-980-1898</a>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>© 2026 Lucas Gravina</span>
+      <span>Made with intention in Palo Alto</span>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
 
   <script>
-    const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
-    let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
-    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
-    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('hover'));el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));});
-    (function tick(){rx+=(mx-rx)*0.11;ry+=(my-ry)*0.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
-    const io=new IntersectionObserver(e=>e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}}),{threshold:0.06,rootMargin:'0px 0px -30px 0px'});
+    // Loader
+    window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('loader').classList.add('out'),700)});
+
+    // Scroll progress + nav
+    const nav=document.getElementById('nav'),prog=document.getElementById('scroll-progress');
+    addEventListener('scroll',()=>{
+      const y=scrollY,h=document.documentElement.scrollHeight-innerHeight;
+      prog.style.width=(h>0?(y/h)*100:0)+'%';
+      nav.classList.toggle('scrolled',y>20);
+    });
+
+    // Cursor
+    if(matchMedia('(hover:hover)').matches){
+      const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
+      let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+      addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
+      document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('hover'));el.addEventListener('mouseleave',()=>ring.classList.remove('hover'))});
+      (function tick(){rx+=(mx-rx)*0.14;ry+=(my-ry)*0.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick)})();
+    }
+
+    // Reveal on scroll
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
     document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   </script>
 </body>

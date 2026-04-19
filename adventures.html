@@ -1,250 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adventures - Lucas Gravina</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adventures — Lucas Gravina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;cursor:none!important}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     :root{
-      --bg:#06080f;--fg:#ecedf5;--accent:#5b9cf6;
-      --accent-glow:rgba(91,156,246,0.15);
-      --accent-grad:linear-gradient(135deg,#5b9cf6 0%,#8fb8ff 100%);
-      --border:#141720;
-      --font-display:'Barlow Condensed',sans-serif;
-      --font-serif:'DM Serif Display',serif;
-      --font-mono:'Space Mono',monospace;
+      --bg:#0a0a0f;--bg-elev:#0e0e15;
+      --fg:#ebe7db;--fg-muted:rgba(235,231,219,0.62);--fg-faint:rgba(235,231,219,0.38);--fg-ghost:rgba(235,231,219,0.16);
+      --line:rgba(235,231,219,0.09);--line-strong:rgba(235,231,219,0.18);
+      --accent:#6ea3ff;--accent-soft:rgba(110,163,255,0.12);
+      --accent-grad:linear-gradient(120deg,#6ea3ff 0%,#a8c8ff 45%,#e9d5ff 100%);
+      --warm-grad:linear-gradient(120deg,#f3c78b 0%,#ebe7db 50%,#a8c8ff 100%);
+      --serif:'Fraunces',ui-serif,Georgia,serif;
+      --sans:'Inter','Helvetica Neue',Arial,sans-serif;
+      --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;
+      --ease:cubic-bezier(0.16,1,0.3,1);
+      --page-pad:clamp(20px,4vw,56px);
     }
-    html{scroll-behavior:smooth}
-    body{background:var(--bg);color:var(--fg);font-family:var(--font-mono);overflow-x:hidden}
-    body::after{content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;
-      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      opacity:0.028}
+    html{scroll-behavior:smooth;background:var(--bg);-webkit-font-smoothing:antialiased}
+    body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.6;overflow-x:hidden;letter-spacing:-0.005em}
+    ::selection{background:var(--accent-soft);color:var(--fg)}
+    body::after{content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.85'/%3E%3C/svg%3E");opacity:0.035;mix-blend-mode:overlay}
 
-    #cursor-dot{position:fixed;width:6px;height:6px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);box-shadow:0 0 12px var(--accent-glow)}
-    #cursor-ring{position:fixed;width:40px;height:40px;border:1.5px solid rgba(91,156,246,0.45);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);transition:width .38s cubic-bezier(.25,.46,.45,.94),height .38s cubic-bezier(.25,.46,.45,.94),background-color .38s,border-color .38s}
-    #cursor-ring.hover{width:64px;height:64px;background-color:var(--accent-glow);border-color:var(--accent)}
+    @media(hover:hover){
+      body{cursor:none}
+      a,button{cursor:none}
+      #cursor-dot{position:fixed;top:0;left:0;width:5px;height:5px;background:var(--fg);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:difference}
+      #cursor-ring{position:fixed;top:0;left:0;width:36px;height:36px;border:1px solid var(--line-strong);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);transition:width .42s var(--ease),height .42s var(--ease),background-color .42s var(--ease),border-color .42s var(--ease)}
+      #cursor-ring.hover{width:72px;height:72px;background:var(--accent-soft);border-color:var(--accent)}
+    }
+    @media(hover:none){#cursor-dot,#cursor-ring{display:none}}
 
-    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:28px 52px;background:rgba(6,8,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-    .nav-logo{font-family:var(--font-display);font-size:1.7rem;font-weight:800;letter-spacing:0.08em;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none}
-    .nav-back{display:flex;align-items:center;gap:10px;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(236,237,245,0.4);text-decoration:none;transition:color .25s}
-    .nav-back:hover{color:var(--accent)}
-    .nav-back-arrow{display:inline-block;transition:transform .25s}
-    .nav-back:hover .nav-back-arrow{transform:translateX(-4px)}
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:18px var(--page-pad);background:rgba(10,10,15,0.72);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);border-bottom:1px solid var(--line)}
+    .nav-logo{font-family:var(--serif);font-weight:300;font-style:italic;font-size:1.5rem;letter-spacing:-0.04em;color:var(--fg);text-decoration:none}
+    .nav-logo::after{content:'.';color:var(--accent);margin-left:2px}
+    .nav-back{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--fg-muted);text-decoration:none;transition:color .25s}
+    .nav-back:hover{color:var(--fg)}
+    .nav-back .arrow{display:inline-block;transition:transform .3s var(--ease);color:var(--accent)}
+    .nav-back:hover .arrow{transform:translateX(-4px)}
 
-    /* PAGE HEADER */
-    .page-header{padding:140px 52px 60px;max-width:1440px;margin:0 auto;border-bottom:1px solid var(--border)}
-    .page-header-label{font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
-    .page-header-title{font-family:var(--font-serif);font-style:italic;font-size:clamp(3rem,7vw,7rem);line-height:0.9;letter-spacing:-0.02em;color:var(--fg)}
-    .page-header-title span{background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .page-header-sub{margin-top:24px;font-size:0.68rem;line-height:1.9;color:rgba(236,237,245,0.42);max-width:520px}
+    .header{padding:clamp(120px,20vh,200px) var(--page-pad) clamp(40px,6vh,80px);max-width:1440px;margin:0 auto;position:relative}
+    .header-label{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:28px;display:inline-flex;align-items:center;gap:14px}
+    .header-label::before{content:'';width:28px;height:1px;background:var(--accent)}
+    .header-title{font-family:var(--serif);font-weight:300;font-size:clamp(4rem,14vw,14rem);line-height:0.86;letter-spacing:-0.045em;color:var(--fg)}
+    .header-title em{font-style:italic;background:var(--warm-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .header-sub{display:grid;grid-template-columns:1fr auto;gap:48px;align-items:end;margin-top:clamp(32px,5vh,64px);padding-top:32px;border-top:1px solid var(--line)}
+    .header-sub-text{font-family:var(--serif);font-weight:300;font-style:italic;font-size:clamp(1.2rem,2vw,1.7rem);line-height:1.4;color:var(--fg-muted);max-width:54ch}
+    .header-sub-meta{display:flex;flex-direction:column;gap:10px;align-items:flex-end;font-family:var(--mono);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--fg-faint)}
+    .header-sub-meta strong{color:var(--fg);font-weight:500}
 
-    /* PROFILE STRIP */
-    .profile-strip{max-width:1440px;margin:0 auto;padding:48px 52px;display:flex;align-items:center;gap:40px;border-bottom:1px solid var(--border)}
-    .profile-avatar{width:80px;height:80px;border-radius:50%;border:2px solid rgba(91,156,246,0.3);overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,#1a1f35,#0d1a30)}
-    .profile-avatar img{width:100%;height:100%;object-fit:cover}
-    .profile-info{display:flex;flex-direction:column;gap:6px}
-    .profile-handle{font-size:0.78rem;letter-spacing:0.06em;color:var(--fg)}
-    .profile-name{font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(236,237,245,0.35)}
-    .profile-stats{display:flex;gap:36px;margin-left:auto}
-    .profile-stat{display:flex;flex-direction:column;align-items:center;gap:4px}
-    .profile-stat-val{font-family:var(--font-display);font-weight:800;font-size:1.4rem;line-height:1;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .profile-stat-lbl{font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(236,237,245,0.3)}
-    .profile-ig-link{display:flex;align-items:center;gap:8px;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);text-decoration:none;border:1px solid rgba(91,156,246,0.3);padding:10px 20px;transition:background .25s,border-color .25s;margin-left:40px}
-    .profile-ig-link:hover{background:rgba(91,156,246,0.08);border-color:var(--accent)}
+    .profile-strip{max-width:1440px;margin:0 auto;padding:clamp(32px,5vh,56px) var(--page-pad);display:flex;align-items:center;gap:clamp(20px,3vw,40px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);flex-wrap:wrap}
+    .profile-monogram{width:64px;height:64px;border-radius:50%;border:1px solid var(--line-strong);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.6rem;color:var(--fg);background:linear-gradient(135deg,rgba(110,163,255,0.08),rgba(243,199,139,0.04));letter-spacing:-0.03em}
+    .profile-handle-group{display:flex;flex-direction:column;gap:4px}
+    .profile-handle{font-size:0.92rem;letter-spacing:-0.005em;color:var(--fg)}
+    .profile-name{font-family:var(--mono);font-size:0.56rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--fg-faint)}
+    .profile-stats{display:flex;gap:clamp(28px,4vw,56px);margin-left:auto;padding-left:clamp(16px,3vw,36px);border-left:1px solid var(--line)}
+    .profile-stat{display:flex;flex-direction:column;gap:6px}
+    .profile-stat-val{font-family:var(--serif);font-weight:300;font-size:1.8rem;line-height:1;letter-spacing:-0.03em;color:var(--fg)}
+    .profile-stat-val em{font-style:italic;color:var(--accent)}
+    .profile-stat-lbl{font-family:var(--mono);font-size:0.54rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--fg-faint)}
+    .profile-ig-link{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--fg);text-decoration:none;padding:12px 22px;border:1px solid var(--line-strong);border-radius:999px;transition:background .3s var(--ease),border-color .3s var(--ease),gap .3s var(--ease)}
+    .profile-ig-link:hover{background:var(--accent-soft);border-color:var(--accent);gap:14px}
+    .profile-ig-link .arrow{color:var(--accent)}
 
-    /* GRID */
-    .grid-wrap{max-width:1440px;margin:0 auto;padding:0 52px 100px}
-    .grid-section-label{font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(236,237,245,0.2);padding:32px 0 20px;border-bottom:1px solid var(--border);margin-bottom:3px}
-    .photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+    .grid-wrap{max-width:1440px;margin:0 auto;padding:clamp(40px,6vh,80px) var(--page-pad) clamp(80px,14vh,180px)}
+    .grid-section{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:28px;margin-bottom:4px;border-bottom:1px solid var(--line)}
+    .grid-section-title{font-family:var(--serif);font-weight:300;font-style:italic;font-size:clamp(1.6rem,3vw,2.4rem);line-height:1;letter-spacing:-0.03em;color:var(--fg)}
+    .grid-section-meta{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--fg-faint)}
 
-    /* PHOTO TILES */
-    .photo-tile{position:relative;aspect-ratio:1;overflow:hidden;background:#0c0e1a}
-    .photo-tile img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(0.16,1,0.3,1),filter .5s}
-    .photo-tile:hover img{transform:scale(1.04);filter:brightness(0.7)}
-    .photo-tile-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;background:linear-gradient(to top,rgba(6,8,15,0.85) 0%,transparent 60%);opacity:0;transition:opacity .35s}
-    .photo-tile:hover .photo-tile-overlay{opacity:1}
-    .photo-tile-caption{font-size:0.62rem;line-height:1.6;color:var(--fg)}
-    .photo-tile-loc{font-size:0.55rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-top:4px}
+    .photo-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:4px;margin-bottom:80px}
+    .photo-tile{position:relative;overflow:hidden;background:var(--bg-elev);grid-column:span 2;aspect-ratio:1/1}
+    .photo-tile.wide{grid-column:span 3}
+    .photo-tile.wider{grid-column:span 4;aspect-ratio:16/10}
+    .photo-tile img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease),filter .8s var(--ease);display:block}
+    .photo-tile:hover img{transform:scale(1.05);filter:brightness(0.55)}
 
-    /* Placeholder tile for empty slots */
-    .photo-placeholder{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:var(--border);color:rgba(236,237,245,0.1);font-size:0.55rem;letter-spacing:0.16em;text-transform:uppercase}
+    .photo-tile.empty::before{content:'';position:absolute;inset:0}
+    .photo-tile.empty.a::before{background:radial-gradient(ellipse at 30% 30%,rgba(110,163,255,0.14) 0%,transparent 60%),linear-gradient(160deg,#0d111f 0%,#0a0a0f 100%)}
+    .photo-tile.empty.b::before{background:radial-gradient(ellipse at 70% 70%,rgba(243,199,139,0.1) 0%,transparent 60%),linear-gradient(160deg,#12100d 0%,#0a0a0f 100%)}
+    .photo-tile.empty.c::before{background:conic-gradient(from 90deg at 50% 50%,rgba(110,163,255,0.08) 0deg,rgba(243,199,139,0.06) 180deg,rgba(110,163,255,0.08) 360deg),#0a0a0f}
+    .photo-tile.empty.d::before{background:repeating-linear-gradient(45deg,rgba(235,231,219,0.02) 0 2px,transparent 2px 16px),linear-gradient(135deg,#0e0e15,#0a0a0f)}
+    .photo-tile.empty.e::before{background:radial-gradient(circle at 50% 110%,rgba(168,200,255,0.18) 0%,transparent 60%),linear-gradient(180deg,#0f1220,#0a0a0f)}
+    .photo-tile.empty.f::before{background:radial-gradient(circle at 50% -20%,rgba(243,199,139,0.14) 0%,transparent 60%),linear-gradient(180deg,#120e10,#0a0a0f)}
 
-    /* Wide tile (spans 2 cols) */
-    .photo-tile.wide{grid-column:span 2;aspect-ratio:2/1}
-    .photo-tile.tall{grid-row:span 2}
+    .photo-tile-overlay{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(16px,2vw,28px);background:linear-gradient(to top,rgba(10,10,15,0.9) 0%,rgba(10,10,15,0) 55%);opacity:0;transform:translateY(10px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
+    .photo-tile:hover .photo-tile-overlay{opacity:1;transform:none}
+    .photo-tile-caption{font-family:var(--serif);font-weight:300;font-style:italic;font-size:1.1rem;line-height:1.3;letter-spacing:-0.02em;color:var(--fg);margin-bottom:6px}
+    .photo-tile-loc{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent)}
+    .photo-tile-index{position:absolute;top:14px;left:16px;z-index:3;font-family:var(--mono);font-size:0.52rem;letter-spacing:0.18em;color:var(--fg-faint);mix-blend-mode:difference}
 
-    /* REVEAL */
-    .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(0.16,1,0.3,1),transform .8s cubic-bezier(0.16,1,0.3,1)}
+    .pull-quote{padding:clamp(60px,10vh,120px) var(--page-pad);max-width:1100px;margin:0 auto;text-align:center}
+    .pull-quote-text{font-family:var(--serif);font-weight:300;font-style:italic;font-size:clamp(1.8rem,4vw,3.2rem);line-height:1.2;letter-spacing:-0.025em;color:var(--fg)}
+    .pull-quote-text em{font-style:normal;color:var(--accent)}
+    .pull-quote-cite{font-family:var(--mono);font-size:0.56rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--fg-faint);margin-top:28px}
+
+    footer{padding:clamp(60px,10vh,120px) var(--page-pad) 36px;border-top:1px solid var(--line);max-width:1440px;margin:0 auto;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;font-family:var(--mono);font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--fg-ghost)}
+    footer a{color:var(--fg-faint);text-decoration:none;transition:color .25s}
+    footer a:hover{color:var(--accent)}
+
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
     .reveal.visible{opacity:1;transform:none}
-    .d1{transition-delay:.05s}.d2{transition-delay:.1s}.d3{transition-delay:.15s}.d4{transition-delay:.2s}.d5{transition-delay:.25s}.d6{transition-delay:.3s}
+    .d1{transition-delay:.06s}.d2{transition-delay:.12s}.d3{transition-delay:.18s}.d4{transition-delay:.24s}.d5{transition-delay:.3s}
 
     @media(max-width:900px){
-      nav{padding:20px 24px}
-      .page-header{padding:100px 24px 48px}
-      .profile-strip{padding:36px 24px;flex-wrap:wrap}
-      .profile-stats{margin-left:0}
-      .profile-ig-link{margin-left:0}
-      .grid-wrap{padding:0 24px 60px}
+      .header-sub{grid-template-columns:1fr;gap:24px}
+      .header-sub-meta{align-items:flex-start}
+      .profile-strip{flex-direction:column;align-items:flex-start}
+      .profile-stats{margin-left:0;padding-left:0;border-left:none;border-top:1px solid var(--line);padding-top:20px;width:100%}
       .photo-grid{grid-template-columns:repeat(2,1fr)}
-      .photo-tile.wide{grid-column:span 2;aspect-ratio:2/1}
-    }
-    @media(max-width:560px){
-      .photo-grid{grid-template-columns:repeat(2,1fr)}
-      .photo-tile.wide{grid-column:span 2}
+      .photo-tile,.photo-tile.wide,.photo-tile.wider{grid-column:span 2;aspect-ratio:1/1}
     }
   </style>
 </head>
 <body>
+
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
 
   <nav>
-    <a href="index.html" class="nav-logo">LG</a>
-    <a href="index.html" class="nav-back"><span class="nav-back-arrow">&#8592;</span>&nbsp;Back</a>
+    <a href="index.html" class="nav-logo">Lucas Gravina</a>
+    <a href="index.html" class="nav-back"><span class="arrow">←</span> Back to index</a>
   </nav>
 
-  <!-- HEADER -->
-  <div class="page-header">
-    <div class="page-header-label">05 — Adventures</div>
-    <h1 class="page-header-title">Out<br><span>There</span></h1>
-    <p class="page-header-sub">Backpacking, surfing, traveling. Life outside the screen — Stanford Outdoors trip leader, chronic over-packer, occasional altitude idiot.</p>
+  <div class="header">
+    <div class="header-label">04 — Field Log</div>
+    <h1 class="header-title">Out <em>There</em></h1>
+    <div class="header-sub">
+      <p class="header-sub-text">Backpacking, surfing, traveling. Life outside the screen — Stanford Outdoors trip leader, chronic over-packer, occasional altitude idiot.</p>
+      <div class="header-sub-meta">
+        <div>Curated · <strong>ongoing</strong></div>
+        <div>Updated · <strong>monthly</strong></div>
+      </div>
+    </div>
   </div>
 
-  <!-- PROFILE STRIP -->
   <div class="profile-strip">
-    <div class="profile-avatar">
-      <!-- Replace src with your actual photo -->
-      <img src="" alt="Lucas Gravina" onerror="this.style.display='none'">
-    </div>
-    <div class="profile-info">
+    <div class="profile-monogram">LG</div>
+    <div class="profile-handle-group">
       <div class="profile-handle">@lucasgravina18</div>
       <div class="profile-name">Lucas Gravina</div>
     </div>
     <div class="profile-stats">
       <div class="profile-stat">
-        <div class="profile-stat-val">10M+</div>
+        <div class="profile-stat-val">10<em>M+</em></div>
         <div class="profile-stat-lbl">Views</div>
       </div>
       <div class="profile-stat">
-        <div class="profile-stat-val">50+</div>
+        <div class="profile-stat-val">50<em>+</em></div>
         <div class="profile-stat-lbl">Countries</div>
       </div>
       <div class="profile-stat">
-        <div class="profile-stat-val">∞</div>
+        <div class="profile-stat-val"><em>∞</em></div>
         <div class="profile-stat-lbl">Miles</div>
       </div>
     </div>
     <a href="https://www.instagram.com/lucasgravina18/" target="_blank" rel="noopener" class="profile-ig-link">
-      Instagram &nbsp;&#8599;
+      Instagram <span class="arrow">↗</span>
     </a>
   </div>
 
-  <!-- PHOTO GRID -->
   <div class="grid-wrap">
-    <div class="grid-section-label">Recent</div>
-    <div class="photo-grid">
 
-      <!-- ROW 1: wide + square -->
-      <div class="photo-tile wide reveal">
-        <img src="" alt="">
-        <div class="photo-tile-overlay">
-          <div class="photo-tile-caption">Add caption here</div>
-          <div class="photo-tile-loc">Location</div>
-        </div>
-      </div>
-      <div class="photo-tile reveal d1">
-        <img src="" alt="">
-        <div class="photo-tile-overlay">
-          <div class="photo-tile-caption">Add caption here</div>
-          <div class="photo-tile-loc">Location</div>
-        </div>
-      </div>
-
-      <!-- ROW 2: 3 squares -->
-      <div class="photo-tile reveal">
-        <img src="" alt="">
-        <div class="photo-tile-overlay">
-          <div class="photo-tile-caption">Add caption here</div>
-          <div class="photo-tile-loc">Location</div>
-        </div>
-      </div>
-      <div class="photo-tile reveal d1">
-        <img src="" alt="">
-        <div class="photo-tile-overlay">
-          <div class="photo-tile-caption">Add caption here</div>
-          <div class="photo-tile-loc">Location</div>
-        </div>
-      </div>
-      <div class="photo-tile reveal d2">
-        <img src="" alt="">
-        <div class="photo-tile-overlay">
-          <div class="photo-tile-caption">Add caption here</div>
-          <div class="photo-tile-loc">Location</div>
-        </div>
-      </div>
-
-      <!-- ROW 3: square + wide -->
-      <div class="photo-tile reveal">
-        <img src="" alt="">
-        <div class="photo-tile-overlay">
-          <div class="photo-tile-caption">Add caption here</div>
-          <div class="photo-tile-loc">Location</div>
-        </div>
-      </div>
-      <div class="photo-tile wide reveal d1">
-        <img src="" alt="">
-        <div class="photo-tile-overlay">
-          <div class="photo-tile-caption">Add caption here</div>
-          <div class="photo-tile-loc">Location</div>
-        </div>
-      </div>
-
-      <!-- ROW 4: 3 squares -->
-      <div class="photo-tile reveal">
-        <img src="" alt="">
-        <div class="photo-tile-overlay">
-          <div class="photo-tile-caption">Add caption here</div>
-          <div class="photo-tile-loc">Location</div>
-        </div>
-      </div>
-      <div class="photo-tile reveal d1">
-        <img src="" alt="">
-        <div class="photo-tile-overlay">
-          <div class="photo-tile-caption">Add caption here</div>
-          <div class="photo-tile-loc">Location</div>
-        </div>
-      </div>
-      <div class="photo-tile reveal d2">
-        <img src="" alt="">
-        <div class="photo-tile-overlay">
-          <div class="photo-tile-caption">Add caption here</div>
-          <div class="photo-tile-loc">Location</div>
-        </div>
-      </div>
-
+    <div class="grid-section">
+      <div class="grid-section-title">Recent</div>
+      <div class="grid-section-meta">2025 — 2026 · 12 entries</div>
     </div>
+
+    <div class="photo-grid">
+      <div class="photo-tile wider empty a reveal"><div class="photo-tile-index">01</div><img src="" alt="" /><div class="photo-tile-overlay"><div class="photo-tile-caption">Add caption here</div><div class="photo-tile-loc">Location</div></div></div>
+      <div class="photo-tile empty b reveal d1"><div class="photo-tile-index">02</div><img src="" alt="" /><div class="photo-tile-overlay"><div class="photo-tile-caption">Add caption here</div><div class="photo-tile-loc">Location</div></div></div>
+      <div class="photo-tile empty c reveal d2"><div class="photo-tile-index">03</div><img src="" alt="" /><div class="photo-tile-overlay"><div class="photo-tile-caption">Add caption here</div><div class="photo-tile-loc">Location</div></div></div>
+      <div class="photo-tile empty d reveal d3"><div class="photo-tile-index">04</div><img src="" alt="" /><div class="photo-tile-overlay"><div class="photo-tile-caption">Add caption here</div><div class="photo-tile-loc">Location</div></div></div>
+      <div class="photo-tile empty e reveal d4"><div class="photo-tile-index">05</div><img src="" alt="" /><div class="photo-tile-overlay"><div class="photo-tile-caption">Add caption here</div><div class="photo-tile-loc">Location</div></div></div>
+      <div class="photo-tile wide empty f reveal d5"><div class="photo-tile-index">06</div><img src="" alt="" /><div class="photo-tile-overlay"><div class="photo-tile-caption">Add caption here</div><div class="photo-tile-loc">Location</div></div></div>
+      <div class="photo-tile wide empty a reveal"><div class="photo-tile-index">07</div><img src="" alt="" /><div class="photo-tile-overlay"><div class="photo-tile-caption">Add caption here</div><div class="photo-tile-loc">Location</div></div></div>
+    </div>
+
+    <div class="pull-quote">
+      <p class="pull-quote-text">The mountains are calling <em>&amp;</em> I must go.</p>
+      <div class="pull-quote-cite">John Muir · 1873</div>
+    </div>
+
+    <div class="grid-section">
+      <div class="grid-section-title">Archive</div>
+      <div class="grid-section-meta">2023 — 2024 · a selection</div>
+    </div>
+
+    <div class="photo-grid">
+      <div class="photo-tile empty b reveal"><div class="photo-tile-index">08</div><img src="" alt="" /><div class="photo-tile-overlay"><div class="photo-tile-caption">Add caption here</div><div class="photo-tile-loc">Location</div></div></div>
+      <div class="photo-tile empty c reveal d1"><div class="photo-tile-index">09</div><img src="" alt="" /><div class="photo-tile-overlay"><div class="photo-tile-caption">Add caption here</div><div class="photo-tile-loc">Location</div></div></div>
+      <div class="photo-tile empty d reveal d2"><div class="photo-tile-index">10</div><img src="" alt="" /><div class="photo-tile-overlay"><div class="photo-tile-caption">Add caption here</div><div class="photo-tile-loc">Location</div></div></div>
+      <div class="photo-tile wider empty e reveal d3"><div class="photo-tile-index">11</div><img src="" alt="" /><div class="photo-tile-overlay"><div class="photo-tile-caption">Add caption here</div><div class="photo-tile-loc">Location</div></div></div>
+      <div class="photo-tile empty a reveal d4"><div class="photo-tile-index">12</div><img src="" alt="" /><div class="photo-tile-overlay"><div class="photo-tile-caption">Add caption here</div><div class="photo-tile-loc">Location</div></div></div>
+    </div>
+
   </div>
 
+  <footer>
+    <span>© 2026 Lucas Gravina</span>
+    <a href="index.html">← Back to work</a>
+    <a href="mailto:lucasgravina180@gmail.com">Email ↗</a>
+  </footer>
+
   <script>
-    const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
-    let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
-    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
-    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('hover'));el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));});
-    (function tick(){rx+=(mx-rx)*0.11;ry+=(my-ry)*0.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
-    const io=new IntersectionObserver(e=>e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}}),{threshold:0.06});
+    (function(){
+      if(!window.matchMedia('(hover:hover)').matches) return;
+      const dot=document.getElementById('cursor-dot');
+      const ring=document.getElementById('cursor-ring');
+      if(!dot||!ring) return;
+      let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+      document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+      document.querySelectorAll('a,button,.photo-tile').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('hover'));el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));});
+      (function tick(){rx+=(mx-rx)*0.14;ry+=(my-ry)*0.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+    })();
+
+    const io=new IntersectionObserver(e=>e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}}),{threshold:0.06,rootMargin:'0px 0px -30px 0px'});
     document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-    /* Hide broken image tiles gracefully */
     document.querySelectorAll('.photo-tile img').forEach(img=>{
-      img.addEventListener('error',()=>{
-        img.style.display='none';
-        img.parentElement.style.background='linear-gradient(135deg,#0d1120,#111828)';
-      });
-      if(!img.src||img.src===window.location.href)img.dispatchEvent(new Event('error'));
+      if(!img.src||img.src===window.location.href){img.style.display='none';}
+      img.addEventListener('error',()=>{img.style.display='none';});
     });
   </script>
 </body>
