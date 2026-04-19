@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Reasoning Benchmark - Lucas Gravina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;cursor:none!important}
+    :root{--bg:#06080f;--fg:#ecedf5;--accent:#5b9cf6;--accent-glow:rgba(91,156,246,0.15);--accent-grad:linear-gradient(135deg,#5b9cf6 0%,#8fb8ff 100%);--border:#141720;--font-display:'Barlow Condensed',sans-serif;--font-serif:'DM Serif Display',serif;--font-mono:'Space Mono',monospace}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--fg);font-family:var(--font-mono);overflow-x:hidden}
+    body::after{content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:0.028}
+    #cursor-dot{position:fixed;width:6px;height:6px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);box-shadow:0 0 12px var(--accent-glow)}
+    #cursor-ring{position:fixed;width:40px;height:40px;border:1.5px solid rgba(91,156,246,0.45);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);transition:width .38s,height .38s,background-color .38s,border-color .38s}
+    #cursor-ring.hover{width:60px;height:60px;background:var(--accent-glow);border-color:var(--accent)}
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:28px 52px;background:rgba(6,8,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+    .nav-logo{font-family:var(--font-display);font-size:1.7rem;font-weight:800;letter-spacing:0.08em;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none}
+    .nav-back{display:flex;align-items:center;gap:10px;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(236,237,245,0.4);text-decoration:none;transition:color .25s}
+    .nav-back:hover{color:var(--accent)}
+    .nav-back-arrow{display:inline-block;transition:transform .25s}
+    .nav-back:hover .nav-back-arrow{transform:translateX(-4px)}
+    .proj-hero{padding:160px 52px 80px;max-width:1440px;margin:0 auto;border-bottom:1px solid var(--border)}
+    .proj-hero-meta{display:flex;align-items:center;gap:16px;margin-bottom:40px}
+    .proj-hero-num{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);opacity:0.6}
+    .proj-hero-sep{width:40px;height:1px;background:var(--border)}
+    .proj-hero-tags{display:flex;gap:8px;flex-wrap:wrap}
+    .proj-tag{font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(91,156,246,0.2);color:rgba(91,156,246,0.55)}
+    .proj-hero-title{font-family:var(--font-serif);font-style:italic;font-size:clamp(3.5rem,10vw,12rem);line-height:0.84;letter-spacing:-0.02em;color:var(--fg);margin-bottom:48px}
+    .proj-hero-title span{background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .proj-hero-summary{display:grid;grid-template-columns:1fr 300px;gap:80px;align-items:start}
+    .proj-hero-lead{font-family:var(--font-serif);font-size:clamp(1.2rem,2vw,1.7rem);line-height:1.5;letter-spacing:-0.015em;color:rgba(236,237,245,0.75)}
+    .proj-meta-block{display:flex;flex-direction:column;gap:24px}
+    .proj-meta-row{border-top:1px solid var(--border);padding-top:16px}
+    .proj-meta-key{font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(236,237,245,0.25);margin-bottom:6px}
+    .proj-meta-val{font-size:0.72rem;color:rgba(236,237,245,0.65)}
+    .proj-body{max-width:1440px;margin:0 auto}
+    .proj-section{padding:80px 52px;border-bottom:1px solid var(--border)}
+    .proj-section-title{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:28px}
+    .proj-section-headline{font-family:var(--font-serif);font-size:clamp(1.4rem,2.5vw,2.2rem);line-height:1.2;letter-spacing:-0.02em;color:var(--fg);margin-bottom:24px}
+    .proj-section-body{font-size:0.76rem;line-height:2.1;color:rgba(236,237,245,0.52);max-width:760px}
+    .proj-section-body p+p{margin-top:20px}
+    .proj-nav-strip{max-width:1440px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:48px 52px;border-top:1px solid var(--border)}
+    .proj-nav-link{font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(236,237,245,0.35);text-decoration:none;display:flex;align-items:center;gap:10px;transition:color .25s}
+    .proj-nav-link:hover{color:var(--accent)}
+    .proj-nav-link.next{margin-left:auto}
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(0.16,1,0.3,1),transform .9s cubic-bezier(0.16,1,0.3,1)}
+    .reveal.visible{opacity:1;transform:none}
+    .d1{transition-delay:.1s}.d2{transition-delay:.2s}
+    @media(max-width:900px){nav{padding:20px 24px}.proj-hero{padding:120px 24px 60px}.proj-hero-summary{grid-template-columns:1fr;gap:40px}.proj-section,.proj-nav-strip{padding:60px 24px}}
+  </style>
+</head>
+<body>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <nav>
+    <a href="index.html" class="nav-logo">LG</a>
+    <a href="index.html#projects" class="nav-back"><span class="nav-back-arrow">&#8592;</span>&nbsp;All Projects</a>
+  </nav>
+  <div class="proj-hero">
+    <div class="proj-hero-meta">
+      <span class="proj-hero-num">Project 002</span>
+      <div class="proj-hero-sep"></div>
+      <div class="proj-hero-tags">
+        <span class="proj-tag">AI Research</span>
+        <span class="proj-tag">LLM Evaluation</span>
+        <span class="proj-tag">2026</span>
+      </div>
+    </div>
+    <h1 class="proj-hero-title reveal">AI Reasoning<br><span>Benchmark</span></h1>
+    <div class="proj-hero-summary reveal d1">
+      <p class="proj-hero-lead">A novel multimodal, web-grounded reasoning benchmark for evaluating frontier AI models on human-like complex search tasks - built from scratch.</p>
+      <div class="proj-meta-block">
+        <div class="proj-meta-row"><div class="proj-meta-key">Type</div><div class="proj-meta-val">Original Research</div></div>
+        <div class="proj-meta-row"><div class="proj-meta-key">Timeline</div><div class="proj-meta-val">2025 - 2026</div></div>
+        <div class="proj-meta-row"><div class="proj-meta-key">Domain</div><div class="proj-meta-val">LLM Evaluation / AI Research</div></div>
+        <div class="proj-meta-row"><div class="proj-meta-key">Output</div><div class="proj-meta-val">Benchmark + Eval Infrastructure</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="proj-body">
+    <div class="proj-section reveal">
+      <div class="proj-section-title">Context</div>
+      <div class="proj-section-headline">Existing benchmarks don&rsquo;t capture how humans actually search.</div>
+      <div class="proj-section-body">
+        <p>The lab builds human-generated datasets to evaluate how frontier AI models reason. Existing benchmarks test isolated knowledge. Real web tasks require navigating ambiguity, synthesizing across multiple sources, and handling multimodal information simultaneously.</p>
+        <p>My role was to develop a benchmark that captured this complexity: a task set that could accurately differentiate frontier LLMs on human-like search behavior that existing evals miss entirely.</p>
+      </div>
+    </div>
+    <div class="proj-section reveal">
+      <div class="proj-section-title">My Approach</div>
+      <div class="proj-section-headline">Strategy-first, then infrastructure.</div>
+      <div class="proj-section-body">
+        <p>I started with the core strategic question: what does &ldquo;human-like complex search&rdquo; actually look like? I mapped the taxonomy of real tasks: cross-source synthesis, visual + text reasoning, ambiguous queries with multiple valid interpretations - and designed the benchmark structure around this reality.</p>
+        <p>From there, I built the evaluation infrastructure from scratch: task runners, model harnesses, a rubric-aligned scoring system, and analysis tooling to surface where models systematically fail.</p>
+        <p>The resulting benchmark surfaces meaningful differentiation between frontier models that existing evals flatten into noise - providing a defensible, human-grounded signal.</p>
+      </div>
+    </div>
+  </div>
+  <div class="proj-nav-strip">
+    <a href="project-weboptimize.html" class="proj-nav-link">&#8592; Agentic Checkout Opt.</a>
+    <a href="project-daynmayfield.html" class="proj-nav-link next">Next: Day N Mayfield &#8594;</a>
+  </div>
+  <script>
+    const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring');
+    let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('hover'));el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));});
+    (function tick(){rx+=(mx-rx)*0.11;ry+=(my-ry)*0.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+    const io=new IntersectionObserver(e=>e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}}),{threshold:0.06,rootMargin:'0px 0px -30px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  </script>
+</body>
+</html>
