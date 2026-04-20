@@ -78,12 +78,12 @@
     .proj-meta-val{font-size:0.9rem;color:var(--fg)}
 
     /* Dashboard image */
-    .dashboard-wrap{position:relative;background:linear-gradient(180deg,var(--bg) 0%,var(--bg-elev) 100%);padding:clamp(48px,6vh,96px) var(--page-pad);display:flex;justify-content:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-    .dashboard-inner{width:100%;max-width:1200px;position:relative}
+    .dashboard-wrap{position:relative;background:linear-gradient(180deg,var(--bg) 0%,var(--bg-elev) 100%);padding:clamp(72px,10vh,140px) var(--page-pad) clamp(96px,12vh,160px);display:flex;flex-direction:column;align-items:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden}
+    .dashboard-inner{width:100%;max-width:880px;position:relative}
     .dashboard-inner::before{content:'';position:absolute;inset:-32px;background:radial-gradient(ellipse at center,rgba(110,163,255,0.08) 0%,transparent 70%);pointer-events:none;z-index:0}
     .dashboard-wrap img{width:100%;display:block;border-radius:6px;border:1px solid var(--line-strong);box-shadow:0 40px 120px rgba(0,0,0,0.7),0 0 0 1px rgba(110,163,255,0.06);position:relative;z-index:1;transition:transform 1.2s var(--ease)}
     .dashboard-wrap:hover img{transform:translateY(-4px)}
-    .dashboard-caption{max-width:1200px;margin:28px auto 0;display:flex;justify-content:space-between;gap:24px;font-family:var(--mono);font-size:0.56rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--fg-faint)}
+    .dashboard-caption{max-width:880px;margin:28px auto 0;display:flex;justify-content:space-between;gap:24px;font-family:var(--mono);font-size:0.56rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--fg-faint)}
     .dashboard-caption .tag{color:var(--accent)}
 
     .proj-body{max-width:1360px;margin:0 auto}
@@ -187,10 +187,10 @@
     </div>
     <h1 class="proj-hero-title reveal d1">Comply<em>mate</em></h1>
     <div class="proj-hero-summary reveal d2">
-      <p class="proj-hero-lead">A compliance automation startup I co-founded and led as CEO. Went from <em>100+ customer interviews</em> to a production MVP built alongside four $1B+ enterprise design partners.</p>
+      <p class="proj-hero-lead">A compliance automation startup I co-founded and led as CEO through <em>ASES Bootcamp Startup Accelerator</em>. Went from <em>100+ customer interviews</em> to a production MVP built alongside four $1B+ enterprise design partners.</p>
       <div class="proj-meta-block">
         <div class="proj-meta-row"><div class="proj-meta-key">Role</div><div class="proj-meta-val">Co-founder &amp; CEO</div></div>
-        <div class="proj-meta-row"><div class="proj-meta-key">Timeline</div><div class="proj-meta-val">Oct 2024 — Aug 2025</div></div>
+        <div class="proj-meta-row"><div class="proj-meta-key">Timeline</div><div class="proj-meta-val">Oct 2024 — Feb 2025</div></div>
         <div class="proj-meta-row"><div class="proj-meta-key">Stack</div><div class="proj-meta-val">C++ · Python</div></div>
         <div class="proj-meta-row"><div class="proj-meta-key">Clients</div><div class="proj-meta-val">4 × $1B+ enterprise</div></div>
       </div>
@@ -212,19 +212,19 @@
 
     <div class="stat-strip">
       <div class="stat-box reveal"><div class="stat-val"><em>100+</em></div><div class="stat-lbl">Customer Interviews</div></div>
-      <div class="stat-box reveal d1"><div class="stat-val">4</div><div class="stat-lbl">Enterprise Partners</div></div>
-      <div class="stat-box reveal d2"><div class="stat-val"><em>$1B+</em></div><div class="stat-lbl">Avg. Client Size</div></div>
-      <div class="stat-box reveal"><div class="stat-val">10mo</div><div class="stat-lbl">Zero to MVP</div></div>
+      <div class="stat-box reveal d1"><div class="stat-val">4</div><div class="stat-lbl">Enterprise Design Partnerships</div></div>
+      <div class="stat-box reveal d2"><div class="stat-val"><em>$1B+</em></div><div class="stat-lbl">Client Size</div></div>
+      <div class="stat-box reveal"><div class="stat-val">4mo</div><div class="stat-lbl">Zero to MVP</div></div>
     </div>
 
     <div class="proj-section reveal">
       <div class="proj-section-inner">
         <div class="proj-section-label">The Problem</div>
         <div class="proj-section-content">
-          <h2 class="proj-section-title">Enterprise compliance is a <em>$50B+ market</em> still running on spreadsheets.</h2>
+          <h2 class="proj-section-title">Environmental compliance for construction and real estate developers is a <em>$50B+ market</em> still running on spreadsheets.</h2>
           <div class="proj-section-body">
-            <p>Large enterprises operate under a web of compliance frameworks — <strong>SOC 2, ISO 27001, GDPR, HIPAA</strong>. Managing them requires enormous manual effort. Teams spend thousands of hours annually on evidence collection, audits, and policy updates.</p>
-            <p>The market had tools, but none that deeply automated the operational workflows at the center of compliance management. I saw the gap and built toward it.</p>
+            <p>Construction and real estate developers operate under a web of environmental compliance frameworks — <strong>NEPA, Clean Water Act, stormwater permits, air quality filings, and state-level environmental review</strong>. Managing them requires enormous manual effort across consultants, field teams, and regulators. Every large project burns thousands of hours on evidence collection, inspections, and reporting.</p>
+            <p>The market had document tools and GIS software, but nothing that deeply automated the operational workflows at the center of environmental compliance. I saw the gap and built toward it.</p>
           </div>
         </div>
       </div>
@@ -256,7 +256,7 @@
             </div>
           </div>
           <div class="tl-item">
-            <div class="tl-date">Mar 2025</div>
+            <div class="tl-date">Feb 2025</div>
             <div>
               <div class="tl-event-title">MVP Build and <em>Iteration</em></div>
               <div class="tl-event-desc">Built the MVP in C++ and Python, rapidly iterating on requirements with partners. Led a small team across engineering and product through to launch.</div>
@@ -267,11 +267,6 @@
     </div>
 
   </div>
-
-  <nav class="proj-nav-strip">
-    <a href="project-daynmayfield.html" class="proj-nav-link prev"><span class="arrow">←</span> Day N Mayfield</a>
-    <a href="project-happening.html" class="proj-nav-link next">Next · Happening Stanford <span class="arrow">→</span></a>
-  </nav>
 
   <footer id="contact">
     <div class="foot-inner">

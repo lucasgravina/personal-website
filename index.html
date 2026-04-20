@@ -335,16 +335,13 @@
     /*  PROJECTS                                                          */
     /* ------------------------------------------------------------------ */
     .projects{border-top:1px solid var(--line);overflow:hidden}
-    .proj-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(12px,1.5vw,20px)}
+    .proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(12px,1.5vw,20px)}
     .proj-card{
-      grid-column:span 3;position:relative;display:block;text-decoration:none;color:inherit;
+      position:relative;display:block;text-decoration:none;color:inherit;
       background:var(--bg-elev);border:1px solid var(--line);
       overflow:hidden;aspect-ratio:5/4;
       transition:border-color .4s var(--ease),transform .6s var(--ease);
     }
-    .proj-card.wide{grid-column:span 6;aspect-ratio:16/7}
-    .proj-card.tall{grid-column:span 3;aspect-ratio:4/5}
-    .proj-card.third{grid-column:span 2;aspect-ratio:1/1}
     .proj-card:hover{border-color:var(--line-strong)}
 
     .proj-visual{
@@ -427,7 +424,6 @@
       font-size:clamp(1.6rem,3vw,2.4rem);line-height:1.05;letter-spacing:-0.03em;color:var(--fg);
       max-width:18ch;
     }
-    .proj-card.wide .proj-title{font-size:clamp(2rem,4vw,3.6rem)}
     .proj-title em{font-style:italic;background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
     .proj-desc{font-size:0.82rem;line-height:1.65;color:var(--fg-muted);max-width:44ch;opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
     .proj-card:hover .proj-desc{opacity:1;transform:translateY(0)}
@@ -441,27 +437,6 @@
     .proj-card:hover .proj-cta .arrow{transform:translate(2px,-2px)}
 
     /* ------------------------------------------------------------------ */
-    /*  SKILLS MARQUEE                                                    */
-    /* ------------------------------------------------------------------ */
-    .skills{border-top:1px solid var(--line);padding:clamp(60px,10vh,120px) 0}
-    .skills-head{padding:0 var(--page-pad);margin-bottom:48px;max-width:1360px;margin-left:auto;margin-right:auto}
-    .skills-strip{
-      overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-      padding:30px 0;
-    }
-    .skills-strip + .skills-strip{border-top:none}
-    .skills-track{display:flex;width:max-content;animation:marq 70s linear infinite;align-items:center}
-    .skills-track.reverse{animation-direction:reverse;animation-duration:85s}
-    .skill-pill{
-      display:inline-flex;align-items:center;gap:14px;padding:0 30px;
-      font-family:var(--serif);font-weight:300;font-size:clamp(1.6rem,2.6vw,2.4rem);letter-spacing:-0.025em;color:var(--fg);
-      white-space:nowrap;flex-shrink:0;
-    }
-    .skill-pill::after{content:'∙';color:var(--fg-ghost);margin-left:30px;font-size:1.4rem}
-    .skill-pill.mono{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--fg-muted)}
-    .skill-pill em{font-style:italic;color:var(--accent)}
-
-    /* ------------------------------------------------------------------ */
     /*  ADVENTURES CTA                                                    */
     /* ------------------------------------------------------------------ */
     .adventures-cta{
@@ -469,11 +444,16 @@
       padding:clamp(80px,14vh,180px) var(--page-pad);
       text-align:center;display:block;text-decoration:none;color:var(--fg);
       position:relative;overflow:hidden;
+      background:
+        radial-gradient(ellipse 90% 120% at 50% 50%,rgba(243,199,139,0.14) 0%,transparent 55%),
+        radial-gradient(ellipse 70% 60% at 20% 30%,rgba(193,140,90,0.10) 0%,transparent 60%),
+        radial-gradient(ellipse 80% 70% at 80% 80%,rgba(94,61,38,0.22) 0%,transparent 55%),
+        linear-gradient(180deg,#18120c 0%,#0f0b08 100%);
     }
     .adventures-cta::before{
       content:'';position:absolute;inset:0;
-      background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(243,199,139,0.06) 0%,transparent 60%);
-      opacity:0.6;transition:opacity .6s var(--ease);
+      background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(243,199,139,0.14) 0%,transparent 60%);
+      opacity:0.7;transition:opacity .6s var(--ease);
     }
     .adventures-cta:hover::before{opacity:1}
     .adventures-cta-label{
@@ -545,8 +525,8 @@
       .about-stats{grid-template-columns:repeat(2,1fr)}
       .exp-row{grid-template-columns:70px 1fr;gap:20px}
       .exp-meta{grid-column:1/-1;flex-direction:row;align-items:center;gap:12px;padding-top:0}
-      .proj-grid{grid-template-columns:repeat(2,1fr)}
-      .proj-card,.proj-card.wide,.proj-card.tall,.proj-card.third{grid-column:span 2;aspect-ratio:4/3}
+      .proj-grid{grid-template-columns:1fr}
+      .proj-card{aspect-ratio:4/3}
       .foot-inner{grid-template-columns:1fr}
       .foot-links{align-items:flex-start}
       .nav-links{gap:14px}
@@ -636,21 +616,21 @@
   <div class="marquee" aria-hidden="true">
     <div class="marquee-track" id="marquee-track">
       <span class="marquee-item">Stanford University</span>
-      <span class="marquee-item"><em>AI Researcher</em></span>
-      <span class="marquee-item">Founder &amp; Builder</span>
-      <span class="marquee-item"><em>10M+ content views</em></span>
-      <span class="marquee-item">Solo backpacker</span>
-      <span class="marquee-item"><em>Trip leader</em></span>
-      <span class="marquee-item">Festival organizer</span>
-      <span class="marquee-item"><em>Always shipping</em></span>
+      <span class="marquee-item"><em>Explorer</em></span>
+      <span class="marquee-item">Management Science &amp; Engineering</span>
+      <span class="marquee-item"><em>10M+ Content Views</em></span>
+      <span class="marquee-item">AI Researcher</span>
+      <span class="marquee-item"><em>Founder</em></span>
+      <span class="marquee-item">Builder</span>
+      <span class="marquee-item"><em>Backpacker</em></span>
       <span class="marquee-item">Stanford University</span>
-      <span class="marquee-item"><em>AI Researcher</em></span>
-      <span class="marquee-item">Founder &amp; Builder</span>
-      <span class="marquee-item"><em>10M+ content views</em></span>
-      <span class="marquee-item">Solo backpacker</span>
-      <span class="marquee-item"><em>Trip leader</em></span>
-      <span class="marquee-item">Festival organizer</span>
-      <span class="marquee-item"><em>Always shipping</em></span>
+      <span class="marquee-item"><em>Explorer</em></span>
+      <span class="marquee-item">Management Science &amp; Engineering</span>
+      <span class="marquee-item"><em>10M+ Content Views</em></span>
+      <span class="marquee-item">AI Researcher</span>
+      <span class="marquee-item"><em>Founder</em></span>
+      <span class="marquee-item">Builder</span>
+      <span class="marquee-item"><em>Backpacker</em></span>
     </div>
   </div>
 
@@ -661,30 +641,12 @@
         <div class="about-label reveal">01 — About</div>
         <div class="about-copy">
           <p class="about-lead reveal reveal-d1">
-            I build <strong>ambitious things</strong>. Software that does something useful. Events people remember. Research that moves the field. Trips that change how you think.
+            I love <strong>exploring</strong> and <strong>building</strong> interesting things. Software that does something useful. Events people remember. Trips that change how I think.
           </p>
           <div class="about-body reveal reveal-d2">
-            <p>I'm a sophomore at Stanford studying Management Science &amp; Engineering and Computer Science. My work spans AI research, product development, and financial analysis — I've co-founded a compliance startup, shipped internal tools at a private equity firm, and shaped product for two YC-backed companies.</p>
-            <p>Outside the screen: I lead trips for Stanford Outdoors, organize events for 16,000 students through Student Government, and backpack whenever I can. I have a weakness for hundred-thousand-dollar music festivals and anything with a campfire.</p>
-            <p>Reach out if you want to make something happen — <a href="mailto:lucasgravina180@gmail.com" class="about-inline-link">lucasgravina180@gmail.com</a>.</p>
-          </div>
-          <div class="about-stats reveal reveal-d3">
-            <div class="stat">
-              <div class="stat-val">10<em>M+</em></div>
-              <div class="stat-lbl">Content Views</div>
-            </div>
-            <div class="stat">
-              <div class="stat-val">$100<em>K</em></div>
-              <div class="stat-lbl">Festival Run</div>
-            </div>
-            <div class="stat">
-              <div class="stat-val">4<em>×</em></div>
-              <div class="stat-lbl">$1B+ Clients</div>
-            </div>
-            <div class="stat">
-              <div class="stat-val">16<em>K</em></div>
-              <div class="stat-lbl">Students Served</div>
-            </div>
+            <p>I'm a sophomore at Stanford studying Management Science &amp; Engineering and Computer Science. I've co-founded a startup, worked at a private equity firm, and shaped product at two YC-backed companies.</p>
+            <p>Outside the screen: I lead trips for Stanford Outdoors, organize events for 16,000 students through Student Government, and backpack whenever I can. Enthusiastic about good ideas and new places.</p>
+            <p>Reach out if you want to make something happen — <a href="mailto:lgravina@stanford.edu" class="about-inline-link">lgravina@stanford.edu</a>.</p>
           </div>
         </div>
       </div>
@@ -704,9 +666,9 @@
           <div class="exp-main">
             <div class="exp-topline">
               <div class="exp-company">AfterQuery</div>
-              <div class="exp-role">Strategy &amp; Ops Intern · YC</div>
+              <div class="exp-role">Strategy &amp; Ops Intern (Incoming)</div>
             </div>
-            <div class="exp-desc">YC-backed research lab building human-generated datasets to evaluate frontier AI reasoning. Developed a novel benchmark for multimodal, web-grounded reasoning — built the evaluation infrastructure from scratch.</div>
+            <div class="exp-desc">AfterQuery is an AI research lab backed by Y Combinator and BoxGroup, building frontier human-generated datasets for clients including Meta and Google DeepMind. Joining Strategy &amp; Ops to help scale research operations.</div>
           </div>
           <div class="exp-meta">
             <span class="exp-tag">AI Research</span>
@@ -719,7 +681,7 @@
               <div class="exp-company">Origami</div>
               <div class="exp-role">Product Intern · YC W25</div>
             </div>
-            <div class="exp-desc">Built 15+ logic-based lead refinement systems using connected node pipelines. Designed conditional rules and branching logic to progressively filter and qualify 50,000+ lead datapoints to production-grade.</div>
+            <div class="exp-desc">Built 15+ logic-based lead refinement systems using connected node pipelines. Designed conditional rules and branching logic to progressively filter and qualify tens of thousands of lead datapoints to production-grade.</div>
           </div>
           <div class="exp-meta">
             <span class="exp-tag">Product</span>
@@ -732,7 +694,7 @@
               <div class="exp-company">Archer Capital</div>
               <div class="exp-role">Summer Analyst</div>
             </div>
-            <div class="exp-desc">Developed and shipped three internal workflow tools adopted by 40%+ of the firm. Conducted competitive analysis across 16 fintech companies that directly informed a successful investment deal.</div>
+            <div class="exp-desc">Developed and shipped three internal workflow tools adopted by the firm. Led Backend-as-a-Service market research and conducted competitive analysis across 16 fintech companies, directly informing a successful investment deal.</div>
           </div>
           <div class="exp-meta">
             <span class="exp-tag">Finance</span>
@@ -747,12 +709,12 @@
     <div class="sec-inner">
       <div class="sec-head">
         <div class="sec-num reveal">03 — Selected Work</div>
-        <h2 class="sec-title reveal reveal-d1">Things I've made that <em>still feel alive.</em></h2>
+        <h2 class="sec-title reveal reveal-d1">Some of my <em>favorite projects.</em></h2>
       </div>
 
       <div class="proj-grid">
 
-        <a href="project-weboptimize.html" class="proj-card wide reveal">
+        <a href="project-weboptimize.html" class="proj-card reveal">
           <div class="proj-visual viz-checkout"></div>
           <div class="proj-body">
             <div class="proj-top">
@@ -801,13 +763,13 @@
             </div>
             <div class="proj-bottom">
               <div class="proj-title">Day N <em>Mayfield</em></div>
-              <div class="proj-desc">Led a $100K Woodstock-themed music festival at Stanford — team of 12, Shakedown Street, 1,000+ attendees.</div>
+              <div class="proj-desc">Organized a &gt;$100K Woodstock-themed music festival at Stanford — team of 12, Shakedown Street, 1,000+ attendees.</div>
               <span class="proj-cta">Case Study <span class="arrow">→</span></span>
             </div>
           </div>
         </a>
 
-        <a href="project-complymate.html" class="proj-card third reveal reveal-d3">
+        <a href="project-complymate.html" class="proj-card reveal reveal-d3">
           <div class="proj-visual viz-complymate"></div>
           <div class="proj-body">
             <div class="proj-top">
@@ -823,7 +785,7 @@
           </div>
         </a>
 
-        <a href="project-happening.html" class="proj-card third reveal reveal-d3">
+        <a href="project-happening.html" class="proj-card reveal reveal-d3">
           <div class="proj-visual viz-happening"></div>
           <div class="proj-body">
             <div class="proj-top">
@@ -839,90 +801,15 @@
           </div>
         </a>
 
-        <a href="adventures.html" class="proj-card third reveal reveal-d3">
-          <div class="proj-visual viz-mayfield" style="background:linear-gradient(135deg,#0a0a0f 0%,#161620 100%)"></div>
-          <div class="proj-body">
-            <div class="proj-top">
-              <div class="proj-idx">+</div>
-              <div class="proj-tags">
-                <span class="proj-tag">Personal</span>
-              </div>
-            </div>
-            <div class="proj-bottom">
-              <div class="proj-title">Out <em>There</em></div>
-              <span class="proj-cta">Adventures <span class="arrow">↗</span></span>
-            </div>
-          </div>
-        </a>
-
       </div>
     </div>
   </section>
 
-  <!-- SKILLS -->
-  <div class="skills">
-    <div class="skills-head">
-      <div class="sec-head">
-        <div class="sec-num reveal">04 — Practice</div>
-        <h2 class="sec-title reveal reveal-d1">The tools I pick up <em>most often</em>.</h2>
-      </div>
-    </div>
-    <div class="skills-strip">
-      <div class="skills-track">
-        <span class="skill-pill">Python</span>
-        <span class="skill-pill"><em>LLM Systems</em></span>
-        <span class="skill-pill">C++</span>
-        <span class="skill-pill"><em>Product Discovery</em></span>
-        <span class="skill-pill">SQL &amp; Data</span>
-        <span class="skill-pill"><em>Workflow Automation</em></span>
-        <span class="skill-pill">Java</span>
-        <span class="skill-pill"><em>Vector Databases</em></span>
-        <span class="skill-pill">API Integrations</span>
-        <span class="skill-pill"><em>PRDs &amp; User Stories</em></span>
-        <span class="skill-pill">HubSpot / CRM</span>
-        <span class="skill-pill"><em>Metrics &amp; KPIs</em></span>
-        <!-- duplicate -->
-        <span class="skill-pill">Python</span>
-        <span class="skill-pill"><em>LLM Systems</em></span>
-        <span class="skill-pill">C++</span>
-        <span class="skill-pill"><em>Product Discovery</em></span>
-        <span class="skill-pill">SQL &amp; Data</span>
-        <span class="skill-pill"><em>Workflow Automation</em></span>
-        <span class="skill-pill">Java</span>
-        <span class="skill-pill"><em>Vector Databases</em></span>
-        <span class="skill-pill">API Integrations</span>
-        <span class="skill-pill"><em>PRDs &amp; User Stories</em></span>
-        <span class="skill-pill">HubSpot / CRM</span>
-        <span class="skill-pill"><em>Metrics &amp; KPIs</em></span>
-      </div>
-    </div>
-    <div class="skills-strip">
-      <div class="skills-track reverse">
-        <span class="skill-pill mono">Solo backpacking</span>
-        <span class="skill-pill mono">Global markets</span>
-        <span class="skill-pill mono">Guitar &amp; Music</span>
-        <span class="skill-pill mono">Nature education</span>
-        <span class="skill-pill mono">History &amp; Sculpture</span>
-        <span class="skill-pill mono">Campfires</span>
-        <span class="skill-pill mono">Field notes</span>
-        <span class="skill-pill mono">Long walks</span>
-        <span class="skill-pill mono">Solo backpacking</span>
-        <span class="skill-pill mono">Global markets</span>
-        <span class="skill-pill mono">Guitar &amp; Music</span>
-        <span class="skill-pill mono">Nature education</span>
-        <span class="skill-pill mono">History &amp; Sculpture</span>
-        <span class="skill-pill mono">Campfires</span>
-        <span class="skill-pill mono">Field notes</span>
-        <span class="skill-pill mono">Long walks</span>
-      </div>
-    </div>
-  </div>
-
   <!-- ADVENTURES CTA -->
   <a href="adventures.html" class="adventures-cta">
-    <span class="adventures-cta-label">05 — Field Log</span>
+    <span class="adventures-cta-label">04 — Field Log</span>
     <span class="adventures-cta-title">Out There</span>
-    <div class="adventures-cta-sub">Backpacking · Surfing · Traveling — life outside the screen</div>
+    <div class="adventures-cta-sub">Backpacking · Hiking · Traveling — a few of my favorite adventures</div>
   </a>
 
   <!-- FOOTER / CONTACT -->
@@ -963,55 +850,13 @@
         vertexShader:'void main(){gl_Position=vec4(position,1.0);}',
         fragmentShader:`
           precision highp float;
-          uniform vec2 resolution; uniform float time; uniform vec2 mouse;
-          /* elegant caustic/nebula */
-          vec3 hash3(vec2 p){ return fract(sin(vec3(
-            dot(p,vec2(127.1,311.7)),
-            dot(p,vec2(269.5,183.3)),
-            dot(p,vec2(419.2,371.9))
-          ))*43758.5453); }
-          float noise(vec2 p){
-            vec2 i=floor(p), f=fract(p);
-            vec2 u=f*f*(3.0-2.0*f);
-            float a=hash3(i).x, b=hash3(i+vec2(1,0)).x, c=hash3(i+vec2(0,1)).x, d=hash3(i+vec2(1,1)).x;
-            return mix(mix(a,b,u.x), mix(c,d,u.x), u.y);
-          }
-          float fbm(vec2 p){
-            float s=0.0, a=0.5;
-            for(int i=0;i<5;i++){ s+=a*noise(p); p*=2.02; a*=0.5; }
-            return s;
-          }
-          void main(){
-            vec2 uv=(gl_FragCoord.xy - 0.5*resolution.xy)/min(resolution.x,resolution.y);
-            uv *= 1.4;
-            float t = time*0.04;
-            vec2 q = uv + vec2(0.0, t*0.3);
-            float n1 = fbm(q*1.4 + fbm(q*2.2 + t)*0.6);
-            float n2 = fbm(q*3.2 - vec2(t*0.3, -t*0.4));
-            float caustic = pow(n1,1.7) * 0.9 + pow(n2,2.0)*0.2;
-
-            /* palette */
-            vec3 deep   = vec3(0.039, 0.039, 0.059);   /* #0a0a0f */
-            vec3 indigo = vec3(0.055, 0.070, 0.130);
-            vec3 blue   = vec3(0.431, 0.639, 1.000);   /* accent */
-            vec3 warm   = vec3(0.953, 0.780, 0.545);   /* warm highlight */
-            vec3 col = deep;
-            col = mix(col, indigo, smoothstep(0.0,0.9,caustic));
-            col = mix(col, blue*0.55, smoothstep(0.45,0.85,caustic)*0.55);
-            col = mix(col, warm*0.35, smoothstep(0.72,0.98,caustic)*0.25);
-
-            /* vignette */
-            float v = smoothstep(1.4, 0.25, length(uv));
-            col *= v*0.95 + 0.05;
-
-            /* subtle horizon band */
-            col += vec3(0.02,0.035,0.08)*smoothstep(0.15, -0.05, uv.y);
-
-            /* grain */
-            float g = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898,78.233))*0.5)*43758.5453);
-            col += (g-0.5)*0.015;
-
-            gl_FragColor = vec4(col, 1.0);
+          uniform vec2 resolution; uniform float time;
+          void main(void){
+            vec2 uv=(gl_FragCoord.xy*2.0-resolution.xy)/min(resolution.x,resolution.y);
+            float t=time*0.05;float lw=0.0022;vec3 col=vec3(0.0);
+            for(int j=0;j<3;j++)for(int i=0;i<5;i++)
+              col[j]+=lw*float(i*i)/abs(fract(t-0.01*float(j)+float(i)*0.01)*4.2-length(uv)+mod(uv.x+uv.y,0.2));
+            gl_FragColor=vec4(col[0],col[1],col[2],1.0);
           }
         `
       });

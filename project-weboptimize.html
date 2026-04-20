@@ -95,9 +95,9 @@
     .level-body{font-size:0.94rem;line-height:1.78;color:var(--fg-muted);max-width:52ch}
 
     /* CONTENT SPLIT */
-    .content-split{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);align-items:stretch}
-    .content-left{padding:clamp(56px,7vh,100px) clamp(32px,4vw,64px);border-right:1px solid var(--line)}
-    .content-right{background:var(--bg-elev);overflow:hidden;position:relative;min-height:620px}
+    .content-split{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);align-items:center;gap:clamp(32px,5vw,80px);padding:clamp(56px,8vh,120px) clamp(32px,4vw,64px)}
+    .content-left{padding:0}
+    .content-right{background:var(--bg-elev);border:1px solid var(--line);border-radius:6px;overflow:hidden;position:relative;height:min(580px,72vh);box-shadow:0 30px 80px rgba(0,0,0,0.45)}
 
     .section-num{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:28px}
     .section-num::before{content:'';width:20px;height:1px;background:var(--accent);display:inline-block}
@@ -197,9 +197,8 @@
 
     @media(max-width:960px){
       .proj-hero-summary{grid-template-columns:1fr;gap:40px}
-      .content-split{grid-template-columns:1fr}
-      .content-left{border-right:none;border-bottom:1px solid var(--line)}
-      .content-right{min-height:520px}
+      .content-split{grid-template-columns:1fr;padding:60px 24px}
+      .content-right{height:520px}
       .levels{grid-template-columns:1fr}
       .proj-section-inner{grid-template-columns:1fr;gap:20px}
       .proj-section-label{position:static}
@@ -385,12 +384,6 @@
     </div>
 
   </div>
-
-  <!-- NAV STRIP -->
-  <nav class="proj-nav-strip">
-    <a href="index.html#work" class="proj-nav-link prev"><span class="arrow">←</span> All Projects</a>
-    <a href="project-benchmark.html" class="proj-nav-link next">Next · AI Reasoning Benchmark <span class="arrow">→</span></a>
-  </nav>
 
   <!-- FOOTER -->
   <footer id="contact">
