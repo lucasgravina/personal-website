@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRIBE v2 News Decoder — Lucas Gravina</title>
+  <meta name="theme-color" content="#0a0a0f" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg:#0a0a0f;--fg:#ebe7db;
+      --fg-muted:rgba(235,231,219,0.62);
+      --fg-faint:rgba(235,231,219,0.38);
+      --fg-ghost:rgba(235,231,219,0.16);
+      --line:rgba(235,231,219,0.09);
+      --line-strong:rgba(235,231,219,0.18);
+      --accent:#6ea3ff;
+      --accent-soft:rgba(110,163,255,0.12);
+      --accent-grad:linear-gradient(120deg,#6ea3ff 0%,#a8c8ff 45%,#e9d5ff 100%);
+      --serif:'Fraunces',ui-serif,Georgia,serif;
+      --sans:'Inter','Helvetica Neue',Arial,sans-serif;
+      --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;
+      --ease:cubic-bezier(0.16,1,0.3,1);
+      --page-pad:clamp(20px,4vw,56px);
+    }
+    html{background:var(--bg);-webkit-font-smoothing:antialiased}
+    body{
+      background:var(--bg);color:var(--fg);
+      font-family:var(--sans);font-weight:400;font-size:15px;line-height:1.6;
+      min-height:100vh;overflow-x:hidden;letter-spacing:-0.005em;
+      display:flex;flex-direction:column;
+    }
+    body::after{
+      content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.85'/%3E%3C/svg%3E");
+      opacity:0.035;mix-blend-mode:overlay;
+    }
+    @media(hover:hover){
+      body{cursor:none}
+      a{cursor:none}
+      #cursor-dot{position:fixed;top:0;left:0;width:5px;height:5px;background:var(--fg);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:difference}
+      #cursor-ring{position:fixed;top:0;left:0;width:36px;height:36px;border:1px solid var(--line-strong);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);transition:width .42s var(--ease),height .42s var(--ease),background-color .42s var(--ease),border-color .42s var(--ease)}
+      #cursor-ring.hover{width:72px;height:72px;background:var(--accent-soft);border-color:var(--accent)}
+    }
+    @media(hover:none){#cursor-dot,#cursor-ring{display:none}}
+
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:200;
+      display:flex;justify-content:space-between;align-items:center;
+      padding:22px var(--page-pad);
+      background:rgba(10,10,15,0.72);backdrop-filter:blur(20px) saturate(1.4);
+      -webkit-backdrop-filter:blur(20px) saturate(1.4);
+      border-bottom:1px solid var(--line);
+    }
+    .nav-logo{
+      font-family:var(--serif);font-weight:300;font-style:italic;
+      font-size:1.6rem;letter-spacing:-0.04em;color:var(--fg);text-decoration:none;
+    }
+    .nav-logo::after{content:'.';color:var(--accent);margin-left:2px}
+    .nav-back{
+      font-family:var(--mono);font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;
+      color:var(--fg-faint);text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+      transition:color .3s var(--ease);
+    }
+    .nav-back:hover{color:var(--fg)}
+    .nav-back .arrow{display:inline-block;transition:transform .3s var(--ease)}
+    .nav-back:hover .arrow{transform:translateX(-4px)}
+
+    main{
+      flex:1;display:flex;align-items:center;justify-content:center;
+      padding:140px var(--page-pad) 120px;
+      position:relative;text-align:center;
+    }
+    .cs-eyebrow{
+      font-family:var(--mono);font-size:0.62rem;letter-spacing:0.24em;text-transform:uppercase;
+      color:var(--accent);display:inline-flex;align-items:center;gap:14px;margin-bottom:28px;
+    }
+    .cs-eyebrow::before,.cs-eyebrow::after{content:'';width:28px;height:1px;background:var(--fg-ghost)}
+    .cs-title{
+      font-family:var(--serif);font-weight:300;
+      font-size:clamp(4rem,14vw,12rem);line-height:0.92;letter-spacing:-0.04em;color:var(--fg);
+    }
+    .cs-title em{
+      font-style:italic;
+      background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    .cs-sub{
+      font-family:var(--mono);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;
+      color:var(--fg-faint);margin-top:36px;
+    }
+    .cs-back{
+      font-family:var(--mono);font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;
+      color:var(--fg);text-decoration:none;
+      display:inline-flex;align-items:center;gap:10px;margin-top:48px;
+      border:1px solid var(--line-strong);padding:14px 20px;border-radius:999px;
+      transition:border-color .3s var(--ease),color .3s var(--ease);
+    }
+    .cs-back:hover{color:var(--accent);border-color:var(--accent)}
+    .cs-back .arrow{display:inline-block;transition:transform .3s var(--ease)}
+    .cs-back:hover .arrow{transform:translateX(-4px)}
+
+    .bg-orb{
+      position:absolute;width:min(60vw,700px);aspect-ratio:1;
+      background:radial-gradient(circle,rgba(110,163,255,0.12) 0%,transparent 60%);
+      filter:blur(40px);pointer-events:none;z-index:-1;
+      top:50%;left:50%;transform:translate(-50%,-50%);
+    }
+
+    footer{padding:40px var(--page-pad);border-top:1px solid var(--line)}
+    .foot-base{
+      max-width:1360px;margin:0 auto;
+      display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+      font-family:var(--mono);font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--fg-ghost);
+    }
+    .foot-base a{color:var(--fg-faint);text-decoration:none;transition:color .25s}
+    .foot-base a:hover{color:var(--accent)}
+  </style>
+</head>
+<body>
+
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Lucas Gravina</a>
+    <a href="index.html" class="nav-back"><span class="arrow">←</span> Index</a>
+  </nav>
+
+  <main>
+    <div class="bg-orb"></div>
+    <div>
+      <div class="cs-eyebrow"><span>Project 001</span></div>
+      <h1 class="cs-title">Coming <em>Soon</em></h1>
+      <div class="cs-sub">AI Reasoning Benchmark · In Progress</div>
+      <a href="index.html" class="cs-back"><span class="arrow">←</span> Back to Work</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="foot-base">
+      <span>© 2026 Lucas Gravina</span>
+      <span>Made with intention in Palo Alto</span>
+      <a href="index.html">Index ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      if(!window.matchMedia('(hover:hover)').matches) return;
+      const dot = document.getElementById('cursor-dot');
+      const ring = document.getElementById('cursor-ring');
+      if(!dot||!ring) return;
+      let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+      document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+      document.querySelectorAll('a').forEach(el=>{
+        el.addEventListener('mouseenter',()=>ring.classList.add('hover'));
+        el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));
+      });
+      (function tick(){rx+=(mx-rx)*0.14;ry+=(my-ry)*0.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+    })();
+  </script>
+</body>
+</html>
