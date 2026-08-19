@@ -195,10 +195,14 @@
       line-height: 1.55;
     }
 
+    .entry.no-copy > div:nth-child(2) {
+      grid-column: 2 / -1;
+    }
+
     .education-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
+      grid-template-columns: 150px minmax(210px, 0.85fr) minmax(300px, 1.45fr);
+      gap: 28px;
       padding: 0;
     }
 
@@ -351,11 +355,17 @@
       }
 
       .entry,
-      .project-entry {
+      .project-entry,
+      .education-row {
         grid-template-columns: 120px 1fr;
       }
 
-      .entry-copy {
+      .entry-copy,
+      .education-copy {
+        grid-column: 2;
+      }
+
+      .entry.no-copy > div:nth-child(2) {
         grid-column: 2;
       }
     }
@@ -404,16 +414,18 @@
       }
 
       .entry,
-      .project-entry {
+      .project-entry,
+      .education-row {
         grid-template-columns: 1fr;
         gap: 10px;
       }
 
-      .entry-copy {
+      .entry-copy,
+      .education-copy,
+      .entry.no-copy > div:nth-child(2) {
         grid-column: 1;
       }
 
-      .education-row,
       .leadership-grid,
       .details-grid {
         grid-template-columns: 1fr;
@@ -464,7 +476,7 @@
       <div>
         <p class="hero-summary">Management Science &amp; Engineering and Computer Science student working across AI research, product, operations, and campus events.</p>
         <div class="contact-links">
-          <a class="inline-link" href="mailto:lucasgravina00@gmail.com">Email ↗</a>
+          <a class="inline-link" href="mailto:lgravina@stanford.edu">Email ↗</a>
           <a class="inline-link" href="https://linkedin.com/in/lucas-gravina/" target="_blank" rel="noopener">LinkedIn ↗</a>
           <a class="inline-link" href="https://www.instagram.com/lucasgravina18/" target="_blank" rel="noopener">Instagram ↗</a>
         </div>
@@ -478,30 +490,28 @@
       </div>
       <div class="entry-list">
         <article class="entry">
-          <div class="entry-date">Summer 2026</div>
+          <div class="entry-date">Jun 2026–Present</div>
           <div>
             <h3 class="entry-title">AfterQuery</h3>
-            <div class="entry-role">Strategy &amp; Operations Intern · Incoming</div>
+            <div class="entry-role">Strategic Projects Intern</div>
           </div>
-          <p class="entry-copy">Joining the AI research lab to help scale human-generated dataset and research operations for frontier model development.</p>
+          <p class="entry-copy">Lead dataset creation and evaluation systems for frontier AI labs, translating customer needs into roadmaps and shipping training data and QA infrastructure.</p>
         </article>
 
-        <article class="entry">
+        <article class="entry no-copy">
           <div class="entry-date">2025–2026</div>
           <div>
             <h3 class="entry-title">Origami</h3>
             <div class="entry-role">Product Intern · YC W25</div>
           </div>
-          <p class="entry-copy">Built 15+ logic-based lead refinement systems using connected node pipelines, filtering and qualifying tens of thousands of data points.</p>
         </article>
 
-        <article class="entry">
+        <article class="entry no-copy">
           <div class="entry-date">Summer 2025</div>
           <div>
             <h3 class="entry-title">Archer Capital</h3>
             <div class="entry-role">Summer Analyst</div>
           </div>
-          <p class="entry-copy">Shipped three internal workflow tools and led Backend-as-a-Service and fintech research that informed a successful investment decision.</p>
         </article>
       </div>
     </section>
@@ -512,11 +522,12 @@
         <h2 id="education-title">Education</h2>
       </div>
       <div class="education-row">
+        <div class="entry-date">Expected 2028</div>
         <div>
           <h3 class="education-school">Stanford University</h3>
-          <p class="education-degree">Management Science &amp; Engineering · Computer Science</p>
+          <p class="education-degree">B.S. Management Science &amp; Engineering · Minor in Computer Science</p>
         </div>
-        <p class="education-copy">Coursework and independent work across technology, operations, product development, and AI research.</p>
+        <p class="education-copy">GPA 3.996 · Coursework in probability, stochastic modeling, linear algebra, programming abstractions, and matrix methods.</p>
       </div>
     </section>
 
@@ -529,55 +540,55 @@
         <article class="entry project-entry">
           <div class="entry-date">2026</div>
           <div>
-            <h3 class="entry-title"><a href="https://tribe-decoder-production.up.railway.app/" target="_blank" rel="noopener">TRIBE v2 ↗</a></h3>
-            <div class="entry-role">AI · Media</div>
+            <h3 class="entry-title">Day N Mayfield</h3>
+            <div class="entry-role">Organizer</div>
           </div>
-          <p class="entry-copy">Built a news decoder that surfaces framing, incentives, and competing interpretations behind current reporting.</p>
-        </article>
-
-        <article class="entry project-entry">
-          <div class="entry-date">2025</div>
-          <div>
-            <h3 class="entry-title">Agentic Checkout Optimization</h3>
-            <div class="entry-role">AI Agents · Research</div>
-          </div>
-          <p class="entry-copy">Developed a system that runs hundreds of autonomous agents through purchase flows, identifies failures, and generates ranked site recommendations.</p>
+          <p class="entry-copy">Organized a $170,000 Stanford music festival with a 100+ person staff, 12 bands, and more than 1,500 attendees.</p>
         </article>
 
         <article class="entry project-entry">
           <div class="entry-date">Research</div>
           <div>
-            <h3 class="entry-title">AI Reasoning Benchmark</h3>
-            <div class="entry-role">LLM Evaluation</div>
+            <h3 class="entry-title">fMRI Media Analysis</h3>
+            <div class="entry-role">AI · Media</div>
           </div>
-          <p class="entry-copy">Built a multimodal, web-grounded benchmark for evaluating frontier models on complex research tasks.</p>
+          <p class="entry-copy">Built an fMRI-informed deception-detection layer on Meta’s TRIBE V2 model and explored media-bias applications with AllSides’ Head of AI.</p>
         </article>
 
         <article class="entry project-entry">
-          <div class="entry-date">2026</div>
+          <div class="entry-date">Commerce</div>
           <div>
-            <h3 class="entry-title">Day N Mayfield</h3>
-            <div class="entry-role">Organizer</div>
+            <h3 class="entry-title">Online Businesses</h3>
+            <div class="entry-role">E-commerce · Audience</div>
           </div>
-          <p class="entry-copy">Organized a $100K+ Stanford music festival with a 12-person team, working directly with the Dean of Student Affairs and serving more than 1,000 attendees.</p>
+          <p class="entry-copy">Generated 10 million organic views, built an audience of more than 100,000 followers, and earned five-figure revenue across several e-commerce businesses.</p>
         </article>
 
         <article class="entry project-entry">
-          <div class="entry-date">2024–2025</div>
+          <div class="entry-date">Hardware</div>
           <div>
-            <h3 class="entry-title">Complymate</h3>
-            <div class="entry-role">Co-founder &amp; CEO</div>
+            <h3 class="entry-title">Local AI Hardware</h3>
+            <div class="entry-role">Speech · LLM Systems</div>
           </div>
-          <p class="entry-copy">Conducted 100+ customer interviews and led development of a compliance automation MVP with four $1B+ enterprise design partners.</p>
+          <p class="entry-copy">Designed a speech-to-LLM software system and custom hardware interface for private, local AI.</p>
         </article>
 
         <article class="entry project-entry">
-          <div class="entry-date">2024–2025</div>
+          <div class="entry-date">Platform</div>
           <div>
             <h3 class="entry-title">Happening Stanford</h3>
-            <div class="entry-role">Lead Developer</div>
+            <div class="entry-role">Campus Events</div>
           </div>
-          <p class="entry-copy">Built a campus event discovery platform that reached 1,500+ active users and 50% week-over-week growth.</p>
+          <p class="entry-copy">Built and scaled a web platform used by more than 1,500 Stanford students to find campus events.</p>
+        </article>
+
+        <article class="entry project-entry">
+          <div class="entry-date">Growth</div>
+          <div>
+            <h3 class="entry-title">Date Drop</h3>
+            <div class="entry-role">Go-to-market</div>
+          </div>
+          <p class="entry-copy">Launched go-to-market for a matchmaking platform and grew it from zero to 5,000 Stanford users.</p>
         </article>
       </div>
     </section>
@@ -635,7 +646,7 @@
       <div>
         <h2>Contact</h2>
         <div class="contact-links">
-          <a class="inline-link" href="mailto:lucasgravina00@gmail.com">lucasgravina00@gmail.com ↗</a>
+          <a class="inline-link" href="mailto:lgravina@stanford.edu">lgravina@stanford.edu ↗</a>
           <a class="inline-link" href="https://linkedin.com/in/lucas-gravina/" target="_blank" rel="noopener">LinkedIn ↗</a>
           <a class="inline-link" href="https://www.instagram.com/lucasgravina18/" target="_blank" rel="noopener">Instagram ↗</a>
         </div>
