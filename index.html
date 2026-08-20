@@ -476,6 +476,17 @@
       height: 90%;
     }
 
+    .dock-spotify {
+      overflow: hidden;
+      background: #1ed760;
+      color: #07130b;
+    }
+
+    .dock-spotify svg {
+      width: 74%;
+      height: 74%;
+    }
+
     .dock-resume {
       background: linear-gradient(#ffd836 0 22%, #fffdf5 22%);
     }
@@ -1139,6 +1150,314 @@
       padding-left: 1px;
     }
 
+    .spotify-window .window-content {
+      padding: 0;
+      overflow: hidden;
+      background: #000;
+      color: #f7f7f5;
+    }
+
+    .spotify-shell {
+      height: 100%;
+      display: grid;
+      grid-template-columns: minmax(96px, 23%) minmax(0, 1fr);
+      background: #000;
+    }
+
+    .spotify-sidebar {
+      display: grid;
+      align-content: start;
+      gap: clamp(12px, 1.45cqw, 20px);
+      padding: clamp(10px, 1.45cqw, 20px);
+      background: #050505;
+    }
+
+    .spotify-brand {
+      display: flex;
+      align-items: center;
+      gap: clamp(6px, 0.8cqw, 11px);
+      font-size: clamp(12px, 1.35cqw, 17px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+    }
+
+    .spotify-brand svg {
+      width: clamp(20px, 2.7cqw, 34px);
+      height: clamp(20px, 2.7cqw, 34px);
+      flex: none;
+    }
+
+    .spotify-sidebar-label {
+      color: #a7a7a7;
+      font-size: clamp(9px, 0.85cqw, 11px);
+      font-weight: 650;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .spotify-nav {
+      display: grid;
+      gap: clamp(7px, 0.9cqw, 12px);
+    }
+
+    .spotify-nav-item {
+      display: flex;
+      align-items: center;
+      gap: clamp(6px, 0.75cqw, 10px);
+      color: #b3b3b3;
+      font-size: clamp(9.5px, 0.95cqw, 13px);
+      font-weight: 650;
+    }
+
+    .spotify-nav-item.is-active {
+      color: #fff;
+    }
+
+    .spotify-nav-item svg {
+      width: clamp(14px, 1.65cqw, 20px);
+      height: clamp(14px, 1.65cqw, 20px);
+      flex: none;
+    }
+
+    .spotify-library-note {
+      margin: 0;
+      color: #777;
+      font-size: clamp(8px, 0.78cqw, 10px);
+      line-height: 1.35;
+    }
+
+    .spotify-main {
+      min-width: 0;
+      min-height: 0;
+      overflow: auto;
+      padding: clamp(10px, 1.35cqw, 18px);
+      background:
+        linear-gradient(180deg, #323232 0, #1c1c1c 36%, #121212 100%);
+      scrollbar-width: thin;
+      scrollbar-color: #4a4a4a transparent;
+    }
+
+    .spotify-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .spotify-history {
+      display: flex;
+      gap: clamp(4px, 0.55cqw, 8px);
+    }
+
+    .spotify-history span {
+      display: grid;
+      place-items: center;
+      width: clamp(18px, 2.25cqw, 28px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.58);
+      color: #cfcfcf;
+      font-size: clamp(12px, 1.45cqw, 18px);
+      line-height: 1;
+    }
+
+    .spotify-profile-pill {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px 3px 3px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.78);
+      color: #fff;
+      font-size: clamp(8.5px, 0.82cqw, 11px);
+      font-weight: 700;
+    }
+
+    .spotify-profile-pill span:first-child {
+      display: grid;
+      place-items: center;
+      width: clamp(16px, 1.9cqw, 23px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: #5b5b5b;
+      font-size: clamp(7px, 0.7cqw, 9px);
+    }
+
+    .spotify-main-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: clamp(8px, 1cqw, 14px);
+    }
+
+    .spotify-main-header h2 {
+      margin: 0;
+      font-size: clamp(17px, 2cqw, 27px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .spotify-main-header a {
+      color: #b3b3b3;
+      font-size: clamp(8px, 0.78cqw, 10px);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .spotify-playlist-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: clamp(6px, 0.8cqw, 11px);
+      margin-top: clamp(8px, 1.05cqw, 14px);
+    }
+
+    .spotify-playlist {
+      position: relative;
+      min-width: 0;
+      display: block;
+      padding: clamp(4px, 0.55cqw, 7px);
+      border: 0;
+      border-radius: 6px;
+      background: rgba(24, 24, 24, 0.92);
+      color: #fff;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      transition: background 150ms ease, transform 150ms ease;
+    }
+
+    .spotify-playlist:hover,
+    .spotify-playlist:focus-visible {
+      background: #292929;
+      transform: translateY(-1px);
+    }
+
+    .spotify-playlist:focus-visible {
+      outline: 1px solid rgba(255, 255, 255, 0.82);
+      outline-offset: 1px;
+    }
+
+    .spotify-playlist img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 4px;
+      object-fit: cover;
+      background: #282828;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.34);
+    }
+
+    .spotify-playlist strong {
+      display: block;
+      min-width: 0;
+      overflow: hidden;
+      margin-top: clamp(4px, 0.5cqw, 7px);
+      color: #fff;
+      font-size: clamp(9px, 0.88cqw, 11.5px);
+      line-height: 1.15;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .spotify-playlist small {
+      display: block;
+      margin-top: 2px;
+      overflow: hidden;
+      color: #9f9f9f;
+      font-size: clamp(7.5px, 0.7cqw, 9px);
+      line-height: 1.2;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .spotify-card-play {
+      position: absolute;
+      right: clamp(7px, 0.7cqw, 10px);
+      top: clamp(37px, 4.9cqw, 59px);
+      display: grid;
+      place-items: center;
+      width: clamp(18px, 2.25cqw, 28px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: #1ed760;
+      color: #08130c;
+      font-size: clamp(8px, 0.8cqw, 11px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.48);
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 150ms ease, transform 150ms ease;
+    }
+
+    .spotify-playlist:hover .spotify-card-play,
+    .spotify-playlist:focus-visible .spotify-card-play {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    [data-spotify-view][hidden] {
+      display: none !important;
+    }
+
+    .spotify-player-view {
+      display: grid;
+      grid-template-rows: auto minmax(352px, 1fr);
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .spotify-player-bar {
+      position: sticky;
+      z-index: 3;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: calc(clamp(10px, 1.35cqw, 18px) * -1) calc(clamp(10px, 1.35cqw, 18px) * -1) clamp(7px, 0.85cqw, 11px);
+      padding: clamp(8px, 1cqw, 12px) clamp(10px, 1.35cqw, 18px) 7px;
+      background: #121212;
+    }
+
+    .spotify-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 9px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.64);
+      color: #fff;
+      font: inherit;
+      font-size: clamp(9px, 0.88cqw, 12px);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .spotify-current-title {
+      min-width: 0;
+      overflow: hidden;
+      color: #b3b3b3;
+      font-size: clamp(8.5px, 0.82cqw, 11px);
+      font-weight: 650;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .spotify-embed {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 352px;
+      border: 0;
+      border-radius: 12px;
+      background: #181818;
+    }
+
     .dragging,
     .dragging * {
       cursor: grabbing !important;
@@ -1200,7 +1519,7 @@
 
     body {
       background-color: #070706;
-      background-image: url("assets/banker-lamp-imac-scene-v3-keyboard-mouse.png");
+      background-image: url("assets/banker-lamp-imac-scene-v7-radio-cordless-aligned.png");
       background-repeat: no-repeat;
       background-attachment: fixed;
       background-size: var(--scene-width) var(--scene-height);
@@ -1310,12 +1629,93 @@
       opacity: 0;
     }
 
+    .scene-radio {
+      position: absolute;
+      z-index: 80;
+      left: 81.4%;
+      top: 55.4%;
+      width: 11.2%;
+      height: 29.8%;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .scene-radio::after {
+      content: "Open Spotify";
+      position: absolute;
+      left: 50%;
+      bottom: 100%;
+      padding: 5px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.17);
+      border-radius: 6px;
+      background: rgba(16, 16, 15, 0.88);
+      color: white;
+      font-size: clamp(9px, 0.72vw, 11px);
+      font-weight: 600;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate(-50%, 4px);
+      transition: opacity 150ms ease, transform 150ms ease;
+    }
+
+    .scene-radio:hover::after,
+    .scene-radio:focus-visible::after {
+      opacity: 1;
+      transform: translate(-50%, -3px);
+    }
+
+    .scene-radio:focus-visible {
+      outline: none;
+    }
+
+    .radio-callout {
+      position: absolute;
+      z-index: 82;
+      left: 81%;
+      top: 45%;
+      width: clamp(130px, 12%, 190px);
+      color: #fff;
+      pointer-events: none;
+      opacity: 0;
+      filter: drop-shadow(0 2px 7px rgba(0, 0, 0, 0.76));
+      transform: translate(-5px, -4px);
+      transition: opacity 380ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .radio-callout span {
+      display: block;
+      margin-left: 2%;
+      font-size: clamp(18px, 1.55vw, 25px);
+      font-weight: 850;
+      line-height: 1;
+      letter-spacing: -0.035em;
+      transform: rotate(-4deg);
+    }
+
+    .radio-callout svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin-top: -4px;
+      overflow: visible;
+    }
+
+    body.lamp-is-on:not(.spotify-has-been-tried) .radio-callout {
+      opacity: 1;
+      transform: translate(0, 0);
+      transition-delay: 1380ms;
+    }
+
     #window-about,
     #window-resume,
     #window-experience,
     #window-projects,
     #window-education,
-    #window-photos {
+    #window-photos,
+    #window-spotify {
       left: 2.5% !important;
       top: 7% !important;
       width: 83%;
@@ -1327,7 +1727,8 @@
     #window-experience.is-maximized,
     #window-projects.is-maximized,
     #window-education.is-maximized,
-    #window-photos.is-maximized {
+    #window-photos.is-maximized,
+    #window-spotify.is-maximized {
       left: 1.2% !important;
       top: 6.2% !important;
       width: 84.5%;
@@ -1595,7 +1996,6 @@
     }
 
     .lamp-pull {
-      --pull-distance: 0px;
       position: fixed;
       z-index: 155;
       left: calc(var(--scene-left) + var(--scene-width) * 0.169 - 25px);
@@ -1623,33 +2023,47 @@
       border-radius: 999px;
     }
 
-    .lamp-cord-line {
+    .lamp-cord-visual {
       position: absolute;
-      left: calc(50% - 0.75px);
-      top: 0;
-      width: 1.5px;
-      height: calc(72% + var(--pull-distance));
-      background: linear-gradient(90deg, #7a5628, #d9b36c 48%, #68431c);
-      box-shadow: 0 0 2px rgba(255, 214, 145, 0.32);
-      transition: height 380ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+      filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.72));
     }
 
-    .lamp-cord-bead {
-      position: absolute;
-      left: calc(50% - 5px);
-      top: calc(72% - 4px + var(--pull-distance));
-      width: 10px;
-      height: 13px;
-      border: 1px solid rgba(64, 38, 13, 0.7);
-      border-radius: 50% 50% 46% 46%;
-      background: radial-gradient(circle at 35% 30%, #e2bd72, #9b682d 54%, #4d2e12 100%);
-      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.55);
-      transition: top 380ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    .lamp-cord-shadow,
+    .lamp-cord-chain,
+    .lamp-cord-glint {
+      fill: none;
+      stroke-linecap: round;
+      vector-effect: non-scaling-stroke;
     }
 
-    .lamp-pull.is-pulling .lamp-cord-line,
-    .lamp-pull.is-pulling .lamp-cord-bead {
-      transition: none;
+    .lamp-cord-shadow {
+      stroke: rgba(44, 25, 9, 0.92);
+      stroke-width: 2.4;
+    }
+
+    .lamp-cord-chain {
+      stroke: #b77c31;
+      stroke-width: 1.55;
+      stroke-dasharray: 0.65 2.1;
+    }
+
+    .lamp-cord-glint {
+      stroke: rgba(255, 220, 153, 0.74);
+      stroke-width: 0.55;
+      stroke-dasharray: 0.45 2.3;
+    }
+
+    .lamp-cord-weight {
+      fill: url(#cord-weight-fill);
+      stroke: rgba(54, 31, 11, 0.9);
+      stroke-width: 0.7;
+      vector-effect: non-scaling-stroke;
     }
 
     @media (max-width: 820px) {
@@ -1790,8 +2204,7 @@
       .lamp-callout,
       .monitor-callout,
       .folders-callout,
-      .lamp-cord-line,
-      .lamp-cord-bead {
+      .lamp-cord-visual {
         transition-duration: 1ms;
       }
     }
@@ -1934,12 +2347,35 @@
   </aside>
 
   <button class="lamp-pull" type="button" aria-label="Pull the cord to turn on the lamp and computer" aria-pressed="false">
-    <span class="lamp-cord-line" aria-hidden="true"></span>
-    <span class="lamp-cord-bead" aria-hidden="true"></span>
+    <svg class="lamp-cord-visual" viewBox="0 0 50 100" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <radialGradient id="cord-weight-fill" cx="32%" cy="25%" r="78%">
+          <stop offset="0" stop-color="#f0cf86" />
+          <stop offset="0.42" stop-color="#bd7e31" />
+          <stop offset="1" stop-color="#4f2d0e" />
+        </radialGradient>
+      </defs>
+      <path class="lamp-cord-shadow" data-cord-shadow d="M25 72C25 49 25 24 25 0" />
+      <path class="lamp-cord-chain" data-cord-chain d="M25 72C25 49 25 24 25 0" />
+      <path class="lamp-cord-glint" data-cord-glint d="M24.7 72C24.7 49 24.7 24 24.7 0" />
+      <g data-cord-weight transform="translate(25 72)">
+        <ellipse class="lamp-cord-weight" cx="0" cy="0" rx="4.4" ry="2.45" />
+      </g>
+    </svg>
   </button>
 
   <main class="concept">
     <div class="monitor-stage" aria-label="Interactive desktop computer">
+      <button class="scene-radio" type="button" data-open="spotify" aria-controls="window-spotify" aria-expanded="false" aria-label="Open Spotify from the desk radio"></button>
+
+      <aside class="radio-callout" aria-hidden="true">
+        <span>tune in</span>
+        <svg viewBox="0 0 240 150" aria-hidden="true">
+          <path d="M24 20C74 8 94 39 82 63C75 81 91 99 111 118" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="m99 101 14 18-23 1" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </aside>
+
       <aside class="monitor-callout" aria-hidden="true">
         <span class="callout-label">try it out!</span>
         <svg class="callout-arrow" viewBox="0 0 240 92">
@@ -2293,6 +2729,104 @@
           </div>
         </article>
 
+        <article class="mac-window spotify-window" id="window-spotify" data-window="spotify">
+          <header class="window-titlebar">
+            <div class="traffic-lights">
+              <button class="traffic close" type="button" data-close aria-label="Close Spotify"></button>
+              <button class="traffic minimize" type="button" data-close aria-label="Minimize Spotify"></button>
+              <button class="traffic maximize" type="button" data-maximize aria-label="Maximize Spotify"></button>
+            </div>
+            <h2 class="window-title">Spotify</h2>
+            <a class="titlebar-action" href="https://open.spotify.com/user/31ct4cc7ogficlmindm6wnufo3ry" target="_blank" rel="noopener">Open profile ↗</a>
+          </header>
+          <div class="window-content">
+            <div class="spotify-shell">
+              <aside class="spotify-sidebar">
+                <div class="spotify-brand">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="12" fill="#1ed760"/>
+                    <path d="M5.2 9.1c4.7-1.4 10.1-.9 13.8 1.2M6.1 12.4c4-1.1 8.7-.7 12 1M7 15.4c3.3-.8 7-.5 9.8.8" fill="none" stroke="#07130b" stroke-width="1.55" stroke-linecap="round"/>
+                  </svg>
+                  <span>Spotify</span>
+                </div>
+                <nav class="spotify-nav" aria-label="Spotify navigation">
+                  <span class="spotify-nav-item is-active">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z" fill="currentColor"/></svg>
+                    Home
+                  </span>
+                  <span class="spotify-nav-item">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.7" cy="10.7" r="6.7" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m16 16 5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+                    Search
+                  </span>
+                </nav>
+                <span class="spotify-sidebar-label">Your Library</span>
+                <p class="spotify-library-note">10 playlists<br />selected by Lucas</p>
+              </aside>
+              <section class="spotify-main">
+                <div data-spotify-view="home">
+                  <div class="spotify-toolbar" aria-hidden="true">
+                    <div class="spotify-history"><span>‹</span><span>›</span></div>
+                    <div class="spotify-profile-pill"><span>LG</span><span>Lucas</span></div>
+                  </div>
+                  <div class="spotify-main-header">
+                    <h2>Lucas's playlists</h2>
+                    <a href="https://open.spotify.com/user/31ct4cc7ogficlmindm6wnufo3ry" target="_blank" rel="noopener">Show all ↗</a>
+                  </div>
+                  <div class="spotify-playlist-grid" aria-label="Lucas's Spotify playlists">
+                    <button class="spotify-playlist" type="button" data-playlist-id="3U9aluTkU8srZTXNGsi70g" data-playlist-title="Is This It?">
+                      <img src="https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da8466a8b073762a6c4d64e55416" alt="Is This It? playlist cover" loading="lazy" />
+                      <span class="spotify-card-play" aria-hidden="true">▶</span><strong>Is This It?</strong><small>Playlist</small>
+                    </button>
+                    <button class="spotify-playlist" type="button" data-playlist-id="1uaT4HTDpgEtU5pWOt7KUI" data-playlist-title="lost shoegazing">
+                      <img src="https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da844ee4f04f0e750ee5c8283702" alt="lost shoegazing playlist cover" loading="lazy" />
+                      <span class="spotify-card-play" aria-hidden="true">▶</span><strong>lost shoegazing</strong><small>Playlist</small>
+                    </button>
+                    <button class="spotify-playlist" type="button" data-playlist-id="1DYpd48E5B2UPfedBfT7K2" data-playlist-title="Slowing the sunrise">
+                      <img src="https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da848f804d726bc9f18bb4b8817f" alt="Slowing the sunrise playlist cover" loading="lazy" />
+                      <span class="spotify-card-play" aria-hidden="true">▶</span><strong>Slowing the sunrise</strong><small>Playlist</small>
+                    </button>
+                    <button class="spotify-playlist" type="button" data-playlist-id="0MqRmitLMxdKLhQau7Wbj0" data-playlist-title="Who’s Naked?">
+                      <img src="https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84e4814b6eaf0b10a46e690285" alt="Who’s Naked? playlist cover" loading="lazy" />
+                      <span class="spotify-card-play" aria-hidden="true">▶</span><strong>Who’s Naked?</strong><small>Playlist</small>
+                    </button>
+                    <button class="spotify-playlist" type="button" data-playlist-id="32XzTqjwhp3NtQPLv1xWfa" data-playlist-title="Sweet 70s wednesday evening">
+                      <img src="https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84754440658c58dc6307bdef0b" alt="Sweet 70s wednesday evening playlist cover" loading="lazy" />
+                      <span class="spotify-card-play" aria-hidden="true">▶</span><strong>Sweet 70s wednesday evening</strong><small>Playlist</small>
+                    </button>
+                    <button class="spotify-playlist" type="button" data-playlist-id="5lgM6cP6I0ezdlUBkmPH4k" data-playlist-title="fuzzy birds on a sunny afternoon">
+                      <img src="https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84629431f5cff4b96733ce44f1" alt="fuzzy birds on a sunny afternoon playlist cover" loading="lazy" />
+                      <span class="spotify-card-play" aria-hidden="true">▶</span><strong>fuzzy birds on a sunny afternoon</strong><small>Playlist</small>
+                    </button>
+                    <button class="spotify-playlist" type="button" data-playlist-id="1dJmJYG2UYX5ksj1WXZDqR" data-playlist-title="Sleepy Lilac Tree">
+                      <img src="https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84a0327df8140f6918e16456aa" alt="Sleepy Lilac Tree playlist cover" loading="lazy" />
+                      <span class="spotify-card-play" aria-hidden="true">▶</span><strong>Sleepy Lilac Tree</strong><small>Playlist</small>
+                    </button>
+                    <button class="spotify-playlist" type="button" data-playlist-id="2dp9TDKcBHWFHbdvWgNj5X" data-playlist-title="the Northern Sky leans">
+                      <img src="https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da848fa0dd420fbe820e4f2e2f42" alt="the Northern Sky leans playlist cover" loading="lazy" />
+                      <span class="spotify-card-play" aria-hidden="true">▶</span><strong>the Northern Sky leans</strong><small>Playlist</small>
+                    </button>
+                    <button class="spotify-playlist" type="button" data-playlist-id="0wx7hK9wFVy5U3UsoEfIay" data-playlist-title="Mac n Cheez">
+                      <img src="https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84079e6e60791fe32b4d869607" alt="Mac n Cheez playlist cover" loading="lazy" />
+                      <span class="spotify-card-play" aria-hidden="true">▶</span><strong>Mac n Cheez</strong><small>Playlist</small>
+                    </button>
+                    <button class="spotify-playlist" type="button" data-playlist-id="7AGtrhqOVFPAWowXiFgwUV" data-playlist-title="am i living it right?">
+                      <img src="https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84f23f379fa6fa756609937294" alt="am i living it right? playlist cover" loading="lazy" />
+                      <span class="spotify-card-play" aria-hidden="true">▶</span><strong>am i living it right?</strong><small>Playlist</small>
+                    </button>
+                  </div>
+                </div>
+                <div class="spotify-player-view" data-spotify-view="player" hidden>
+                  <div class="spotify-player-bar">
+                    <button class="spotify-back" type="button" data-spotify-back>← Playlists</button>
+                    <span class="spotify-current-title" data-spotify-current-title></span>
+                  </div>
+                  <iframe class="spotify-embed" data-testid="embed-iframe" data-spotify-frame title="Spotify playlist player" src="about:blank" width="100%" height="352" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+              </section>
+            </div>
+          </div>
+        </article>
+
         <article class="mac-window photos-window" id="window-photos" data-window="photos">
           <header class="window-titlebar">
             <div class="traffic-lights">
@@ -2325,6 +2859,11 @@
                 <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#ff2d55" transform="rotate(315)"/>
                 <circle r="5.5" fill="#fff"/>
               </g>
+            </svg>
+          </button>
+          <button class="dock-icon dock-spotify" type="button" data-open="spotify" aria-label="Open Spotify">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4.8 8.8c4.8-1.4 10.3-.9 14 1.2M5.8 12.2c4.1-1.1 8.8-.7 12.1 1M6.8 15.3c3.3-.8 7-.5 9.8.8" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round"/>
             </svg>
           </button>
           <a class="dock-icon dock-mail" href="mailto:lgravina@stanford.edu" aria-label="Email Lucas">
@@ -2364,6 +2903,13 @@
       const photoReel = document.querySelector(".photo-reel");
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const cursorBubble = document.querySelector(".cursor-bubble");
+      const spotifyHome = document.querySelector('[data-spotify-view="home"]');
+      const spotifyPlayer = document.querySelector('[data-spotify-view="player"]');
+      const spotifyFrame = document.querySelector("[data-spotify-frame]");
+      const spotifyMain = document.querySelector("#window-spotify .spotify-main");
+      const spotifyCurrentTitle = document.querySelector("[data-spotify-current-title]");
+      const spotifyPlaylistButtons = [...document.querySelectorAll("[data-playlist-id]")];
+      const spotifyBack = document.querySelector("[data-spotify-back]");
       let photoDrag = null;
       let photoLastTime = null;
       let pointerTargetX = window.innerWidth / 2;
@@ -2399,8 +2945,15 @@
         if (event.pointerType !== "touch") cursorBubble.classList.add("is-pressed");
       });
 
-      document.addEventListener("pointerup", () => cursorBubble.classList.remove("is-pressed"));
-      document.addEventListener("pointercancel", () => cursorBubble.classList.remove("is-pressed"));
+      const releaseCursorPress = () => cursorBubble.classList.remove("is-pressed");
+      document.addEventListener("pointerup", releaseCursorPress);
+      document.addEventListener("pointercancel", releaseCursorPress);
+      window.addEventListener("pointerup", releaseCursorPress, true);
+      window.addEventListener("pointercancel", releaseCursorPress, true);
+      window.addEventListener("blur", releaseCursorPress);
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) releaseCursorPress();
+      });
       document.documentElement.addEventListener("mouseleave", () => cursorBubble.classList.remove("is-visible"));
 
       [false, true].forEach((duplicate) => {
@@ -2475,6 +3028,38 @@
 
       window.requestAnimationFrame(animatePhotoReel);
 
+      function resetSpotifyPlayer() {
+        spotifyFrame.src = "about:blank";
+        spotifyFrame.title = "Spotify playlist player";
+        spotifyCurrentTitle.textContent = "";
+        spotifyHome.hidden = false;
+        spotifyPlayer.hidden = true;
+        spotifyMain.scrollTop = 0;
+      }
+
+      function openSpotifyPlaylist(button) {
+        const { playlistId, playlistTitle } = button.dataset;
+        spotifyCurrentTitle.textContent = playlistTitle;
+        spotifyFrame.title = `Spotify playlist: ${playlistTitle}`;
+        spotifyFrame.src = `https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator`;
+        spotifyHome.hidden = true;
+        spotifyPlayer.hidden = false;
+        spotifyMain.scrollTop = 0;
+        button.blur();
+        window.requestAnimationFrame(() => { spotifyMain.scrollTop = 0; });
+      }
+
+      spotifyPlaylistButtons.forEach((button) => {
+        button.title = button.dataset.playlistTitle;
+        button.addEventListener("click", () => openSpotifyPlaylist(button));
+      });
+
+      spotifyBack.addEventListener("click", resetSpotifyPlayer);
+      spotifyFrame.addEventListener("load", () => {
+        if (!spotifyPlayer.hidden) spotifyMain.scrollTop = 0;
+      });
+      document.addEventListener("spotify:reset", resetSpotifyPlayer);
+
       function setExpanded(name, expanded) {
         document.querySelectorAll(`.desktop-folder[data-open="${name}"]`).forEach((folder) => {
           folder.setAttribute("aria-expanded", String(expanded));
@@ -2497,10 +3082,18 @@
       function closeWindow(windowEl) {
         windowEl.classList.remove("is-open", "is-maximized");
         setExpanded(windowEl.dataset.window, false);
+        if (windowEl.dataset.window === "spotify") resetSpotifyPlayer();
       }
 
       openers.forEach((opener) => {
         opener.addEventListener("click", () => {
+          if (opener.dataset.open === "spotify" && !document.body.classList.contains("lamp-is-on")) {
+            document.body.classList.add("lamp-is-on");
+            const lampPull = document.querySelector(".lamp-pull");
+            lampPull.setAttribute("aria-pressed", "true");
+            lampPull.setAttribute("aria-label", "Pull the cord to turn off the lamp and computer");
+          }
+          if (opener.dataset.open === "spotify") document.body.classList.add("spotify-has-been-tried");
           document.body.classList.add("desktop-has-been-tried");
           openWindow(opener.dataset.open);
         });
@@ -2590,56 +3183,272 @@
       openWindow("about");
     })();
   </script>
+  <script src="assets/lamp-pull-chain.js"></script>
   <script>
     (() => {
+      if (window.initLampPullChain) {
+        window.initLampPullChain();
+        return;
+      }
       const pull = document.querySelector(".lamp-pull");
       const body = document.body;
+      const cordShadow = pull.querySelector("[data-cord-shadow]");
+      const cordChain = pull.querySelector("[data-cord-chain]");
+      const cordGlint = pull.querySelector("[data-cord-glint]");
+      const cordWeight = pull.querySelector("[data-cord-weight]");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const anchor = { x: 25, y: 0 };
+      const rest = { x: 25, y: 72 };
+      const target = { ...rest };
+      const segmentCount = 12;
+      const points = Array.from({ length: segmentCount + 1 }, (_, index) => {
+        const y = rest.y * (index / segmentCount);
+        return { x: anchor.x, y, previousX: anchor.x, previousY: y };
+      });
+      const weight = points[points.length - 1];
+      let ropeLength = rest.y;
+      let ropeLengthVelocity = 0;
       let drag = null;
+      let hoverOffset = 0;
+      let frame = null;
+      let lastFrameTime = performance.now();
 
       function setLamp(on) {
         body.classList.toggle("lamp-is-on", on);
-        if (!on) body.classList.remove("desktop-has-been-tried");
+        if (!on) {
+          body.classList.remove("desktop-has-been-tried", "spotify-has-been-tried");
+          document.dispatchEvent(new Event("spotify:reset"));
+        }
         pull.setAttribute("aria-pressed", String(on));
         pull.setAttribute("aria-label", `Pull the cord to turn ${on ? "off" : "on"} the lamp and computer`);
       }
 
-      function resetPull() {
+      function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+      }
+
+      function cordPath() {
+        const reversed = [...points].reverse();
+        let path = `M${reversed[0].x.toFixed(2)} ${reversed[0].y.toFixed(2)}`;
+        for (let index = 1; index < reversed.length - 1; index += 1) {
+          const current = reversed[index];
+          const next = reversed[index + 1];
+          const middleX = (current.x + next.x) / 2;
+          const middleY = (current.y + next.y) / 2;
+          path += `Q${current.x.toFixed(2)} ${current.y.toFixed(2)} ${middleX.toFixed(2)} ${middleY.toFixed(2)}`;
+        }
+        const last = reversed[reversed.length - 1];
+        path += `L${last.x.toFixed(2)} ${last.y.toFixed(2)}`;
+        return path;
+      }
+
+      function drawCord() {
+        const path = cordPath();
+        cordShadow.setAttribute("d", path);
+        cordChain.setAttribute("d", path);
+        cordGlint.setAttribute("d", path);
+        cordWeight.setAttribute("transform", `translate(${weight.x.toFixed(2)} ${weight.y.toFixed(2)})`);
+      }
+
+      function constrainRope() {
+        const segmentLength = ropeLength / segmentCount;
+        for (let pass = 0; pass < 7; pass += 1) {
+          points[0].x = anchor.x;
+          points[0].y = anchor.y;
+
+          for (let index = 0; index < segmentCount; index += 1) {
+            const upper = points[index];
+            const lower = points[index + 1];
+            const dx = lower.x - upper.x;
+            const dy = lower.y - upper.y;
+            const distance = Math.max(0.0001, Math.hypot(dx, dy));
+            const correction = (distance - segmentLength) / distance;
+
+            if (index === 0) {
+              lower.x -= dx * correction;
+              lower.y -= dy * correction;
+              continue;
+            }
+
+            const upperInverseMass = 1;
+            const lowerInverseMass = index === segmentCount - 1 ? 0.42 : 1;
+            const inverseMassTotal = upperInverseMass + lowerInverseMass;
+            upper.x += dx * correction * (upperInverseMass / inverseMassTotal);
+            upper.y += dy * correction * (upperInverseMass / inverseMassTotal);
+            lower.x -= dx * correction * (lowerInverseMass / inverseMassTotal);
+            lower.y -= dy * correction * (lowerInverseMass / inverseMassTotal);
+          }
+        }
+
+        points[0].x = anchor.x;
+        points[0].y = anchor.y;
+      }
+
+      function startPhysics() {
+        if (frame !== null) return;
+        lastFrameTime = performance.now();
+        frame = window.requestAnimationFrame(stepPhysics);
+      }
+
+      function stepPhysics(time) {
+        frame = null;
+        const delta = clamp((time - lastFrameTime) / 16.667, 0.45, 2);
+        lastFrameTime = time;
+
+        if (reducedMotion) {
+          const endX = drag ? target.x : rest.x + hoverOffset;
+          const endY = drag ? target.y : rest.y;
+          points.forEach((node, index) => {
+            const progress = index / segmentCount;
+            node.x = anchor.x + (endX - anchor.x) * progress;
+            node.y = anchor.y + (endY - anchor.y) * progress;
+            node.previousX = node.x;
+            node.previousY = node.y;
+          });
+        } else {
+          const desiredLength = drag ? rest.y + Math.max(0, target.y - rest.y) : rest.y;
+          ropeLengthVelocity = (ropeLengthVelocity + (desiredLength - ropeLength) * 0.052 * delta) * Math.pow(0.82, delta);
+          ropeLength = clamp(ropeLength + ropeLengthVelocity * delta, rest.y, 118);
+
+          for (let index = 1; index < points.length; index += 1) {
+            const node = points[index];
+            const velocityX = (node.x - node.previousX) * Math.pow(index === segmentCount ? 0.958 : 0.91, delta);
+            const velocityY = (node.y - node.previousY) * Math.pow(index === segmentCount ? 0.964 : 0.918, delta);
+            node.previousX = node.x;
+            node.previousY = node.y;
+            node.x += velocityX * delta;
+            node.y += velocityY * delta + (0.036 + index * 0.0044) * delta * delta;
+          }
+
+          if (drag) {
+            weight.x += (target.x - weight.x) * 0.48 * delta;
+            weight.y += (target.y - weight.y) * 0.48 * delta;
+          } else {
+            weight.x += (rest.x + hoverOffset - weight.x) * 0.018 * delta;
+          }
+
+          constrainRope();
+        }
+
+        drawCord();
+
+        const maximumVelocity = points.slice(1).reduce((largest, node) => {
+          return Math.max(largest, Math.hypot(node.x - node.previousX, node.y - node.previousY));
+        }, 0);
+        const stillMoving = drag || Math.abs(ropeLength - rest.y) > 0.02 || Math.abs(ropeLengthVelocity) > 0.01 || Math.abs(weight.x - (rest.x + hoverOffset)) > 0.02 || maximumVelocity > 0.018;
+        if (stillMoving) frame = window.requestAnimationFrame(stepPhysics);
+      }
+
+      function resetPull(pointerId = null) {
+        drag = null;
+        hoverOffset = 0;
+        target.x = rest.x;
+        target.y = rest.y;
         pull.classList.remove("is-pulling");
-        pull.style.setProperty("--pull-distance", "0px");
+        if (pointerId !== null) {
+          try {
+            if (pull.hasPointerCapture(pointerId)) pull.releasePointerCapture(pointerId);
+          } catch (error) {
+            // Safari can drop pointer capture before its cancellation event arrives.
+          }
+        }
+        startPhysics();
       }
 
       pull.addEventListener("pointerdown", (event) => {
-        if (event.button !== 0 && event.pointerType !== "touch") return;
+        if (event.pointerType !== "touch" && event.button !== 0) return;
         event.preventDefault();
-        drag = { pointerId: event.pointerId, startY: event.clientY };
+        const rect = pull.getBoundingClientRect();
+        drag = {
+          pointerId: event.pointerId,
+          startX: event.clientX,
+          startY: event.clientY,
+          lastX: event.clientX,
+          lastY: event.clientY,
+          baseX: weight.x,
+          baseY: weight.y,
+          unitX: 50 / rect.width,
+          unitY: 100 / rect.height,
+          maxPull: 0,
+          distance: 0
+        };
+        hoverOffset = 0;
         pull.classList.add("is-pulling");
-        pull.setPointerCapture(event.pointerId);
+        try {
+          pull.setPointerCapture(event.pointerId);
+        } catch (error) {
+          // The window-level release handlers still prevent a stuck drag state.
+        }
+        startPhysics();
       });
 
       pull.addEventListener("pointermove", (event) => {
-        if (!drag || drag.pointerId !== event.pointerId) return;
-        const distance = Math.max(0, Math.min(38, event.clientY - drag.startY));
-        pull.style.setProperty("--pull-distance", `${distance}px`);
+        if (!drag || drag.pointerId !== event.pointerId) {
+          const rect = pull.getBoundingClientRect();
+          hoverOffset = clamp((event.clientX - (rect.left + rect.width / 2)) * 0.09, -2.8, 2.8);
+          startPhysics();
+          return;
+        }
+
+        const dx = event.clientX - drag.startX;
+        const dy = event.clientY - drag.startY;
+        drag.distance = Math.max(drag.distance, Math.hypot(dx, dy));
+        target.x = clamp(drag.baseX + dx * drag.unitX * 0.96, -35, 85);
+        target.y = clamp(drag.baseY + dy * drag.unitY, 46, 118);
+        drag.maxPull = Math.max(drag.maxPull, target.y - rest.y);
+        weight.previousX -= (event.clientX - drag.lastX) * drag.unitX * 0.075;
+        weight.previousY -= (event.clientY - drag.lastY) * drag.unitY * 0.055;
+        drag.lastX = event.clientX;
+        drag.lastY = event.clientY;
+        startPhysics();
+      });
+
+      pull.addEventListener("pointerleave", () => {
+        if (drag) return;
+        hoverOffset = 0;
+        startPhysics();
       });
 
       function finishPull(event) {
         if (!drag || drag.pointerId !== event.pointerId) return;
-        drag = null;
-        setLamp(!body.classList.contains("lamp-is-on"));
-        resetPull();
+        const dragDistance = drag.distance;
+        const shouldToggle = drag.maxPull >= 3.3 || drag.distance < 4;
+        resetPull(event.pointerId);
+        if (shouldToggle) {
+          setLamp(!body.classList.contains("lamp-is-on"));
+          if (dragDistance < 4) {
+            ropeLength = Math.min(118, ropeLength + 4.5);
+            weight.y += 2.2;
+            weight.previousY -= 1.1;
+          }
+        }
       }
 
-      pull.addEventListener("pointerup", finishPull);
-      pull.addEventListener("pointercancel", (event) => {
+      window.addEventListener("pointerup", finishPull, true);
+      window.addEventListener("pointercancel", (event) => {
         if (!drag || drag.pointerId !== event.pointerId) return;
-        drag = null;
-        resetPull();
+        resetPull(event.pointerId);
+      }, true);
+      pull.addEventListener("lostpointercapture", (event) => {
+        if (drag && drag.pointerId === event.pointerId) resetPull();
+      });
+      window.addEventListener("blur", () => {
+        if (drag) resetPull(drag.pointerId);
+      });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden && drag) resetPull(drag.pointerId);
       });
 
       pull.addEventListener("click", (event) => {
         if (event.detail !== 0) return;
         setLamp(!body.classList.contains("lamp-is-on"));
+        ropeLength = Math.min(118, ropeLength + 4.5);
+        weight.y += 2.2;
+        weight.previousY -= 1.1;
+        startPhysics();
       });
+
+      drawCord();
     })();
   </script>
 </body>
