@@ -337,11 +337,27 @@
     }
 
     .desktop-folder[data-open="about"] {
-      order: -2;
+      order: 0;
+    }
+
+    .desktop-folder[data-open="education"] {
+      order: 1;
+    }
+
+    .desktop-folder[data-open="experience"] {
+      order: 2;
+    }
+
+    .desktop-folder[data-open="projects"] {
+      order: 3;
     }
 
     .desktop-folder[data-open="resume"] {
-      order: -1;
+      order: 4;
+    }
+
+    .desktop-folder[data-open="photos"] {
+      order: 5;
     }
 
     .desktop-folder:hover .folder-art {
@@ -1111,12 +1127,12 @@
 
     .education-list {
       display: grid;
-      gap: 1px;
+      gap: 0;
       margin: 0;
       padding-left: 1.15em;
       color: #252523;
       font-size: clamp(10.5px, 1.05cqw, 13px);
-      line-height: 1.18;
+      line-height: 1.12;
     }
 
     .education-list li {
@@ -1405,10 +1421,14 @@
       font-size: clamp(9px, 0.86cqw, 11px);
     }
 
-    .window-content p,
-    #window-about .window-content p {
+    .window-content p {
       font-size: clamp(12.5px, 1.2cqw, 14px);
       line-height: 1.35;
+    }
+
+    #window-about .window-content p {
+      font-size: clamp(18px, 1.8cqw, 21px);
+      line-height: 1.28;
     }
 
     .window-eyebrow,
@@ -1481,8 +1501,8 @@
     }
 
     #window-education .education-facts:last-child {
-      flex: 1 1 0;
-      min-height: 0;
+      flex: none;
+      min-height: auto;
       grid-template-columns: 1.1fr 0.9fr;
     }
 
@@ -1492,15 +1512,16 @@
     }
 
     #window-education .education-fact {
-      padding: 5px 7px;
+      padding: 8px 11px;
     }
 
     #window-education .education-facts:first-child .education-fact {
-      padding: 3px 6px;
+      padding: 6px 10px;
     }
 
     #window-education .education-facts:last-child .education-fact {
       align-content: start;
+      padding: 7px 12px;
     }
 
     #window-education .education-facts:last-child p {
@@ -1997,7 +2018,7 @@
               <div class="about-copy">
                 <span class="window-eyebrow">Lucas Gravina</span>
                 <h2>AI research,<br>product &amp; operations.</h2>
-                <p>Management Science &amp; Engineering and Computer Science student at Stanford. I build evaluation systems, products, and organizations around hard operational problems.</p>
+                <p>Management Science &amp; Engineering and Computer Science student at Stanford. I love building and working on products, improving organizations around hard operational problems, and exploring and travelling the world.</p>
                 <div class="about-links">
                   <a href="mailto:lgravina@stanford.edu">Email ↗</a>
                   <a href="https://linkedin.com/in/lucas-gravina/" target="_blank" rel="noopener">LinkedIn ↗</a>
