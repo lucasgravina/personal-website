@@ -1795,6 +1795,100 @@
         transition-duration: 1ms;
       }
     }
+
+    .mobile-gate {
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        min-height: var(--viewport-height);
+        overflow: auto;
+        background: #090909;
+      }
+
+      body::before,
+      .concept-header,
+      .desk-warmth,
+      .desk-darkness,
+      .lamp-callout,
+      .lamp-pull,
+      .concept,
+      .cursor-bubble {
+        display: none !important;
+      }
+
+      .mobile-gate {
+        position: relative;
+        z-index: 1000;
+        min-height: var(--viewport-height);
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        padding:
+          max(28px, env(safe-area-inset-top))
+          max(24px, env(safe-area-inset-right))
+          max(28px, env(safe-area-inset-bottom))
+          max(24px, env(safe-area-inset-left));
+        background: #090909;
+        color: #f4f4f2;
+      }
+
+      .mobile-gate__name {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: -0.025em;
+      }
+
+      .mobile-gate__content {
+        width: min(100%, 520px);
+        align-self: center;
+      }
+
+      .mobile-gate__content h1 {
+        max-width: 9em;
+        margin: 0;
+        font-size: clamp(40px, 11vw, 58px);
+        font-weight: 600;
+        line-height: 0.98;
+        letter-spacing: -0.055em;
+      }
+
+      .mobile-gate__content p {
+        max-width: 29em;
+        margin: 22px 0 0;
+        color: #a7a7a3;
+        font-size: 17px;
+        line-height: 1.45;
+      }
+
+      .mobile-gate__links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px 24px;
+        margin-top: 34px;
+      }
+
+      .mobile-gate__links a {
+        padding: 0 0 4px;
+        border-bottom: 1px solid rgba(244, 244, 242, 0.5);
+        color: #f4f4f2;
+        font-size: 15px;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .mobile-gate__links a:active {
+        opacity: 0.62;
+      }
+
+      .mobile-gate__note {
+        margin: 0;
+        color: #686864;
+        font-size: 12px;
+        letter-spacing: 0.015em;
+      }
+    }
   </style>
   <script>
     (() => {
@@ -1817,6 +1911,20 @@
   </script>
 </head>
 <body>
+  <section class="mobile-gate" aria-labelledby="mobile-gate-title">
+    <p class="mobile-gate__name">Lucas Gravina</p>
+    <div class="mobile-gate__content">
+      <h1 id="mobile-gate-title">This site needs a desktop.</h1>
+      <p>It is built as an interactive desk scene and works best on a larger screen.</p>
+      <nav class="mobile-gate__links" aria-label="Mobile links">
+        <a href="assets/Resume_Lucas_Gravina.pdf" target="_blank" rel="noopener">View resume ↗</a>
+        <a href="mailto:lgravina@stanford.edu">Email ↗</a>
+        <a href="https://linkedin.com/in/lucas-gravina/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </nav>
+    </div>
+    <p class="mobile-gate__note">Open lucasgravina.com on a computer for the full site.</p>
+  </section>
+
   <header class="concept-header">
     <h1 class="concept-name">Lucas Gravina</h1>
   </header>
