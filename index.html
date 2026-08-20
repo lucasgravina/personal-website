@@ -1709,6 +1709,294 @@
       transition-delay: 1380ms;
     }
 
+    .music-sticky {
+      position: absolute;
+      z-index: 112;
+      left: 68.3%;
+      top: 67%;
+      width: clamp(84px, 7.8%, 118px);
+      aspect-ratio: 1.08;
+      display: grid;
+      align-content: space-between;
+      padding: clamp(10px, 0.95vw, 15px) clamp(9px, 0.85vw, 13px) clamp(9px, 0.8vw, 12px);
+      overflow: visible;
+      border: 0;
+      clip-path: polygon(0 0, 100% 0, 100% 86%, 87% 100%, 0 100%);
+      background:
+        radial-gradient(circle at 17% 21%, rgba(255, 239, 181, 0.16) 0 0.7px, transparent 1.25px),
+        repeating-linear-gradient(8deg, rgba(74, 49, 8, 0.032) 0 1px, transparent 1px 4px),
+        linear-gradient(103deg, rgba(255, 205, 116, 0.24) 0%, rgba(255, 214, 129, 0.06) 42%, rgba(70, 43, 9, 0.18) 100%),
+        linear-gradient(154deg, #c9ad5c 0%, #bfa04d 64%, #9d8038 100%);
+      color: rgba(35, 29, 16, 0.9);
+      box-shadow:
+        2px 11px 15px rgba(0, 0, 0, 0.54),
+        1px 3px 4px rgba(0, 0, 0, 0.38),
+        inset 0 1px rgba(255, 239, 177, 0.18);
+      cursor: pointer;
+      filter: brightness(0.16) saturate(0.34) sepia(0.24) contrast(0.92);
+      transform: rotate(2.8deg) skewY(-0.7deg);
+      transform-origin: 24% 4%;
+      transition: filter 720ms ease, transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .music-sticky::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 16%;
+      background:
+        linear-gradient(90deg, rgba(255, 224, 149, 0.13), transparent 58%, rgba(58, 37, 8, 0.12)),
+        linear-gradient(rgba(66, 44, 12, 0.18), rgba(255, 240, 179, 0.05) 25%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .music-sticky::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 14%;
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, #77612e 0 48%, #c7aa58 52% 100%);
+      box-shadow: -2px -2px 5px rgba(46, 30, 7, 0.32);
+      pointer-events: none;
+    }
+
+    body.lamp-is-on .music-sticky {
+      filter: brightness(0.76) saturate(0.84) sepia(0.16) contrast(0.95) drop-shadow(2px 6px 7px rgba(0, 0, 0, 0.34));
+    }
+
+    .music-sticky:hover,
+    .music-sticky:focus-visible {
+      box-shadow: 2px 12px 17px rgba(0, 0, 0, 0.5), 1px 3px 4px rgba(0, 0, 0, 0.3);
+      transform: rotate(2.2deg) skewY(-0.5deg) translateY(-1px);
+    }
+
+    .music-sticky:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.92);
+      outline-offset: 4px;
+    }
+
+    .music-sticky__main {
+      position: relative;
+      z-index: 1;
+      font-family: "Bradley Hand", "Segoe Print", "Chalkboard SE", cursive;
+      font-size: clamp(14px, 1.25vw, 19px);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.045em;
+      text-align: left;
+      transform: rotate(-2deg);
+    }
+
+    .music-sticky__foot {
+      position: relative;
+      z-index: 1;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-size: clamp(7px, 0.58vw, 9px);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      opacity: 0.7;
+    }
+
+    .music-rec-overlay[hidden] {
+      display: none;
+    }
+
+    .music-rec-overlay {
+      position: fixed;
+      z-index: 20000;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(4, 4, 4, 0.72);
+      backdrop-filter: blur(14px) saturate(0.75);
+      -webkit-backdrop-filter: blur(14px) saturate(0.75);
+      animation: music-rec-fade 180ms ease-out;
+    }
+
+    .music-rec-card {
+      width: min(100%, 540px);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 20px;
+      background: #efede5;
+      color: #171716;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
+      animation: music-rec-rise 240ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .music-rec-card__header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: start;
+      padding: 24px 24px 20px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    .music-rec-card__header h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 46px);
+      font-weight: 620;
+      line-height: 0.93;
+      letter-spacing: -0.06em;
+    }
+
+    .music-rec-card__header p {
+      max-width: 34em;
+      margin: 12px 0 0;
+      color: #66635d;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .music-rec-close {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border: 1px solid rgba(0, 0, 0, 0.14);
+      border-radius: 50%;
+      background: transparent;
+      color: #171716;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .music-rec-form {
+      display: grid;
+      gap: 18px;
+      padding: 22px 24px 24px;
+    }
+
+    .music-rec-field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .music-rec-field label {
+      color: #5e5b55;
+      font-size: 11px;
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .music-rec-field input,
+    .music-rec-field textarea {
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.24);
+      border-radius: 0;
+      outline: 0;
+      background: transparent;
+      color: #171716;
+      font: inherit;
+      resize: none;
+    }
+
+    .music-rec-field input {
+      height: 42px;
+    }
+
+    .music-rec-field:first-child input {
+      height: 50px;
+      font-size: 20px;
+      font-weight: 580;
+      letter-spacing: -0.025em;
+    }
+
+    .music-rec-field textarea {
+      min-height: 64px;
+      padding: 10px 0;
+      line-height: 1.4;
+    }
+
+    .music-rec-field input:focus,
+    .music-rec-field textarea:focus {
+      border-bottom-color: #171716;
+    }
+
+    .music-rec-field input::placeholder,
+    .music-rec-field textarea::placeholder {
+      color: #aaa69d;
+    }
+
+    .music-rec-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 2px;
+    }
+
+    .music-rec-actions small {
+      color: #77736c;
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    .music-rec-submit {
+      flex: none;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 999px;
+      background: #171716;
+      color: #f7f5ee;
+      font-size: 12px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .music-rec-submit:hover {
+      background: #343330;
+    }
+
+    .music-rec-submit:disabled {
+      cursor: wait;
+      opacity: 0.66;
+    }
+
+    .music-rec-status {
+      min-height: 1em;
+      margin: -7px 0 0;
+      color: #68645e;
+      font-size: 11px;
+    }
+
+    .music-rec-status[data-state="success"] {
+      color: #1e6d3d;
+      font-weight: 700;
+    }
+
+    .music-rec-status[data-state="error"] {
+      color: #a2332d;
+      font-weight: 700;
+    }
+
+    .music-rec-honeypot {
+      position: fixed !important;
+      left: -10000px !important;
+      width: 1px !important;
+      height: 1px !important;
+      overflow: hidden !important;
+    }
+
+    @keyframes music-rec-fade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes music-rec-rise {
+      from { opacity: 0; transform: translateY(16px) scale(0.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
     #window-about,
     #window-resume,
     #window-experience,
@@ -2376,6 +2664,11 @@
         </svg>
       </aside>
 
+      <button class="music-sticky" type="button" data-music-rec-open aria-haspopup="dialog" aria-controls="music-recommendation-dialog">
+        <span class="music-sticky__main">put me on<br />something</span>
+        <span class="music-sticky__foot">song / album / artist ↗</span>
+      </button>
+
       <aside class="monitor-callout" aria-hidden="true">
         <span class="callout-label">try it out!</span>
         <svg class="callout-arrow" viewBox="0 0 240 92">
@@ -2555,7 +2848,7 @@
               <div class="about-copy">
                 <span class="window-eyebrow">Lucas Gravina</span>
                 <h2>AI research,<br>product &amp; operations.</h2>
-                <p>Management Science &amp; Engineering and Computer Science student at Stanford. I love building and working on products, improving organizations around hard operational problems, and exploring and travelling the world.</p>
+                <p>Management Science &amp; Engineering and Computer Science student at Stanford. I love building and working on products, improving organizations around hard operational problems, and exploring and traveling the world.</p>
                 <div class="about-links">
                   <a href="mailto:lgravina@stanford.edu">Email ↗</a>
                   <a href="https://linkedin.com/in/lucas-gravina/" target="_blank" rel="noopener">LinkedIn ↗</a>
@@ -2880,6 +3173,40 @@
     </div>
   </main>
 
+  <div class="music-rec-overlay" data-music-rec-overlay hidden>
+    <section class="music-rec-card" id="music-recommendation-dialog" role="dialog" aria-modal="true" aria-labelledby="music-rec-title">
+      <header class="music-rec-card__header">
+        <div>
+          <h2 id="music-rec-title">put me on something</h2>
+          <p>song, album, artist, article, video...</p>
+        </div>
+        <button class="music-rec-close" type="button" data-music-rec-close aria-label="Close music recommendation">×</button>
+      </header>
+      <form class="music-rec-form" data-music-rec-form>
+        <div class="music-rec-honeypot" aria-hidden="true">
+          <label for="music-company">Company</label>
+          <input id="music-company" data-music-rec-honeypot type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <div class="music-rec-field">
+          <label for="music-recommendation">What should I check out?</label>
+          <input id="music-recommendation" data-music-rec-recommendation type="text" autocomplete="off" placeholder="Paste a link or type a name" required />
+        </div>
+        <div class="music-rec-field">
+          <label for="music-reason">Why this one? <span aria-hidden="true">(optional)</span></label>
+          <textarea id="music-reason" data-music-rec-reason></textarea>
+        </div>
+        <div class="music-rec-field">
+          <label for="music-sender">Your name <span aria-hidden="true">(optional)</span></label>
+          <input id="music-sender" data-music-rec-sender type="text" autocomplete="name" />
+        </div>
+        <div class="music-rec-actions">
+          <button class="music-rec-submit" type="submit">send rec</button>
+        </div>
+        <p class="music-rec-status" data-music-rec-status aria-live="polite"></p>
+      </form>
+    </section>
+  </div>
+
   <div class="cursor-bubble" aria-hidden="true"></div>
 
   <script>
@@ -3183,6 +3510,7 @@
       openWindow("about");
     })();
   </script>
+  <script src="assets/music-recommendation.js"></script>
   <script src="assets/lamp-pull-chain.js"></script>
   <script>
     (() => {
