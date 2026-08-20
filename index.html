@@ -3,1009 +3,2521 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Lucas Gravina — Stanford Management Science & Engineering, AI researcher, builder, explorer. Selected work, writing, and adventures." />
-  <meta name="theme-color" content="#0a0a0f" />
-  <title>Lucas Gravina — Builder, Researcher, Explorer</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
+  <meta name="description" content="Lucas Gravina - Stanford student working across AI research, product, and operations." />
+  <meta name="theme-color" content="#090a0b" />
+  <title>Lucas Gravina</title>
   <style>
-    /* ------------------------------------------------------------------ */
-    /*  DESIGN SYSTEM                                                     */
-    /* ------------------------------------------------------------------ */
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    :root{
-      --bg:#0a0a0f;
-      --bg-elev:#0e0e15;
-      --fg:#ebe7db;
-      --fg-muted:rgba(235,231,219,0.62);
-      --fg-faint:rgba(235,231,219,0.38);
-      --fg-ghost:rgba(235,231,219,0.16);
-      --line:rgba(235,231,219,0.09);
-      --line-strong:rgba(235,231,219,0.18);
-      --accent:#6ea3ff;
-      --accent-soft:rgba(110,163,255,0.12);
-      --accent-grad:linear-gradient(120deg,#6ea3ff 0%,#a8c8ff 45%,#e9d5ff 100%);
-      --warm-grad:linear-gradient(120deg,#f3c78b 0%,#ebe7db 50%,#a8c8ff 100%);
-      --serif:'Fraunces',ui-serif,Georgia,serif;
-      --sans:'Inter','Helvetica Neue',Arial,sans-serif;
-      --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;
-      --ease:cubic-bezier(0.16,1,0.3,1);
-      --ease-in-out:cubic-bezier(0.65,0,0.35,1);
-      --page-pad:clamp(20px,4vw,56px);
+    :root {
+      --ink: #111111;
+      --muted: #6d6d69;
+      --paper: #090a0b;
+      --screen: rgba(236, 236, 232, 0.92);
+      --window: rgba(250, 250, 248, 0.94);
+      --window-line: rgba(0, 0, 0, 0.14);
+      --blue: #4da3f5;
+      --viewport-height: 100dvh;
     }
 
-    html{scroll-behavior:smooth;background:var(--bg);-webkit-font-smoothing:antialiased}
-    body{
-      background:var(--bg);color:var(--fg);
-      font-family:var(--sans);font-weight:400;font-size:15px;line-height:1.6;
-      overflow-x:hidden;
-      letter-spacing:-0.005em;
-    }
-    ::selection{background:var(--accent-soft);color:var(--fg)}
-
-    /* Subtle film grain */
-    body::after{
-      content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;
-      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.85'/%3E%3C/svg%3E");
-      opacity:0.035;mix-blend-mode:overlay;
+    * {
+      box-sizing: border-box;
     }
 
-    /* ------------------------------------------------------------------ */
-    /*  LOADER                                                            */
-    /* ------------------------------------------------------------------ */
-    #loader{
-      position:fixed;inset:0;z-index:9999;background:var(--bg);
-      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
-      transition:opacity .9s var(--ease),visibility .9s var(--ease);
-    }
-    #loader.out{opacity:0;visibility:hidden;pointer-events:none}
-    .loader-mark{
-      font-family:var(--serif);font-style:italic;font-weight:300;
-      font-size:clamp(3rem,6vw,5rem);letter-spacing:-0.04em;color:var(--fg);
-    }
-    .loader-line{width:140px;height:1px;background:var(--line-strong);overflow:hidden;position:relative}
-    .loader-line::after{
-      content:'';position:absolute;inset:0;width:0;background:var(--accent-grad);
-      animation:loadfill 1.4s var(--ease) forwards;
-    }
-    .loader-meta{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--fg-faint)}
-    @keyframes loadfill{to{width:100%}}
-
-    /* ------------------------------------------------------------------ */
-    /*  SCROLL PROGRESS                                                   */
-    /* ------------------------------------------------------------------ */
-    #scroll-progress{
-      position:fixed;top:0;left:0;height:1px;width:0;z-index:220;
-      background:var(--accent-grad);opacity:0.7;
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
     }
 
-    /* ------------------------------------------------------------------ */
-    /*  CURSOR                                                            */
-    /* ------------------------------------------------------------------ */
-    @media(hover:hover){
-      body{cursor:none}
-      a,button,input,.tilt,.proj-card,.exp-row{cursor:none}
-      #cursor-dot{position:fixed;top:0;left:0;width:5px;height:5px;background:var(--fg);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:difference}
-      #cursor-ring{position:fixed;top:0;left:0;width:36px;height:36px;border:1px solid var(--line-strong);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);transition:width .42s var(--ease),height .42s var(--ease),background-color .42s var(--ease),border-color .42s var(--ease)}
-      #cursor-ring.hover{width:72px;height:72px;background:var(--accent-soft);border-color:var(--accent)}
-    }
-    @media(hover:none){
-      #cursor-dot,#cursor-ring{display:none}
-    }
-
-    /* ------------------------------------------------------------------ */
-    /*  NAV                                                               */
-    /* ------------------------------------------------------------------ */
-    nav{
-      position:fixed;top:0;left:0;right:0;z-index:200;
-      display:flex;justify-content:space-between;align-items:center;
-      padding:22px var(--page-pad);
-      transition:background .5s var(--ease),padding .4s var(--ease),border-color .4s var(--ease);
-      border-bottom:1px solid transparent;
-    }
-    nav.scrolled{
-      background:rgba(10,10,15,0.72);backdrop-filter:blur(20px) saturate(1.4);
-      -webkit-backdrop-filter:blur(20px) saturate(1.4);
-      padding:14px var(--page-pad);border-bottom-color:var(--line);
-    }
-    .nav-logo{
-      font-family:var(--serif);font-weight:300;font-style:italic;
-      font-size:1.6rem;letter-spacing:-0.04em;color:var(--fg);text-decoration:none;
-      display:flex;align-items:baseline;gap:0;
-    }
-    .nav-logo::after{content:'.';color:var(--accent);margin-left:2px}
-    .nav-links{display:flex;gap:clamp(18px,3vw,40px);align-items:center}
-    .nav-links a{
-      font-family:var(--mono);font-size:0.62rem;text-decoration:none;
-      letter-spacing:0.18em;text-transform:uppercase;color:var(--fg-faint);
-      transition:color .3s var(--ease);position:relative;padding:6px 0;
-    }
-    .nav-links a .num{color:var(--fg-ghost);margin-right:6px}
-    .nav-links a:hover,.nav-links a.active{color:var(--fg)}
-    .nav-links a:hover .num,.nav-links a.active .num{color:var(--accent)}
-
-    /* ------------------------------------------------------------------ */
-    /*  STATUS PILL                                                       */
-    /* ------------------------------------------------------------------ */
-    .status-pill{
-      position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:150;
-      display:inline-flex;align-items:center;gap:10px;
-      padding:9px 18px 9px 14px;border:1px solid var(--line-strong);border-radius:999px;
-      background:rgba(10,10,15,0.65);backdrop-filter:blur(14px);
-      -webkit-backdrop-filter:blur(14px);
-      font-family:var(--mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg-muted);
-      transition:opacity .6s var(--ease),transform .6s var(--ease);
-      opacity:0;pointer-events:none;
-    }
-    .status-pill.show{opacity:1;pointer-events:auto}
-    .status-pill .dot{width:6px;height:6px;border-radius:50%;background:#7dd3fc;box-shadow:0 0 0 3px rgba(125,211,252,0.18);animation:pulse 2.4s var(--ease) infinite}
-    @keyframes pulse{
-      0%,100%{box-shadow:0 0 0 3px rgba(125,211,252,0.18)}
-      50%{box-shadow:0 0 0 6px rgba(125,211,252,0.04)}
-    }
-    .status-pill a{color:var(--fg);text-decoration:none;display:inline-flex;gap:6px;align-items:center}
-    .status-pill a::after{content:'→';font-family:var(--sans);transition:transform .3s var(--ease)}
-    .status-pill a:hover::after{transform:translateX(3px)}
-
-    /* ------------------------------------------------------------------ */
-    /*  HERO                                                              */
-    /* ------------------------------------------------------------------ */
-    #hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;isolation:isolate}
-    #hero-bg{position:absolute;inset:0;z-index:0}
-    #hero-bg canvas{width:100%!important;height:100%!important;display:block}
-    #hero::before{
-      content:'';position:absolute;inset:0;z-index:1;
+    body {
+      margin: 0;
+      overflow: hidden;
       background:
-        radial-gradient(ellipse 80% 40% at 50% 0%,rgba(10,10,15,0) 0%,rgba(10,10,15,0.4) 50%,rgba(10,10,15,0.6) 100%),
-        linear-gradient(to bottom,rgba(10,10,15,0.2) 0%,rgba(10,10,15,0) 25%,rgba(10,10,15,0.2) 60%,rgba(10,10,15,0.92) 80%,var(--bg) 90%);
+        radial-gradient(ellipse at 50% 42%, #22262b 0, #13161a 42%, #08090b 73%, #050607 100%),
+        var(--paper);
+      color: #f4f4f2;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .hero-inner{
-      position:relative;z-index:2;
-      padding:clamp(120px,18vh,200px) var(--page-pad) clamp(60px,10vh,120px);
-      display:grid;gap:40px;
-    }
-    .hero-eyebrow{
-      display:flex;align-items:center;gap:14px;
-      font-family:var(--mono);font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;
-      color:var(--fg-faint);
-      opacity:0;animation:reveal .9s var(--ease) .4s forwards;
-    }
-    .hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--fg-ghost)}
-    .hero-eyebrow .accent{color:var(--accent)}
-
-    .hero-name{
-      font-family:var(--serif);font-weight:300;
-      font-size:clamp(3.6rem,12vw,13.5rem);
-      line-height:0.9;letter-spacing:-0.045em;color:var(--fg);
-      display:block;
-    }
-    .hero-name .first,.hero-name .last{display:block;overflow:hidden;padding:0 0 .18em}
-    .hero-name .first span,.hero-name .last span{
-      display:inline-block;transform:translateY(115%);
-      animation:riseIn 1.1s var(--ease) .5s forwards;
-    }
-    .hero-name .last span{
-      font-style:italic;font-weight:300;animation-delay:.62s;
-      background:var(--warm-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
-    }
-
-    .hero-meta{
-      display:flex;align-items:baseline;gap:clamp(20px,4vw,56px);flex-wrap:wrap;
-      padding-top:10px;
-      opacity:0;animation:reveal .9s var(--ease) 1.1s forwards;
-    }
-    .hero-meta-block{display:flex;flex-direction:column;gap:6px;min-width:min(260px,80vw)}
-    .hero-meta-key{font-family:var(--mono);font-size:0.56rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--fg-ghost)}
-    .hero-meta-val{font-size:0.92rem;color:var(--fg-muted);letter-spacing:-0.005em}
-    .hero-meta-val strong{color:var(--fg);font-weight:500}
-    .hero-meta-val .role-rotator{display:inline-block;position:relative;height:1.3em;vertical-align:bottom;min-width:140px}
-    .role-rotator span{
-      position:absolute;left:0;top:0;white-space:nowrap;
-      opacity:0;transform:translateY(100%);transition:opacity .6s var(--ease),transform .6s var(--ease);
-      color:var(--fg);font-weight:500;
-    }
-    .role-rotator span.active{opacity:1;transform:translateY(0)}
-    .role-rotator span.past{opacity:0;transform:translateY(-100%)}
-
-    .hero-scroll-hint{
-      position:absolute;bottom:32px;right:var(--page-pad);z-index:3;
-      display:flex;align-items:center;gap:10px;
-      font-family:var(--mono);font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--fg-faint);
-      opacity:0;animation:reveal .9s var(--ease) 1.5s forwards;
-    }
-    .hero-scroll-hint .line{width:40px;height:1px;background:var(--fg-ghost);position:relative;overflow:hidden}
-    .hero-scroll-hint .line::after{
-      content:'';position:absolute;inset:0;left:-100%;width:100%;background:var(--fg);
-      animation:slide 2.4s var(--ease) infinite 1.8s;
-    }
-    @keyframes slide{0%{left:-100%}60%,100%{left:100%}}
-
-    /* MARQUEE */
-    .marquee{
-      position:relative;z-index:2;
-      border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-      overflow:hidden;padding:18px 0;
-      background:rgba(10,10,15,0.35);backdrop-filter:blur(6px);
-      -webkit-backdrop-filter:blur(6px);
-      margin-top:-60px;
-    }
-    .marquee-track{display:flex;width:max-content;animation:marq 40s linear infinite}
-    .marquee:hover .marquee-track{animation-play-state:paused}
-    .marquee-item{
-      display:flex;align-items:center;gap:38px;padding:0 38px;flex-shrink:0;white-space:nowrap;
-      font-family:var(--serif);font-weight:300;font-size:1.4rem;letter-spacing:-0.02em;color:var(--fg);
-    }
-    .marquee-item::after{content:'✦';color:var(--accent);font-size:0.8rem;opacity:0.55}
-    .marquee-item em{font-style:italic;color:var(--fg-muted)}
-    @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-    /* ------------------------------------------------------------------ */
-    /*  SECTIONS / RHYTHM                                                 */
-    /* ------------------------------------------------------------------ */
-    section,.sec{padding:clamp(80px,14vh,180px) var(--page-pad);position:relative}
-    .sec-inner{max-width:1360px;margin:0 auto}
-    .sec-head{
-      display:grid;grid-template-columns:minmax(180px,220px) 1fr;gap:clamp(32px,6vw,96px);
-      margin-bottom:clamp(60px,8vh,120px);align-items:end;
-    }
-    .sec-num{
-      font-family:var(--mono);font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;
-      color:var(--accent);display:flex;align-items:center;gap:10px;
-    }
-    .sec-num::before{content:'';width:20px;height:1px;background:var(--accent);display:inline-block}
-    .sec-title{
-      font-family:var(--serif);font-weight:300;
-      font-size:clamp(2.4rem,5.5vw,5rem);line-height:1;letter-spacing:-0.035em;color:var(--fg);
-      max-width:16ch;
-    }
-    .sec-title em{font-style:italic;background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-    .sec-sub{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--fg-faint);margin-top:16px}
-
-    /* ------------------------------------------------------------------ */
-    /*  ABOUT                                                             */
-    /* ------------------------------------------------------------------ */
-    .about{border-top:1px solid var(--line)}
-    .about-grid{
-      display:flex;flex-direction:column;align-items:center;
-      gap:clamp(32px,6vw,96px);
-    }
-    .about-label{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);position:sticky;top:120px}
-    .about-copy{max-width:720px;display:flex;flex-direction:column;gap:28px;text-align:center;align-items:center}
-    .about-lead{
-      font-family:var(--serif);font-weight:300;font-style:italic;
-      font-size:clamp(1.5rem,2.6vw,2.4rem);line-height:1.22;letter-spacing:-0.02em;color:var(--fg);
-    }
-    .about-lead strong{font-style:normal;font-weight:400;color:var(--fg);position:relative}
-    .about-lead strong::after{content:'';position:absolute;left:0;right:0;bottom:-4px;height:1px;background:var(--accent)}
-    .about-body p{color:var(--fg-muted);font-size:0.95rem;line-height:1.85}
-    .about-body p+p{margin-top:18px}
-    .about-inline-link{color:var(--fg);border-bottom:1px solid var(--line-strong);padding-bottom:1px;text-decoration:none;transition:color .25s,border-color .25s}
-    .about-inline-link:hover{color:var(--accent);border-color:var(--accent)}
-
-    .about-stats{
-      display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:48px;
-      border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--line);
-    }
-    .stat{padding:28px 24px;background:var(--bg);display:flex;flex-direction:column;gap:8px}
-    .stat-val{
-      font-family:var(--serif);font-weight:300;font-size:clamp(2.2rem,3.4vw,3rem);
-      line-height:1;letter-spacing:-0.03em;color:var(--fg);
-    }
-    .stat-val em{font-style:italic;color:var(--accent)}
-    .stat-lbl{font-family:var(--mono);font-size:0.54rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--fg-faint)}
-
-    /* ------------------------------------------------------------------ */
-    /*  WORK                                                              */
-    /* ------------------------------------------------------------------ */
-    .work{border-top:1px solid var(--line)}
-    .exp-list{display:flex;flex-direction:column;border-top:1px solid var(--line)}
-    .exp-row{
-      display:grid;grid-template-columns:100px 1fr auto;gap:clamp(24px,4vw,64px);
-      padding:clamp(32px,5vh,56px) 0;border-bottom:1px solid var(--line);
-      position:relative;text-decoration:none;color:inherit;
-      transition:padding .45s var(--ease);
-    }
-    .exp-row::before{content:'';position:absolute;left:-20px;top:0;bottom:0;width:0;background:var(--accent);transition:width .4s var(--ease)}
-    .exp-row:hover{padding-left:20px}
-    .exp-row:hover::before{width:2px}
-    .exp-year{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.14em;color:var(--fg-faint);padding-top:14px;white-space:nowrap}
-    .exp-main{display:flex;flex-direction:column;gap:12px}
-    .exp-topline{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
-    .exp-company{
-      font-family:var(--serif);font-weight:300;
-      font-size:clamp(2rem,4.4vw,3.8rem);line-height:1;letter-spacing:-0.035em;color:var(--fg);
-      transition:color .3s var(--ease);
-    }
-    .exp-row:hover .exp-company{color:var(--accent)}
-    .exp-company em{font-style:italic}
-    .exp-role{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--fg-muted)}
-    .exp-desc{font-size:0.88rem;line-height:1.75;color:var(--fg-muted);max-width:64ch;margin-top:6px}
-    .exp-meta{display:flex;flex-direction:column;align-items:flex-end;gap:10px;padding-top:14px}
-    .exp-tag{
-      font-family:var(--mono);font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--fg-muted);
-      padding:5px 12px;border:1px solid var(--line-strong);border-radius:999px;
-    }
-    .exp-row:hover .exp-tag{color:var(--accent);border-color:var(--accent)}
-
-    /* ------------------------------------------------------------------ */
-    /*  PROJECTS                                                          */
-    /* ------------------------------------------------------------------ */
-    .projects{border-top:1px solid var(--line);overflow:hidden}
-    .proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(12px,1.5vw,20px)}
-    .proj-card{
-      position:relative;display:block;text-decoration:none;color:inherit;
-      background:var(--bg-elev);border:1px solid var(--line);
-      overflow:hidden;aspect-ratio:5/4;
-      transition:border-color .4s var(--ease),transform .6s var(--ease);
-    }
-    .proj-card:hover{border-color:var(--line-strong)}
-
-    .proj-visual{
-      position:absolute;inset:0;overflow:hidden;
-      transition:transform .8s var(--ease),filter .8s var(--ease);
-    }
-    .proj-card:hover .proj-visual{transform:scale(1.04);filter:brightness(0.65)}
-
-    /* Unique visuals per project */
-    .viz-tribe{background:
-      radial-gradient(circle at 60% 40%,rgba(168,200,255,0.28) 0%,transparent 50%),
-      radial-gradient(circle at 20% 70%,rgba(110,163,255,0.18) 0%,transparent 50%),
-      linear-gradient(135deg,#0c1020 0%,#0a0a0f 100%);
-    }
-    .viz-tribe::before{
-      content:'';position:absolute;inset:0;
-      background-image:
-        repeating-linear-gradient(90deg,transparent 0,transparent 39px,rgba(110,163,255,0.05) 39px,rgba(110,163,255,0.05) 40px),
-        repeating-linear-gradient(0deg,transparent 0,transparent 39px,rgba(110,163,255,0.05) 39px,rgba(110,163,255,0.05) 40px);
-      mask-image:radial-gradient(circle at 60% 40%,black 0%,transparent 65%);
-    }
-    .viz-checkout{background:
-      radial-gradient(circle at 70% 30%,rgba(110,163,255,0.35) 0%,transparent 55%),
-      radial-gradient(circle at 20% 80%,rgba(243,199,139,0.2) 0%,transparent 55%),
-      linear-gradient(135deg,#0d1022 0%,#0a0a0f 100%);
-    }
-    .viz-checkout::before{
-      content:'';position:absolute;inset:0;
-      background-image:
-        repeating-linear-gradient(0deg,transparent 0,transparent 19px,rgba(110,163,255,0.06) 19px,rgba(110,163,255,0.06) 20px),
-        repeating-linear-gradient(90deg,transparent 0,transparent 19px,rgba(110,163,255,0.06) 19px,rgba(110,163,255,0.06) 20px);
-      mask-image:radial-gradient(circle at 70% 40%,black 0%,transparent 70%);
-    }
-    .viz-benchmark{background:
-      radial-gradient(circle at 30% 40%,rgba(168,200,255,0.25) 0%,transparent 50%),
-      linear-gradient(160deg,#141428 0%,#0a0a0f 70%);
-    }
-    .viz-benchmark::before{
-      content:'';position:absolute;inset:0;
-      background-image:
-        linear-gradient(90deg,transparent 50%,rgba(168,200,255,0.1) 50%),
-        linear-gradient(90deg,rgba(110,163,255,0.1) 0,rgba(110,163,255,0) 40%);
-      background-size:4px 100%,100% 100%;
-      mix-blend-mode:screen;
-    }
-    .viz-mayfield{background:
-      radial-gradient(ellipse at 50% 100%,rgba(243,199,139,0.35) 0%,transparent 60%),
-      radial-gradient(ellipse at 20% 20%,rgba(247,147,203,0.15) 0%,transparent 50%),
-      linear-gradient(180deg,#1a1322 0%,#0a0a0f 100%);
-    }
-    .viz-mayfield::before{
-      content:'';position:absolute;inset:0;
-      background:repeating-radial-gradient(circle at 50% 110%,rgba(243,199,139,0.06) 0,rgba(243,199,139,0.06) 2px,transparent 2px,transparent 60px);
-    }
-    .viz-complymate{background:
-      linear-gradient(115deg,#0f1a2e 0%,#0a0a0f 55%,#10101a 100%);
-    }
-    .viz-complymate::before{
-      content:'';position:absolute;inset:0;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
       background:
-        linear-gradient(rgba(110,163,255,0.15),rgba(110,163,255,0.15)) 20% 30% / 60% 1px no-repeat,
-        linear-gradient(rgba(110,163,255,0.15),rgba(110,163,255,0.15)) 20% 50% / 40% 1px no-repeat,
-        linear-gradient(rgba(110,163,255,0.15),rgba(110,163,255,0.15)) 20% 70% / 50% 1px no-repeat,
-        radial-gradient(circle at 80% 40%,rgba(110,163,255,0.22) 0%,transparent 40%);
-    }
-    .viz-happening{background:
-      conic-gradient(from 180deg at 50% 50%,rgba(110,163,255,0.15) 0deg,rgba(243,199,139,0.12) 120deg,rgba(168,200,255,0.15) 240deg,rgba(110,163,255,0.15) 360deg),
-      #0b0e18;
-    }
-    .viz-happening::before{
-      content:'';position:absolute;inset:0;
-      background:radial-gradient(circle at 50% 50%,transparent 30%,rgba(10,10,15,0.8) 72%);
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.022) 0 1px, transparent 1px 5px),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 7px);
+      mix-blend-mode: soft-light;
     }
 
-    .proj-body{
-      position:absolute;inset:0;z-index:2;
-      padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;justify-content:space-between;
+    button,
+    a {
+      font: inherit;
     }
-    .proj-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
-    .proj-idx{
-      font-family:var(--mono);font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;
-      color:var(--fg-faint);
-    }
-    .proj-tags{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
-    .proj-tag{
-      font-family:var(--mono);font-size:0.52rem;letter-spacing:0.16em;text-transform:uppercase;
-      padding:4px 9px;border:1px solid var(--line-strong);border-radius:999px;color:var(--fg-muted);
-    }
-    .proj-bottom{display:flex;flex-direction:column;gap:12px}
-    .proj-title{
-      font-family:var(--serif);font-weight:300;
-      font-size:clamp(1.6rem,3vw,2.4rem);line-height:1.05;letter-spacing:-0.03em;color:var(--fg);
-      max-width:18ch;
-    }
-    .proj-title em{font-style:italic;background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-    .proj-desc{font-size:0.82rem;line-height:1.65;color:var(--fg-muted);max-width:44ch;opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
-    .proj-card:hover .proj-desc{opacity:1;transform:translateY(0)}
-    .proj-cta{
-      display:inline-flex;align-items:center;gap:8px;
-      font-family:var(--mono);font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--fg);
-      transition:gap .3s var(--ease),color .3s var(--ease);margin-top:4px;
-    }
-    .proj-card:hover .proj-cta{gap:14px;color:var(--accent)}
-    .proj-cta .arrow{display:inline-block;transition:transform .3s var(--ease)}
-    .proj-card:hover .proj-cta .arrow{transform:translate(2px,-2px)}
 
-    /* ------------------------------------------------------------------ */
-    /*  ADVENTURES CTA                                                    */
-    /* ------------------------------------------------------------------ */
-    .adventures-cta{
-      border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-      padding:clamp(80px,14vh,180px) var(--page-pad);
-      text-align:center;display:block;text-decoration:none;color:var(--fg);
-      position:relative;overflow:hidden;
+    button:focus-visible,
+    a:focus-visible {
+      outline: 2px solid #0a84ff;
+      outline-offset: 3px;
+    }
+
+    .concept-header {
+      position: fixed;
+      z-index: 100;
+      top: 16px;
+      left: 20px;
+      display: grid;
+      gap: 3px;
+      pointer-events: none;
+    }
+
+    .concept-name {
+      margin: 0;
+      font-size: clamp(20px, 2vw, 30px);
+      font-weight: 600;
+      letter-spacing: -0.045em;
+      text-shadow: 0 1px 18px rgba(0, 0, 0, 0.7);
+    }
+
+    .concept-note {
+      margin: 0;
+      color: #a7aaad;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    .concept {
+      width: 100%;
+      height: var(--viewport-height);
+      min-height: 0;
+      display: grid;
+      place-items: center;
+      padding: clamp(12px, 2vmin, 28px);
+      overflow: hidden;
+    }
+
+    .monitor-stage {
+      position: relative;
+      width: min(
+        calc(100vw - clamp(24px, 4vmin, 56px)),
+        calc((var(--viewport-height) - clamp(24px, 4vmin, 56px) + clamp(96px, 15vmin, 120px)) * 1.5),
+        1536px
+      );
+      aspect-ratio: 3 / 2;
+      flex: none;
+      transform: translateY(min(0px, calc((var(--viewport-height) - 100%) / 2 - 4px)));
+    }
+
+    .monitor-stage::before {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      left: 12.2%;
+      top: 3.2%;
+      width: 75.6%;
+      height: 64%;
+      pointer-events: none;
+      opacity: 0.72;
       background:
-        radial-gradient(ellipse 90% 120% at 50% 50%,rgba(110,163,255,0.12) 0%,transparent 55%),
-        radial-gradient(ellipse 70% 60% at 20% 30%,rgba(168,200,255,0.08) 0%,transparent 60%),
-        radial-gradient(ellipse 80% 70% at 80% 80%,rgba(110,163,255,0.1) 0%,transparent 55%),
-        linear-gradient(180deg,#0c0c14 0%,#0a0a0f 100%);
-    }
-    .adventures-cta::before{
-      content:'';position:absolute;inset:0;
-      background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(243,199,139,0.14) 0%,transparent 60%);
-      opacity:0.7;transition:opacity .6s var(--ease);
-    }
-    .adventures-cta:hover::before{opacity:1}
-    .adventures-cta-label{
-      font-family:var(--mono);font-size:0.62rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--accent);
-      margin-bottom:32px;display:block;
-    }
-    .adventures-cta-title{
-      font-family:var(--serif);font-weight:300;font-style:italic;
-      font-size:clamp(3.5rem,12vw,12rem);line-height:0.9;letter-spacing:-0.04em;color:var(--fg);
-      display:inline-block;position:relative;
-    }
-    .adventures-cta-title::after{
-      content:'↗';display:inline-block;margin-left:0.15em;font-style:normal;
-      font-family:var(--sans);font-weight:300;font-size:0.5em;vertical-align:0.35em;
-      color:var(--accent);transition:transform .5s var(--ease);
-    }
-    .adventures-cta:hover .adventures-cta-title::after{transform:translate(10px,-10px)}
-    .adventures-cta-sub{
-      font-family:var(--mono);font-size:0.64rem;letter-spacing:0.16em;text-transform:uppercase;
-      color:var(--fg-faint);margin-top:40px;
+        radial-gradient(ellipse at 32% 48%, rgba(255, 151, 122, 0.14), transparent 42%),
+        radial-gradient(ellipse at 70% 30%, rgba(132, 160, 219, 0.16), transparent 46%),
+        radial-gradient(ellipse at 50% 46%, rgba(216, 226, 242, 0.12), transparent 69%);
+      filter: blur(clamp(20px, 3.4vmin, 52px));
+      transform: scale(1.035);
     }
 
-    /* ------------------------------------------------------------------ */
-    /*  FOOTER                                                            */
-    /* ------------------------------------------------------------------ */
-    footer{padding:clamp(80px,12vh,140px) var(--page-pad) 32px;position:relative}
-    .foot-inner{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:clamp(40px,6vw,96px);align-items:flex-end}
-    .foot-headline{
-      font-family:var(--serif);font-weight:300;
-      font-size:clamp(3rem,9vw,9rem);line-height:0.92;letter-spacing:-0.045em;color:var(--fg);
+    .monitor-stage::after {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      left: 35%;
+      bottom: 2.4%;
+      width: 30%;
+      height: 4.5%;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.48);
+      filter: blur(clamp(8px, 1.4vmin, 20px));
     }
-    .foot-headline em{font-style:italic;background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-    .foot-label{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--fg-faint);margin-top:28px}
-    .foot-links{display:flex;flex-direction:column;gap:14px;align-items:flex-end;min-width:240px}
-    .foot-link{
-      display:inline-flex;align-items:center;gap:12px;
-      font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
-      color:var(--fg);text-decoration:none;
-      transition:color .3s var(--ease);
+
+    .monitor-photo {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
     }
-    .foot-link .arrow{display:inline-block;color:var(--accent);transition:transform .3s var(--ease)}
-    .foot-link:hover{color:var(--accent)}
-    .foot-link:hover .arrow{transform:translate(3px,-3px)}
 
-    .foot-base{
-      max-width:1360px;margin:80px auto 0;padding-top:28px;border-top:1px solid var(--line);
-      display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
-      font-family:var(--mono);font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--fg-ghost);
+    .desktop-screen {
+      position: absolute;
+      z-index: 2;
+      left: 14.32%;
+      top: 6.35%;
+      width: 71.29%;
+      height: 59.08%;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        linear-gradient(rgba(10, 14, 20, 0.03), rgba(10, 14, 20, 0.12)),
+        url("assets/desktop-background.webp") center / cover no-repeat;
+      color: #171717;
+      container-type: inline-size;
+      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.10);
     }
-    .foot-base a{color:var(--fg-faint);text-decoration:none;transition:color .25s}
-    .foot-base a:hover{color:var(--accent)}
 
-    /* ------------------------------------------------------------------ */
-    /*  UTILITIES                                                         */
-    /* ------------------------------------------------------------------ */
-    .reveal{opacity:0;transform:translateY(30px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
-    .reveal.visible{opacity:1;transform:none}
-    .reveal-d1{transition-delay:.08s}.reveal-d2{transition-delay:.16s}.reveal-d3{transition-delay:.24s}.reveal-d4{transition-delay:.32s}
+    .monitor-callout {
+      position: absolute;
+      z-index: 6;
+      left: 0.5%;
+      top: 15%;
+      width: clamp(150px, 18vw, 250px);
+      color: #ffffff;
+      pointer-events: none;
+      filter: drop-shadow(0 2px 7px rgba(0, 0, 0, 0.65));
+    }
 
-    @keyframes riseIn{to{transform:translateY(0)}}
-    @keyframes reveal{to{opacity:1}}
+    .callout-label {
+      display: block;
+      width: 78%;
+      margin: 0 0 -5px 2%;
+      font-size: clamp(20px, 2.1vw, 30px);
+      font-weight: 850;
+      letter-spacing: -0.055em;
+      line-height: 0.95;
+      text-align: center;
+      transform: rotate(-7deg);
+    }
 
-    /* ------------------------------------------------------------------ */
-    /*  RESPONSIVE                                                        */
-    /* ------------------------------------------------------------------ */
-    @media(max-width:960px){
-      .sec-head,.about-grid{grid-template-columns:1fr;gap:28px}
-      .about-label{position:static}
-      .about-stats{grid-template-columns:repeat(2,1fr)}
-      .exp-row{grid-template-columns:70px 1fr;gap:20px}
-      .exp-meta{grid-column:1/-1;flex-direction:row;align-items:center;gap:12px;padding-top:0}
-      .proj-grid{grid-template-columns:1fr}
-      .proj-card{aspect-ratio:4/3}
-      .foot-inner{grid-template-columns:1fr}
-      .foot-links{align-items:flex-start}
-      .nav-links{gap:14px}
-      .nav-links a{font-size:0.54rem}
-      .hero-scroll-hint{display:none}
-      .status-pill{bottom:16px;max-width:calc(100% - 32px);font-size:0.52rem}
+    .callout-arrow {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .cursor-bubble {
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid rgba(255, 255, 255, 0.92);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.52), rgba(188, 211, 255, 0.14) 45%, rgba(255, 255, 255, 0.04) 72%);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.38), inset 0 0 6px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate3d(-50%, -50%, 0);
+      transition: width 140ms ease, height 140ms ease, opacity 140ms ease, background 140ms ease;
+      will-change: left, top, width, height;
+    }
+
+    .cursor-bubble.is-visible {
+      opacity: 1;
+    }
+
+    .cursor-bubble.is-interactive {
+      width: 28px;
+      height: 28px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .cursor-bubble.is-pressed {
+      width: 12px;
+      height: 12px;
+    }
+
+    .desktop-screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        linear-gradient(115deg, transparent 0 43%, rgba(255, 255, 255, 0.09) 51%, transparent 62%),
+        radial-gradient(circle at 78% 86%, rgba(113, 145, 178, 0.08), transparent 40%);
+      pointer-events: none;
+    }
+
+    .menu-bar {
+      position: absolute;
+      z-index: 80;
+      inset: 0 0 auto;
+      height: 5.4%;
+      min-height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 1.1%;
+      color: #f5f5f5;
+      background: rgba(16, 18, 22, 0.48);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+      backdrop-filter: blur(18px) saturate(1.2);
+      -webkit-backdrop-filter: blur(18px) saturate(1.2);
+      font-size: clamp(8px, 0.69vw, 12px);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .menu-left,
+    .menu-right {
+      display: flex;
+      align-items: center;
+      gap: clamp(7px, 1.15vw, 18px);
+    }
+
+    .menu-owner {
+      font-weight: 700;
+    }
+
+    .menu-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .wifi {
+      position: relative;
+      width: 1.15em;
+      height: 0.8em;
+      overflow: hidden;
+    }
+
+    .wifi::before,
+    .wifi::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -0.45em;
+      border: 0.09em solid currentColor;
+      border-radius: 50%;
+      transform: translateX(-50%);
+    }
+
+    .wifi::before {
+      width: 1.1em;
+      height: 1.1em;
+    }
+
+    .wifi::after {
+      width: 0.52em;
+      height: 0.52em;
+    }
+
+    .folder-column {
+      position: absolute;
+      z-index: 10;
+      top: 9%;
+      right: 1.5%;
+      display: grid;
+      gap: clamp(6px, 1.2cqw, 16px);
+    }
+
+    .desktop-folder {
+      width: clamp(44px, 6.7cqw, 82px);
+      margin: 0;
+      padding: 0;
+      display: grid;
+      justify-items: center;
+      gap: clamp(2px, 0.42cqw, 6px);
+      border: 0;
+      background: transparent;
+      color: #ffffff;
+      cursor: default;
+      user-select: none;
+    }
+
+    .desktop-folder[data-open="about"] {
+      order: -2;
+    }
+
+    .desktop-folder[data-open="resume"] {
+      order: -1;
+    }
+
+    .desktop-folder:hover .folder-art {
+      transform: translateY(-1px);
+      filter: saturate(1.06) brightness(1.03);
+    }
+
+    .desktop-folder:active .folder-art {
+      transform: scale(0.97);
+    }
+
+    .folder-art {
+      width: clamp(29px, 4.7cqw, 58px);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.18));
+      transition: transform 120ms ease, filter 120ms ease;
+    }
+
+    .photos-app-art {
+      width: clamp(31px, 4.9cqw, 60px);
+      filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.28));
+    }
+
+    .folder-label {
+      max-width: 100%;
+      padding: 1px 3px;
+      border-radius: 3px;
+      font-size: clamp(8px, 0.82cqw, 12px);
+      font-weight: 500;
+      line-height: 1.08;
+      text-align: center;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 7px rgba(0, 0, 0, 0.5);
+    }
+
+    .desktop-folder[aria-expanded="true"] .folder-label {
+      background: transparent;
+      color: white;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 7px rgba(0, 0, 0, 0.5);
+    }
+
+    .desktop-folder:focus-visible {
+      outline: none;
+    }
+
+    .desktop-dock {
+      position: absolute;
+      z-index: 70;
+      left: 50%;
+      bottom: 1.45%;
+      display: flex;
+      align-items: end;
+      gap: clamp(3px, 0.48cqw, 7px);
+      padding: clamp(3px, 0.5cqw, 7px);
+      transform: translateX(-50%);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      border-radius: clamp(7px, 1.1cqw, 15px);
+      background: rgba(28, 29, 32, 0.46);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    }
+
+    .dock-icon {
+      position: relative;
+      width: clamp(18px, 2.55cqw, 34px);
+      aspect-ratio: 1;
+      border: 0;
+      border-radius: 21%;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      color: white;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.38), 0 2px 4px rgba(0, 0, 0, 0.16);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .dock-icon:hover {
+      transform: translateY(-10%);
+    }
+
+    .dock-finder {
+      overflow: hidden;
+      background: linear-gradient(90deg, #65b7ff 0 50%, #2e87d6 50%);
+    }
+
+    .dock-finder::before {
+      content: "";
+      position: absolute;
+      top: 20%;
+      left: 48%;
+      width: 18%;
+      height: 46%;
+      border-left: 1px solid rgba(0, 0, 0, 0.55);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.55);
+      border-radius: 0 0 0 40%;
+    }
+
+    .dock-mail {
+      background: linear-gradient(145deg, #68c2ff, #0876e8);
+    }
+
+    .dock-mail svg {
+      width: 63%;
+      height: 63%;
+    }
+
+    .dock-photos {
+      overflow: hidden;
+      background: #f7f7f7;
+    }
+
+    .dock-photos svg {
+      width: 90%;
+      height: 90%;
+    }
+
+    .dock-resume {
+      background: linear-gradient(#ffd836 0 22%, #fffdf5 22%);
+    }
+
+    .dock-resume::before {
+      content: "";
+      width: 62%;
+      height: 46%;
+      background: repeating-linear-gradient(to bottom, #d8d3c9 0 1px, transparent 1px 24%);
+    }
+
+    .dock-linkedin {
+      margin-left: clamp(3px, 0.4cqw, 6px);
+      background: linear-gradient(145deg, #1686c4, #0967a1);
+      font-size: clamp(8px, 1.25cqw, 17px);
+      font-weight: 750;
+      letter-spacing: -0.08em;
+    }
+
+    .dock-separator {
+      width: 1px;
+      height: clamp(15px, 2.1cqw, 28px);
+      margin: 0 clamp(1px, 0.2cqw, 3px);
+      background: rgba(0, 0, 0, 0.18);
+    }
+
+    .mac-window {
+      --window-x: 8%;
+      --window-y: 13%;
+      position: absolute;
+      z-index: 30;
+      left: var(--window-x);
+      top: var(--window-y);
+      width: 76%;
+      height: 75%;
+      overflow: hidden;
+      display: none;
+      border: 1px solid var(--window-line);
+      border-radius: clamp(5px, 0.78cqw, 12px);
+      background: var(--window);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(30px) saturate(1.2);
+      -webkit-backdrop-filter: blur(30px) saturate(1.2);
+      transform-origin: 50% 78%;
+    }
+
+    .mac-window.is-open {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      animation: window-open 170ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .mac-window.is-maximized {
+      left: 1.2% !important;
+      top: 6.4% !important;
+      width: 97.6%;
+      height: 91.8%;
+      border-radius: 4px;
+    }
+
+    @keyframes window-open {
+      from {
+        opacity: 0;
+        transform: scale(0.96) translateY(2%);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .window-titlebar {
+      min-height: clamp(20px, 3.25cqw, 40px);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 clamp(7px, 1cqw, 14px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      background: linear-gradient(rgba(255, 255, 255, 0.82), rgba(235, 235, 232, 0.82));
+      user-select: none;
+      cursor: default;
+    }
+
+    .traffic-lights {
+      display: flex;
+      gap: clamp(3px, 0.48cqw, 7px);
+    }
+
+    .traffic {
+      width: clamp(7px, 0.88cqw, 12px);
+      aspect-ratio: 1;
+      border: 0;
+      border-radius: 50%;
+      padding: 0;
+      cursor: default;
+      box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.18);
+    }
+
+    .traffic.close {
+      background: #ff5f57;
+    }
+
+    .traffic.minimize {
+      background: #febc2e;
+    }
+
+    .traffic.maximize {
+      background: #28c840;
+    }
+
+    .window-title {
+      margin: 0;
+      font-size: clamp(8px, 0.9cqw, 13px);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      text-align: center;
+    }
+
+    .titlebar-action {
+      justify-self: end;
+      color: #3c3c3a;
+      font-size: clamp(8px, 0.78cqw, 11px);
+      font-weight: 650;
+      text-decoration: none;
+    }
+
+    .titlebar-action:hover {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .window-content {
+      min-height: 0;
+      overflow: auto;
+      padding: clamp(12px, 2.4cqw, 34px);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 0, 0, 0.22) transparent;
+    }
+
+    .resume-pdf-window {
+      left: 4% !important;
+      top: 8% !important;
+      width: 89%;
+      height: 88%;
+      background: #525659;
+    }
+
+    .resume-pdf-window .window-content {
+      padding: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      background: #d1d1d1;
+      scrollbar-color: rgba(0, 0, 0, 0.34) transparent;
+    }
+
+    .resume-pdf-window.is-maximized {
+      left: 1.2% !important;
+      top: 6.4% !important;
+      width: 97.6%;
+      height: 91.8%;
+    }
+
+    .resume-page {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: white;
+    }
+
+    .photos-window {
+      left: 5% !important;
+      top: 8% !important;
+      width: 84%;
+      height: 84%;
+      background: #090909;
+    }
+
+    .photos-window.is-maximized {
+      left: 1.2% !important;
+      top: 6.4% !important;
+      width: 97.6%;
+      height: 91.8%;
+    }
+
+    .photos-content {
+      position: relative;
+      padding: 0;
+      overflow: hidden;
+      background: #090909;
+    }
+
+    .photo-reel-viewport {
+      width: 100%;
+      height: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      background: #090909;
+      cursor: grab;
+      scrollbar-width: none;
+      touch-action: pan-x;
+      overscroll-behavior-x: contain;
+    }
+
+    .photo-reel-viewport::-webkit-scrollbar {
+      display: none;
+    }
+
+    .photo-reel-viewport.is-dragging {
+      cursor: grabbing;
+      scroll-behavior: auto;
+    }
+
+    .photo-reel {
+      width: max-content;
+      height: 100%;
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .photo-reel img {
+      flex: none;
+      display: block;
+      width: auto;
+      max-width: none;
+      height: 100%;
+      object-fit: contain;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .window-content h2,
+    .window-content h3,
+    .window-content p {
+      margin: 0;
+    }
+
+    .window-content h2 {
+      font-size: clamp(18px, 2.3cqw, 34px);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .window-content h3 {
+      font-size: clamp(11px, 1.2cqw, 17px);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+    }
+
+    .window-content p {
+      font-size: clamp(10px, 1.02cqw, 14px);
+      line-height: 1.42;
+    }
+
+    .window-eyebrow,
+    .window-meta {
+      color: #73736f;
+      font-size: clamp(8px, 0.8cqw, 11px);
+      font-weight: 650;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    #window-about .window-content,
+    #window-experience .window-content,
+    #window-projects .window-content,
+    #window-education .window-content {
+      padding: clamp(7px, 1.25cqw, 18px);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(230, 232, 232, 0.82)),
+        #e9eae8;
+    }
+
+    #window-projects .window-content,
+    #window-education .window-content {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(94px, 0.55fr);
+      gap: clamp(7px, 1.25cqw, 18px);
+      align-items: stretch;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .about-copy {
+      position: relative;
+      display: grid;
+      align-content: end;
+      gap: clamp(5px, 0.78cqw, 11px);
+      overflow: hidden;
+      padding: clamp(8px, 1.6cqw, 23px);
+      border: 1px solid rgba(0, 0, 0, 0.09);
+      border-radius: clamp(7px, 1.1cqw, 16px);
+      background: rgba(255, 255, 253, 0.92);
+      box-shadow: 0 8px 26px rgba(42, 45, 47, 0.09);
+    }
+
+    .about-copy::before {
+      content: "01";
+      position: absolute;
+      top: clamp(10px, 1.4cqw, 20px);
+      right: clamp(12px, 1.5cqw, 22px);
+      color: rgba(0, 0, 0, 0.14);
+      font-size: clamp(9px, 1.1cqw, 16px);
+      font-weight: 750;
+      letter-spacing: 0.08em;
+    }
+
+    #window-about .window-content h2 {
+      max-width: 12ch;
+      font-size: clamp(20px, 2.8cqw, 40px);
+    }
+
+    #window-about .window-eyebrow {
+      font-size: clamp(9px, 0.9cqw, 12px);
+    }
+
+    #window-about .window-content p {
+      font-size: clamp(10px, 1.05cqw, 14px);
+      line-height: 1.38;
+    }
+
+    .about-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(5px, 0.7cqw, 10px);
+    }
+
+    .about-links a {
+      padding: clamp(4px, 0.55cqw, 8px) clamp(7px, 0.9cqw, 13px);
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 999px;
+      color: #1a1a19;
+      background: rgba(247, 247, 244, 0.88);
+      font-size: clamp(8px, 0.84cqw, 12px);
+      font-weight: 650;
+      text-decoration: none;
+      transition: color 120ms ease, background 120ms ease, transform 120ms ease;
+    }
+
+    .about-links a:hover {
+      color: white;
+      background: #171716;
+      transform: translateY(-1px);
+    }
+
+    .about-stamp {
+      align-self: stretch;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: clamp(7px, 1.1cqw, 16px);
+      background: #202124;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.13), 0 9px 24px rgba(0, 0, 0, 0.16);
+      overflow: hidden;
+    }
+
+    .about-stamp img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 52% center;
+    }
+
+    .resume-list,
+    .education-block,
+    .projects-grid {
+      display: grid;
+      gap: clamp(12px, 2.2cqw, 30px);
+    }
+
+    .resume-heading,
+    .projects-heading,
+    .education-heading {
+      display: grid;
+      gap: clamp(2px, 0.35cqw, 5px);
+      margin-bottom: clamp(7px, 1.05cqw, 15px);
+    }
+
+    .resume-entry,
+    .project-item {
+      display: grid;
+      gap: clamp(4px, 0.72cqw, 10px);
+    }
+
+    .entry-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .entry-date {
+      flex: none;
+      color: #71716d;
+      font-size: clamp(6px, 0.7cqw, 10px);
+      font-weight: 650;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .entry-role {
+      color: #6b6b67;
+      font-size: clamp(7px, 0.79cqw, 12px);
+      font-weight: 600;
+    }
+
+    .projects-grid {
+      min-height: 0;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+      gap: clamp(5px, 0.85cqw, 12px);
+      counter-reset: project-card;
+    }
+
+    .project-item {
+      position: relative;
+      align-content: start;
+      min-height: 0;
+      overflow: visible;
+      padding: clamp(8px, 1.2cqw, 17px);
+      border: 1px solid rgba(0, 0, 0, 0.09);
+      border-radius: clamp(6px, 0.9cqw, 13px);
+      background: rgba(255, 255, 253, 0.9);
+      box-shadow: 0 5px 15px rgba(31, 34, 36, 0.06);
+      counter-increment: project-card;
+    }
+
+    .project-item::before {
+      content: "0" counter(project-card);
+      position: absolute;
+      top: clamp(7px, 0.9cqw, 12px);
+      right: clamp(8px, 1cqw, 14px);
+      color: rgba(0, 0, 0, 0.16);
+      font-size: clamp(7px, 0.74cqw, 11px);
+      font-weight: 750;
+      letter-spacing: 0.08em;
+    }
+
+    #window-projects .window-content h3 {
+      font-size: clamp(12px, 1.8cqw, 20px);
+    }
+
+    .project-item p {
+      color: #6b6b67;
+      font-size: clamp(9.5px, 1.15cqw, 14px);
+      line-height: 1.4;
+    }
+
+    #window-experience .window-content {
+      overflow-y: auto;
+      padding: clamp(7px, 1.2cqw, 17px);
+    }
+
+    .experience-heading {
+      display: grid;
+      gap: 2px;
+      margin-bottom: clamp(6px, 0.85cqw, 12px);
+    }
+
+    .experience-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: clamp(5px, 0.75cqw, 10px);
+    }
+
+    .experience-card {
+      display: grid;
+      grid-template-columns: clamp(60px, 8cqw, 78px) minmax(0, 1fr);
+      gap: clamp(7px, 1cqw, 13px);
+      align-items: center;
+      min-height: 88px;
+      padding: clamp(7px, 1cqw, 14px);
+      border: 1px solid rgba(0, 0, 0, 0.09);
+      border-radius: clamp(6px, 0.9cqw, 13px);
+      background: rgba(255, 255, 253, 0.92);
+      box-shadow: 0 5px 15px rgba(31, 34, 36, 0.06);
+    }
+
+    .experience-logo {
+      position: relative;
+      width: clamp(58px, 7.5cqw, 72px);
+      height: clamp(58px, 7.5cqw, 72px);
+      min-width: 0;
+      justify-self: center;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.09);
+      border-radius: 7px;
+      background: white;
+      transition: transform 140ms ease, box-shadow 140ms ease;
+    }
+
+    a.experience-logo:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 13px rgba(0, 0, 0, 0.12);
+    }
+
+    .experience-logo img {
+      position: absolute;
+      display: block;
+      width: auto;
+      max-width: none;
+      object-fit: initial;
+    }
+
+    .experience-logo--afterquery img {
+      left: 4%;
+      top: 50%;
+      height: 82%;
+      transform: translateY(-50%);
+      clip-path: inset(0 81.5% 0 0);
+    }
+
+    .experience-logo--origami img {
+      left: 2%;
+      top: 50%;
+      height: 82%;
+      transform: translateY(-50%);
+      clip-path: inset(0 74.4% 0 0);
+    }
+
+    .experience-logo--archer img {
+      left: 23%;
+      top: 7%;
+      height: 86%;
+      clip-path: inset(0 56% 0 0);
+    }
+
+    .experience-logo--stealth {
+      background: #050505;
+    }
+
+    .experience-logo--stealth img {
+      left: -32%;
+      top: -20%;
+      width: 164%;
+      height: 164%;
+    }
+
+    .experience-copy {
+      min-width: 0;
+      display: grid;
+      gap: 3px;
+    }
+
+    .experience-copy h3 {
+      font-size: clamp(13px, 1.55cqw, 18px);
+    }
+
+    .experience-role {
+      color: #777773;
+      font-size: clamp(8.5px, 0.85cqw, 11px);
+      font-weight: 650;
+      line-height: 1.15;
+    }
+
+    .experience-copy p {
+      color: #5f5f5b;
+      font-size: clamp(10.5px, 1.02cqw, 13px);
+      line-height: 1.3;
+    }
+
+    #window-education .window-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: clamp(6px, 0.8cqw, 12px);
+      padding: clamp(9px, 1.3cqw, 19px);
+      background:
+        linear-gradient(90deg, rgba(8, 9, 10, 0.22), rgba(8, 9, 10, 0.03) 58%, transparent 76%),
+        url("assets/stanford-campus.jpg") center / cover no-repeat;
+    }
+
+    .education-block {
+      width: min(43%, 390px);
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(5px, 0.7cqw, 10px);
+    }
+
+    .education-heading {
+      width: min(43%, 390px);
+      flex: none;
+      margin: 0;
+      padding: clamp(9px, 1.25cqw, 18px) clamp(11px, 1.5cqw, 22px);
+      border-radius: clamp(7px, 1cqw, 15px);
+      color: white;
+      background: rgba(19, 20, 20, 0.82);
+      box-shadow: 0 7px 22px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    #window-education .education-heading h2 {
+      font-size: clamp(16px, 2.25cqw, 27px);
+    }
+
+    .education-heading .window-eyebrow {
+      color: rgba(255, 255, 255, 0.62);
+    }
+
+    .education-facts {
+      flex: 1 1 0;
+      display: grid;
+      min-height: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.54);
+      border-radius: clamp(7px, 1cqw, 15px);
+      background: rgba(255, 255, 253, 0.88);
+      box-shadow: 0 7px 22px rgba(0, 0, 0, 0.17);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .education-fact {
+      display: grid;
+      align-content: center;
+      gap: clamp(2px, 0.3cqw, 4px);
+      min-width: 0;
+      padding: clamp(6px, 0.8cqw, 12px) clamp(9px, 1.15cqw, 17px);
+      background: transparent;
+    }
+
+    .education-fact + .education-fact {
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .education-fact strong {
+      font-size: clamp(10px, 1.25cqw, 16px);
+      line-height: 1.25;
+    }
+
+    .education-fact p {
+      font-size: clamp(9px, 1.1cqw, 14px);
+      line-height: 1.35;
+    }
+
+    #window-education .window-meta {
+      font-size: clamp(7px, 0.82cqw, 11px);
+    }
+
+    .education-list {
+      display: grid;
+      gap: 1px;
+      margin: 0;
+      padding-left: 1.15em;
+      color: #252523;
+      font-size: clamp(10.5px, 1.05cqw, 13px);
+      line-height: 1.18;
+    }
+
+    .education-list li {
+      padding-left: 1px;
+    }
+
+    .dragging,
+    .dragging * {
+      cursor: grabbing !important;
+      user-select: none !important;
+    }
+
+    @media (max-width: 760px) {
+      .concept-header {
+        top: 14px;
+        left: 16px;
+      }
+
+      .monitor-callout {
+        left: -3%;
+        width: clamp(135px, 32vw, 170px);
+      }
+    }
+
+    @media (max-aspect-ratio: 4 / 5) {
+      .monitor-callout {
+        left: 0;
+        top: -7%;
+        width: clamp(145px, 28vw, 190px);
+      }
+    }
+
+    @media (pointer: coarse) {
+      .cursor-bubble {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mac-window.is-open {
+        animation: none;
+      }
+
+      .folder-art,
+      .dock-icon,
+      .cursor-bubble {
+        transition: none;
+      }
+    }
+
+    /* Separate lamp-desk mockup. The existing desktop concept is intentionally unchanged. */
+    :root {
+      --scene-width: min(
+        calc(var(--viewport-height) * 2.19),
+        max(calc(100vw * 1.08), calc(var(--viewport-height) * 1.77683))
+      );
+      --scene-height: calc(var(--scene-width) / 1.77683);
+      --scene-shift-x: clamp(32px, 5vw, 72px);
+      --scene-left: max(
+        calc((100vw - var(--scene-width)) / 2 + var(--scene-shift-x)),
+        calc(12px - var(--scene-width) * 0.021)
+      );
+      --scene-top: calc(var(--viewport-height) - var(--scene-height));
+    }
+
+    body {
+      background-color: #070706;
+      background-image: url("assets/banker-lamp-imac-scene-v3-keyboard-mouse.png");
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: var(--scene-width) var(--scene-height);
+      background-position: var(--scene-left) var(--scene-top);
+    }
+
+    body::before {
+      z-index: 125;
+      opacity: 0.09;
+    }
+
+    .concept-header {
+      z-index: 135;
+      right: clamp(16px, 2.2vw, 34px);
+      left: auto;
+      text-align: right;
+      transition: opacity 600ms ease, color 600ms ease;
+    }
+
+    body:not(.lamp-is-on) .concept-header {
+      color: rgba(255, 255, 255, 0.62);
+    }
+
+    .concept {
+      position: relative;
+      display: block;
+      padding: 0;
+    }
+
+    .monitor-stage {
+      position: absolute;
+      z-index: 10;
+      left: var(--scene-left);
+      top: var(--scene-top);
+      width: var(--scene-width);
+      height: var(--scene-height);
+      aspect-ratio: 1672 / 941;
+      transform: none;
+    }
+
+    .monitor-stage::before {
+      z-index: 1;
+      left: 29.066%;
+      top: 18.916%;
+      width: 48.325%;
+      height: 45.058%;
+      opacity: 0;
+      background: rgba(199, 217, 235, 0.08);
+      box-shadow:
+        -8px 8px 24px rgba(255, 187, 93, 0.08),
+        0 0 18px rgba(187, 207, 229, 0.08);
+      filter: blur(clamp(7px, 0.9vmin, 13px));
+      transition: opacity 900ms ease 120ms;
+    }
+
+    body.lamp-is-on .monitor-stage::before {
+      opacity: 0.48;
+    }
+
+    .monitor-stage::after {
+      display: none;
+    }
+
+    .monitor-photo,
+    .monitor-shadow-pass {
+      display: none;
+    }
+
+    .monitor-light-pass {
+      display: none;
+    }
+
+    .desktop-screen {
+      z-index: 2;
+      left: 29.066%;
+      top: 18.916%;
+      width: 48.325%;
+      height: 45.058%;
+      border-radius: 0;
+      filter: brightness(0.78) saturate(0.84) contrast(0.98) sepia(0.018);
+      transition: box-shadow 900ms ease, filter 900ms ease;
+    }
+
+    .desktop-screen::after {
+      content: "";
+      position: absolute;
+      z-index: 1000;
+      inset: 0;
+      pointer-events: none;
+      opacity: 1;
+      background:
+        radial-gradient(ellipse at 50% 48%, rgba(19, 22, 22, 0.72), transparent 65%),
+        #010202;
+      box-shadow: inset 0 0 36px rgba(0, 0, 0, 0.92);
+      transition: opacity 820ms cubic-bezier(0.22, 1, 0.36, 1) 90ms;
+    }
+
+    body.lamp-is-on .desktop-screen {
+      filter: brightness(0.78) saturate(0.84) contrast(0.98) sepia(0.018);
+      box-shadow:
+        -5px 4px 17px rgba(255, 184, 91, 0.055),
+        4px 0 14px rgba(167, 188, 214, 0.035),
+        inset 0 0 15px rgba(255, 255, 255, 0.045);
+    }
+
+    body.lamp-is-on .desktop-screen::after {
+      opacity: 0;
+    }
+
+    #window-about,
+    #window-resume,
+    #window-experience,
+    #window-projects,
+    #window-education,
+    #window-photos {
+      left: 2.5% !important;
+      top: 7% !important;
+      width: 83%;
+      height: 84%;
+    }
+
+    #window-about.is-maximized,
+    #window-resume.is-maximized,
+    #window-experience.is-maximized,
+    #window-projects.is-maximized,
+    #window-education.is-maximized,
+    #window-photos.is-maximized {
+      left: 1.2% !important;
+      top: 6.2% !important;
+      width: 84.5%;
+      height: 85.8%;
+    }
+
+    .monitor-callout {
+      display: block;
+      left: 15%;
+      top: 16%;
+      width: clamp(200px, 18vw, 275px);
+      opacity: 0;
+      transform: translate(-8px, -5px);
+      transition: opacity 380ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    body.lamp-is-on:not(.desktop-has-been-tried) .monitor-callout {
+      opacity: 1;
+      transform: translate(0, 0);
+      transition-delay: 960ms;
+    }
+
+    .folders-callout {
+      position: absolute;
+      z-index: 6;
+      left: 49%;
+      top: 9.5%;
+      width: clamp(205px, 20vw, 290px);
+      color: #fff;
+      pointer-events: none;
+      opacity: 0;
+      filter: drop-shadow(0 2px 7px rgba(0, 0, 0, 0.72));
+      transform: translate(-6px, -5px);
+      transition: opacity 380ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .folders-callout span {
+      display: block;
+      margin-left: 2%;
+      font-size: clamp(17px, 1.75vw, 26px);
+      font-weight: 850;
+      line-height: 0.96;
+      letter-spacing: -0.05em;
+      transform: rotate(2deg);
+    }
+
+    .folders-callout svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin-top: -3px;
+      overflow: visible;
+    }
+
+    .folder-arrow-side {
+      display: none !important;
+    }
+
+    body.lamp-is-on:not(.desktop-has-been-tried) .folders-callout {
+      opacity: 1;
+      transform: translate(0, 0);
+      transition-delay: 1160ms;
+    }
+
+    .folder-column {
+      z-index: 95;
+      top: 8%;
+      right: 1.2%;
+      gap: clamp(3px, 0.55cqw, 8px);
+    }
+
+    .menu-bar {
+      min-height: 20px;
+      font-size: clamp(9px, 0.9vw, 12px);
+    }
+
+    .folder-art {
+      width: clamp(31px, 4.9cqw, 58px);
+    }
+
+    .folder-label {
+      font-size: clamp(10px, 0.92cqw, 12px);
+      font-weight: 600;
+    }
+
+    .window-title {
+      font-size: clamp(10px, 1cqw, 13px);
+    }
+
+    .titlebar-action {
+      font-size: clamp(9px, 0.86cqw, 11px);
+    }
+
+    .window-content p,
+    #window-about .window-content p {
+      font-size: clamp(12.5px, 1.2cqw, 14px);
+      line-height: 1.35;
+    }
+
+    .window-eyebrow,
+    .window-meta,
+    #window-about .window-eyebrow {
+      font-size: clamp(9.5px, 0.9cqw, 12px);
+    }
+
+    .about-links a {
+      font-size: clamp(10px, 0.9cqw, 12px);
+    }
+
+    .entry-date,
+    .project-item::before {
+      font-size: clamp(9px, 0.78cqw, 11px);
+    }
+
+    .entry-role {
+      font-size: clamp(10px, 0.9cqw, 12px);
+    }
+
+    #window-projects .window-content h3 {
+      font-size: clamp(13px, 1.8cqw, 20px);
+    }
+
+    .project-item p {
+      font-size: clamp(11px, 1.15cqw, 14px);
+      line-height: 1.32;
+    }
+
+    .experience-copy p {
+      font-size: clamp(11px, 1.08cqw, 13px);
+      line-height: 1.28;
+    }
+
+    .projects-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: none;
+      grid-auto-rows: max-content;
+      align-content: start;
+    }
+
+    .education-fact strong {
+      font-size: clamp(11.5px, 1.25cqw, 16px);
+    }
+
+    .education-fact p {
+      font-size: clamp(11px, 1.1cqw, 14px);
+    }
+
+    #window-education .education-heading,
+    #window-education .education-block {
+      width: min(62%, 450px);
+    }
+
+    #window-education .education-block {
+      gap: 3px;
+    }
+
+    #window-education .education-heading {
+      padding: 6px 9px;
+    }
+
+    #window-education .education-facts {
+      flex: none;
+    }
+
+    #window-education .education-facts:first-child {
+      grid-template-columns: 1.45fr 0.8fr 0.5fr;
+    }
+
+    #window-education .education-facts:last-child {
+      flex: 1 1 0;
+      min-height: 0;
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    #window-education .education-facts .education-fact + .education-fact {
+      border-top: 0;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    #window-education .education-fact {
+      padding: 5px 7px;
+    }
+
+    #window-education .education-facts:first-child .education-fact {
+      padding: 3px 6px;
+    }
+
+    #window-education .education-facts:last-child .education-fact {
+      align-content: start;
+    }
+
+    #window-education .education-facts:last-child p {
+      font-size: clamp(10.5px, 1.05cqw, 13px);
+      line-height: 1.2;
+    }
+
+    .desk-darkness,
+    .desk-warmth {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .desk-darkness {
+      z-index: 70;
+      opacity: 1;
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.46)),
+        radial-gradient(ellipse at 17% 58%, transparent 0 12%, rgba(0, 0, 0, 0.34) 48%, rgba(0, 0, 0, 0.52) 100%);
+      backdrop-filter: brightness(0.46) saturate(0.5);
+      transition: opacity 850ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    body.lamp-is-on .desk-darkness {
+      opacity: 0;
+    }
+
+    .desk-warmth {
+      display: none;
+    }
+
+    body.lamp-is-on .desk-warmth {
+      opacity: 1;
+    }
+
+    .lamp-callout {
+      position: fixed;
+      z-index: 145;
+      left: calc(var(--scene-left) + var(--scene-width) * 0.17);
+      top: calc(var(--scene-top) + var(--scene-height) * 0.14);
+      width: clamp(215px, 20vw, 290px);
+      color: white;
+      pointer-events: none;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.72));
+      transition: opacity 420ms ease, transform 420ms ease;
+    }
+
+    .lamp-callout span {
+      display: block;
+      padding-right: 0.15em;
+      text-align: right;
+      font-size: clamp(18px, 1.8vw, 27px);
+      font-weight: 760;
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+      transform: rotate(-2deg);
+    }
+
+    .lamp-callout svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin-top: -4px;
+      overflow: visible;
+    }
+
+    body.lamp-is-on .lamp-callout {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+
+    .lamp-pull {
+      --pull-distance: 0px;
+      position: fixed;
+      z-index: 155;
+      left: calc(var(--scene-left) + var(--scene-width) * 0.169 - 25px);
+      top: calc(var(--scene-top) + var(--scene-height) * 0.441);
+      width: 50px;
+      height: calc(var(--scene-height) * 0.25);
+      min-height: 120px;
+      padding: 0;
+      border: 0;
+      appearance: none;
+      background: transparent;
+      color: #c3954f;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .lamp-pull:active,
+    .lamp-pull.is-pulling {
+      cursor: grabbing;
+    }
+
+    .lamp-pull:focus-visible {
+      outline-color: rgba(255, 230, 183, 0.9);
+      outline-offset: -4px;
+      border-radius: 999px;
+    }
+
+    .lamp-cord-line {
+      position: absolute;
+      left: calc(50% - 0.75px);
+      top: 0;
+      width: 1.5px;
+      height: calc(72% + var(--pull-distance));
+      background: linear-gradient(90deg, #7a5628, #d9b36c 48%, #68431c);
+      box-shadow: 0 0 2px rgba(255, 214, 145, 0.32);
+      transition: height 380ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .lamp-cord-bead {
+      position: absolute;
+      left: calc(50% - 5px);
+      top: calc(72% - 4px + var(--pull-distance));
+      width: 10px;
+      height: 13px;
+      border: 1px solid rgba(64, 38, 13, 0.7);
+      border-radius: 50% 50% 46% 46%;
+      background: radial-gradient(circle at 35% 30%, #e2bd72, #9b682d 54%, #4d2e12 100%);
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.55);
+      transition: top 380ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .lamp-pull.is-pulling .lamp-cord-line,
+    .lamp-pull.is-pulling .lamp-cord-bead {
+      transition: none;
+    }
+
+    @media (max-width: 820px) {
+      .concept-header {
+        right: 16px;
+        left: auto;
+      }
+
+      .monitor-stage {
+        left: var(--scene-left);
+        width: var(--scene-width);
+      }
+
+      .lamp-callout {
+        width: clamp(170px, 34vw, 220px);
+      }
+    }
+
+    @media (max-aspect-ratio: 1 / 1) {
+      :root {
+        --scene-width: max(calc(100vw * 1.263), 760px);
+        --scene-height: calc(var(--scene-width) / 1.77683);
+        --scene-left: calc(clamp(8px, 1.4vw, 14px) - var(--scene-width) * 0.021);
+        --scene-top: calc(var(--viewport-height) - var(--scene-height));
+      }
+
+      .monitor-stage {
+        left: var(--scene-left);
+        top: var(--scene-top);
+        width: var(--scene-width);
+      }
+
+      .lamp-callout {
+        top: calc(
+          var(--scene-top) + var(--scene-height) * 0.621 - clamp(253px, 50.7vw, 328px)
+        );
+      }
+
+      .monitor-callout {
+        left: 14.5%;
+        top: 16%;
+        width: clamp(185px, 30vw, 225px);
+      }
+
+      .folders-callout {
+        left: 43%;
+        top: 8.5%;
+        width: clamp(170px, 28vw, 205px);
+      }
+
+      .folder-column {
+        top: 7%;
+        gap: 1px;
+      }
+
+      .desktop-folder {
+        width: 34px;
+        gap: 1px;
+      }
+
+      .folder-art {
+        width: 22px;
+      }
+
+      .photos-app-art {
+        width: 23px;
+      }
+
+      .folder-label {
+        font-size: 8px;
+        line-height: 1;
+      }
+
+      #window-about {
+        top: 1.5% !important;
+        height: 84%;
+      }
+
+      #window-about .about-copy {
+        gap: 3px;
+        padding: 6px;
+      }
+
+      #window-about .window-content {
+        padding: 4px;
+      }
+
+      #window-about .window-content h2 {
+        max-width: none;
+        font-size: 19px;
+        line-height: 0.94;
+      }
+
+      #window-about .window-content p {
+        line-height: 1.28;
+      }
+
+      #window-about .about-links {
+        gap: 3px;
+      }
+
+      #window-about .about-links a {
+        padding: 3px 6px;
+      }
+    }
+
+    @media (min-width: 1100px) and (min-aspect-ratio: 8 / 5) {
+      .folders-callout {
+        left: 80.3%;
+        top: 20%;
+        width: clamp(140px, 10vw, 170px);
+      }
+
+      .folders-callout span {
+        margin-left: 0;
+        font-size: clamp(17px, 1.35vw, 23px);
+        text-align: left;
+        transform: rotate(-2deg);
+      }
+
+      .folder-arrow-inline {
+        display: none !important;
+      }
+
+      .folder-arrow-side {
+        display: block !important;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .desk-darkness,
+      .desk-warmth,
+      .desktop-screen::after,
+      .monitor-stage::before,
+      .monitor-photo,
+      .monitor-shadow-pass,
+      .monitor-light-pass,
+      .lamp-callout,
+      .monitor-callout,
+      .folders-callout,
+      .lamp-cord-line,
+      .lamp-cord-bead {
+        transition-duration: 1ms;
+      }
     }
   </style>
+  <script>
+    (() => {
+      const syncViewportHeight = () => {
+        const height = window.visualViewport?.height || window.innerHeight;
+        document.documentElement.style.setProperty("--viewport-height", `${Math.round(height)}px`);
+      };
+
+      const syncAfterLayout = () => {
+        syncViewportHeight();
+        window.requestAnimationFrame(syncViewportHeight);
+      };
+
+      syncViewportHeight();
+      window.addEventListener("pageshow", syncAfterLayout);
+      window.addEventListener("resize", syncAfterLayout, { passive: true });
+      window.visualViewport?.addEventListener("resize", syncAfterLayout, { passive: true });
+      window.requestAnimationFrame(() => window.requestAnimationFrame(syncViewportHeight));
+    })();
+  </script>
 </head>
 <body>
+  <header class="concept-header">
+    <h1 class="concept-name">Lucas Gravina</h1>
+  </header>
 
-  <!-- LOADER -->
-  <div id="loader">
-    <div class="loader-mark">Lucas</div>
-    <div class="loader-line"></div>
-    <div class="loader-meta">Loading · 2026 · Palo Alto, CA</div>
-  </div>
+  <div class="desk-warmth" aria-hidden="true"></div>
+  <div class="desk-darkness" aria-hidden="true"></div>
 
-  <!-- SCROLL PROGRESS -->
-  <div id="scroll-progress"></div>
+  <aside class="lamp-callout" aria-hidden="true">
+    <span>pull the cord<br />to turn it on</span>
+    <svg viewBox="0 0 290 450" aria-hidden="true">
+      <path d="M276 14C214 27 258 91 202 115C123 149 134 329 18 382" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="m36 362-20 21 29 3" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </aside>
 
-  <!-- CUSTOM CURSOR -->
-  <div id="cursor-dot"></div>
-  <div id="cursor-ring"></div>
+  <button class="lamp-pull" type="button" aria-label="Pull the cord to turn on the lamp and computer" aria-pressed="false">
+    <span class="lamp-cord-line" aria-hidden="true"></span>
+    <span class="lamp-cord-bead" aria-hidden="true"></span>
+  </button>
 
-  <!-- STATUS PILL -->
-  <div class="status-pill" id="status-pill">
-    <span class="dot"></span>
-    <span>Now: TRIBE v2 News Decoder</span>
-    <a href="project-tribe.html">Read</a>
-  </div>
+  <main class="concept">
+    <div class="monitor-stage" aria-label="Interactive desktop computer">
+      <aside class="monitor-callout" aria-hidden="true">
+        <span class="callout-label">try it out!</span>
+        <svg class="callout-arrow" viewBox="0 0 240 92">
+          <path d="M12 18C55 1 39 69 101 71C151 73 176 30 224 48" fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="m209 35 17 14-19 10" fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </aside>
 
-  <!-- NAV -->
-  <nav id="nav">
-    <a href="#top" class="nav-logo">Lucas Gravina</a>
-    <div class="nav-links">
-      <a href="#about"><span class="num">01</span>About</a>
-      <a href="#work"><span class="num">02</span>Work</a>
-      <a href="#projects"><span class="num">03</span>Selected</a>
-      <a href="adventures.html"><span class="num">04</span>Adventures</a>
-      <a href="#contact"><span class="num">05</span>Contact</a>
-    </div>
-  </nav>
+      <aside class="folders-callout" aria-hidden="true">
+        <span>learn more about me</span>
+        <svg class="folder-arrow-inline" viewBox="0 0 270 115">
+          <path d="M24 18C78 0 94 52 151 46C224 38 300 73 360 92" fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="m341 78 21 15-26 8" fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <svg class="folder-arrow-side" viewBox="0 0 230 135">
+          <path d="M116 40C80 46 90 32 36 28C-18 24-48 18-90 16" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="m-68 4-24 12 27 8" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </aside>
 
-  <!-- HERO -->
-  <section id="hero">
-    <div id="top"></div>
-    <div id="hero-bg"></div>
-    <div class="hero-inner">
-      <div class="hero-eyebrow">
-        <span>Portfolio <span class="accent">/ 2026</span></span>
-      </div>
-      <h1 class="hero-name">
-        <span class="first"><span>Lucas</span></span>
-        <span class="last"><span>Gravina</span></span>
-      </h1>
-      <div class="hero-meta">
-        <div class="hero-meta-block">
-          <div class="hero-meta-key">Currently</div>
-          <div class="hero-meta-val">
-            <span class="role-rotator" aria-hidden="true">
-              <span class="active">Building.</span>
-              <span>Researching.</span>
-              <span>Writing.</span>
-              <span>Exploring.</span>
-            </span>
+      <img class="monitor-shadow-pass" src="assets/desktop-monitor-cutout-v3.png" alt="" aria-hidden="true" />
+      <img class="monitor-photo" src="assets/desktop-monitor-cutout-v3.png" alt="" />
+      <img class="monitor-light-pass" src="assets/desktop-monitor-cutout-v3.png" alt="" aria-hidden="true" />
+
+      <section class="desktop-screen" aria-label="Lucas Gravina desktop">
+        <div class="menu-bar" aria-hidden="true">
+          <div class="menu-left">
+            <span class="menu-owner">Lucas Gravina</span>
+            <span>File</span>
+            <span>Edit</span>
+            <span>View</span>
+            <span>Go</span>
+          </div>
+          <div class="menu-right">
+            <span class="menu-status"><span class="wifi"></span></span>
+            <span id="desktop-clock">Wed Aug 19&nbsp;&nbsp;3:24 PM</span>
           </div>
         </div>
-        <div class="hero-meta-block">
-          <div class="hero-meta-key">Based</div>
-          <div class="hero-meta-val"><strong>Palo Alto, CA</strong> &nbsp;·&nbsp; Stanford University</div>
+
+        <div class="folder-column" aria-label="Desktop folders">
+          <button class="desktop-folder" type="button" data-open="resume" aria-controls="window-resume" aria-expanded="false">
+            <svg class="folder-art" viewBox="0 0 92 72" aria-hidden="true">
+              <defs>
+                <linearGradient id="folderTopResume" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#78c8ff"/>
+                  <stop offset="1" stop-color="#43a5ef"/>
+                </linearGradient>
+                <linearGradient id="folderFaceResume" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#72c8ff"/>
+                  <stop offset="1" stop-color="#399ce7"/>
+                </linearGradient>
+              </defs>
+              <path fill="url(#folderTopResume)" d="M6 15c0-4 3-7 7-7h25c3 0 5 1 7 4l5 7h29c4 0 7 3 7 7v3H6V15Z"/>
+              <path fill="#a7dcff" d="M8 23h76l-3 10H11L8 23Z"/>
+              <path fill="url(#folderFaceResume)" d="M6 27h80v31c0 4-3 7-7 7H13c-4 0-7-3-7-7V27Z"/>
+              <path fill="none" stroke="rgba(255,255,255,.42)" d="M7 28.5h78"/>
+            </svg>
+            <span class="folder-label">Resume</span>
+          </button>
+
+          <button class="desktop-folder" type="button" data-open="about" aria-controls="window-about" aria-expanded="true">
+            <svg class="folder-art" viewBox="0 0 92 72" aria-hidden="true">
+              <defs>
+                <linearGradient id="folderTopAbout" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#78c8ff"/>
+                  <stop offset="1" stop-color="#43a5ef"/>
+                </linearGradient>
+                <linearGradient id="folderFaceAbout" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#72c8ff"/>
+                  <stop offset="1" stop-color="#399ce7"/>
+                </linearGradient>
+              </defs>
+              <path fill="url(#folderTopAbout)" d="M6 15c0-4 3-7 7-7h25c3 0 5 1 7 4l5 7h29c4 0 7 3 7 7v3H6V15Z"/>
+              <path fill="#a7dcff" d="M8 23h76l-3 10H11L8 23Z"/>
+              <path fill="url(#folderFaceAbout)" d="M6 27h80v31c0 4-3 7-7 7H13c-4 0-7-3-7-7V27Z"/>
+              <path fill="none" stroke="rgba(255,255,255,.42)" d="M7 28.5h78"/>
+            </svg>
+            <span class="folder-label">About</span>
+          </button>
+
+          <button class="desktop-folder" type="button" data-open="experience" aria-controls="window-experience" aria-expanded="false">
+            <svg class="folder-art" viewBox="0 0 92 72" aria-hidden="true">
+              <path fill="#61bafa" d="M6 15c0-4 3-7 7-7h25c3 0 5 1 7 4l5 7h29c4 0 7 3 7 7v3H6V15Z"/>
+              <path fill="#a7dcff" d="M8 23h76l-3 10H11L8 23Z"/>
+              <path fill="#45a6ed" d="M6 27h80v31c0 4-3 7-7 7H13c-4 0-7-3-7-7V27Z"/>
+              <path fill="none" stroke="rgba(255,255,255,.42)" d="M7 28.5h78"/>
+            </svg>
+            <span class="folder-label">Work</span>
+          </button>
+
+          <button class="desktop-folder" type="button" data-open="projects" aria-controls="window-projects" aria-expanded="false">
+            <svg class="folder-art" viewBox="0 0 92 72" aria-hidden="true">
+              <defs>
+                <linearGradient id="folderTopProjects" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#78c8ff"/>
+                  <stop offset="1" stop-color="#43a5ef"/>
+                </linearGradient>
+                <linearGradient id="folderFaceProjects" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#72c8ff"/>
+                  <stop offset="1" stop-color="#399ce7"/>
+                </linearGradient>
+              </defs>
+              <path fill="url(#folderTopProjects)" d="M6 15c0-4 3-7 7-7h25c3 0 5 1 7 4l5 7h29c4 0 7 3 7 7v3H6V15Z"/>
+              <path fill="#a7dcff" d="M8 23h76l-3 10H11L8 23Z"/>
+              <path fill="url(#folderFaceProjects)" d="M6 27h80v31c0 4-3 7-7 7H13c-4 0-7-3-7-7V27Z"/>
+              <path fill="none" stroke="rgba(255,255,255,.42)" d="M7 28.5h78"/>
+            </svg>
+            <span class="folder-label">Projects</span>
+          </button>
+
+          <button class="desktop-folder" type="button" data-open="education" aria-controls="window-education" aria-expanded="false">
+            <svg class="folder-art" viewBox="0 0 92 72" aria-hidden="true">
+              <defs>
+                <linearGradient id="folderTopEducation" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#78c8ff"/>
+                  <stop offset="1" stop-color="#43a5ef"/>
+                </linearGradient>
+                <linearGradient id="folderFaceEducation" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#72c8ff"/>
+                  <stop offset="1" stop-color="#399ce7"/>
+                </linearGradient>
+              </defs>
+              <path fill="url(#folderTopEducation)" d="M6 15c0-4 3-7 7-7h25c3 0 5 1 7 4l5 7h29c4 0 7 3 7 7v3H6V15Z"/>
+              <path fill="#a7dcff" d="M8 23h76l-3 10H11L8 23Z"/>
+              <path fill="url(#folderFaceEducation)" d="M6 27h80v31c0 4-3 7-7 7H13c-4 0-7-3-7-7V27Z"/>
+              <path fill="none" stroke="rgba(255,255,255,.42)" d="M7 28.5h78"/>
+            </svg>
+            <span class="folder-label">Education</span>
+          </button>
+
+          <button class="desktop-folder" type="button" data-open="photos" aria-controls="window-photos" aria-expanded="false">
+            <svg class="folder-art photos-app-art" viewBox="0 0 72 72" aria-hidden="true">
+              <rect x="4" y="4" width="64" height="64" rx="14" fill="#fafafa"/>
+              <g transform="translate(36 36)" opacity="0.94">
+                <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#ff3b30"/>
+                <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#ff9500" transform="rotate(45)"/>
+                <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#ffcc00" transform="rotate(90)"/>
+                <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#34c759" transform="rotate(135)"/>
+                <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#00c7be" transform="rotate(180)"/>
+                <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#0a84ff" transform="rotate(225)"/>
+                <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#5856d6" transform="rotate(270)"/>
+                <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#ff2d55" transform="rotate(315)"/>
+                <circle r="5.5" fill="#fff"/>
+              </g>
+            </svg>
+            <span class="folder-label">Photos</span>
+          </button>
         </div>
-        <div class="hero-meta-block">
-          <div class="hero-meta-key">Discipline</div>
-          <div class="hero-meta-val">Management Science &amp; CS · AI Research</div>
+
+        <article class="mac-window resume-pdf-window" id="window-resume" data-window="resume">
+          <header class="window-titlebar">
+            <div class="traffic-lights">
+              <button class="traffic close" type="button" data-close aria-label="Close Resume"></button>
+              <button class="traffic minimize" type="button" data-close aria-label="Minimize Resume"></button>
+              <button class="traffic maximize" type="button" data-maximize aria-label="Maximize Resume"></button>
+            </div>
+            <h2 class="window-title">Resume</h2>
+            <a class="titlebar-action" href="assets/Resume_Lucas_Gravina.pdf" target="_blank" rel="noopener">Open PDF ↗</a>
+          </header>
+          <div class="window-content">
+            <img class="resume-page" src="assets/resume-page.png" alt="Lucas Gravina resume" />
+          </div>
+        </article>
+
+        <article class="mac-window is-open" id="window-about" data-window="about" style="--window-x:8%;--window-y:13%;">
+          <header class="window-titlebar">
+            <div class="traffic-lights">
+              <button class="traffic close" type="button" data-close aria-label="Close About"></button>
+              <button class="traffic minimize" type="button" data-close aria-label="Minimize About"></button>
+              <button class="traffic maximize" type="button" data-maximize aria-label="Maximize About"></button>
+            </div>
+            <h2 class="window-title">About</h2>
+            <span></span>
+          </header>
+          <div class="window-content">
+            <div class="about-layout">
+              <div class="about-copy">
+                <span class="window-eyebrow">Lucas Gravina</span>
+                <h2>AI research,<br>product &amp; operations.</h2>
+                <p>Management Science &amp; Engineering and Computer Science student at Stanford. I build evaluation systems, products, and organizations around hard operational problems.</p>
+                <div class="about-links">
+                  <a href="mailto:lgravina@stanford.edu">Email ↗</a>
+                  <a href="https://linkedin.com/in/lucas-gravina/" target="_blank" rel="noopener">LinkedIn ↗</a>
+                  <a href="https://www.instagram.com/lucasgravina18/" target="_blank" rel="noopener">Instagram ↗</a>
+                </div>
+              </div>
+              <div class="about-stamp">
+                <img src="assets/photos/photo-08.jpg" alt="Lucas Gravina outdoors" />
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="mac-window" id="window-experience" data-window="experience" style="--window-x:7%;--window-y:9%;">
+          <header class="window-titlebar">
+            <div class="traffic-lights">
+              <button class="traffic close" type="button" data-close aria-label="Close Work Experience"></button>
+              <button class="traffic minimize" type="button" data-close aria-label="Minimize Work Experience"></button>
+              <button class="traffic maximize" type="button" data-maximize aria-label="Maximize Work Experience"></button>
+            </div>
+            <h2 class="window-title">Work Experience</h2>
+            <span></span>
+          </header>
+          <div class="window-content">
+            <div class="experience-heading">
+              <span class="window-eyebrow">Selected roles</span>
+              <h2>Work Experience</h2>
+            </div>
+            <div class="experience-grid">
+              <section class="experience-card">
+                <a class="experience-logo experience-logo--afterquery" href="https://www.afterquery.com/" target="_blank" rel="noopener" aria-label="Visit AfterQuery">
+                  <img src="assets/work-logos/afterquery.svg" alt="AfterQuery" />
+                </a>
+                <div class="experience-copy">
+                  <h3>AfterQuery</h3>
+                  <span class="experience-role">Summer Strategic Projects Intern</span>
+                  <p>Helped train the world’s leading AI models.</p>
+                </div>
+              </section>
+              <section class="experience-card">
+                <a class="experience-logo experience-logo--origami" href="https://origami.chat/" target="_blank" rel="noopener" aria-label="Visit Origami">
+                  <img src="assets/work-logos/origami.svg" alt="Origami" />
+                </a>
+                <div class="experience-copy">
+                  <h3>Origami (YC F24)</h3>
+                  <span class="experience-role">Winter Product Intern</span>
+                  <p>Contributed to the next GTM unicorn.</p>
+                </div>
+              </section>
+              <section class="experience-card">
+                <a class="experience-logo experience-logo--archer" href="https://www.archercapg.com/" target="_blank" rel="noopener" aria-label="Visit Archer Capital Group">
+                  <img src="assets/work-logos/archer.png" alt="Archer Capital Group" />
+                </a>
+                <div class="experience-copy">
+                  <h3>Archer Capital Group</h3>
+                  <span class="experience-role">Summer Analyst</span>
+                  <p>Build sick internal tools and informed interesting deals.</p>
+                </div>
+              </section>
+              <section class="experience-card">
+                <div class="experience-logo experience-logo--stealth" aria-label="Complymate, stealth startup">
+                  <img src="assets/work-logos/stealth-startup.png" alt="Stealth Startup" />
+                </div>
+                <div class="experience-copy">
+                  <h3>Complymate</h3>
+                  <span class="experience-role">Co-Founder &amp; CEO</span>
+                  <p>Worked with $1B+ enterprise partners for environmental compliance startup.</p>
+                </div>
+              </section>
+            </div>
+          </div>
+        </article>
+
+        <article class="mac-window" id="window-projects" data-window="projects" style="--window-x:9%;--window-y:11%;">
+          <header class="window-titlebar">
+            <div class="traffic-lights">
+              <button class="traffic close" type="button" data-close aria-label="Close Projects"></button>
+              <button class="traffic minimize" type="button" data-close aria-label="Minimize Projects"></button>
+              <button class="traffic maximize" type="button" data-maximize aria-label="Maximize Projects"></button>
+            </div>
+            <h2 class="window-title">Projects</h2>
+            <span></span>
+          </header>
+          <div class="window-content">
+            <div class="projects-heading">
+              <span class="window-eyebrow">Selected work</span>
+              <h2>Projects</h2>
+            </div>
+            <div class="projects-grid">
+              <section class="project-item">
+                <h3>Day N Mayfield</h3>
+                <p>Ran a $170,000 Stanford music festival with 100+ staff, 12 bands, and 1,500+ attendees; managed a $90K budget and eight-person staff delivering 60+ campus-wide events per year.</p>
+              </section>
+              <section class="project-item">
+                <h3>fMRI Media Analysis</h3>
+                <p>Built an fMRI-informed deception-detection layer on Meta’s TRIBE V2 model and collaborated with AllSides’ Head of AI on media-bias applications.</p>
+              </section>
+              <section class="project-item">
+                <h3>Online Businesses</h3>
+                <p>Gained 10 million natural views, 100,000+ followers, and five-figure revenue across several ecommerce businesses.</p>
+              </section>
+              <section class="project-item">
+                <h3>Local AI Hardware</h3>
+                <p>Designed a speech-to-LLM software system and custom hardware interface for private local AI.</p>
+              </section>
+              <section class="project-item">
+                <h3>Happening Stanford</h3>
+                <p>Coded and scaled a web platform used by 1,500+ students to find campus events at Stanford.</p>
+              </section>
+              <section class="project-item">
+                <h3>Date Drop</h3>
+                <p>Launched GTM for the matchmaking platform Date Drop, growing it from zero to 5,000 users at Stanford.</p>
+              </section>
+            </div>
+          </div>
+        </article>
+
+        <article class="mac-window" id="window-education" data-window="education" style="--window-x:10%;--window-y:14%;">
+          <header class="window-titlebar">
+            <div class="traffic-lights">
+              <button class="traffic close" type="button" data-close aria-label="Close Education"></button>
+              <button class="traffic minimize" type="button" data-close aria-label="Minimize Education"></button>
+              <button class="traffic maximize" type="button" data-maximize aria-label="Maximize Education"></button>
+            </div>
+            <h2 class="window-title">Education</h2>
+            <span></span>
+          </header>
+          <div class="window-content">
+            <div class="education-heading">
+              <span class="window-eyebrow">Expected 2028</span>
+              <h2>Stanford University</h2>
+            </div>
+            <div class="education-block">
+              <div class="education-facts">
+                <div class="education-fact">
+                  <span class="window-meta">Degree</span>
+                  <strong>B.S. Management Science &amp; Engineering</strong>
+                </div>
+                <div class="education-fact">
+                  <span class="window-meta">Minor</span>
+                  <strong>Computer Science</strong>
+                </div>
+                <div class="education-fact">
+                  <span class="window-meta">GPA</span>
+                  <strong>3.996</strong>
+                </div>
+              </div>
+              <div class="education-facts">
+                <div class="education-fact">
+                  <span class="window-meta">Coursework</span>
+                  <ul class="education-list">
+                    <li>Introduction to Probability for Computer Scientists</li>
+                    <li>Introduction to Applied Statistics</li>
+                    <li>Introduction to Stochastic Modeling</li>
+                    <li>Introduction to Matrix Methods</li>
+                    <li>Programming Abstractions</li>
+                    <li>Data Science for Social Impact</li>
+                  </ul>
+                </div>
+                <div class="education-fact">
+                  <span class="window-meta">Activities</span>
+                  <ul class="education-list">
+                    <li>Student Government</li>
+                    <li>Stanford Outdoors Trip Leader</li>
+                    <li>Stanford ASES</li>
+                    <li>Kappa Sigma Social Chair</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="mac-window photos-window" id="window-photos" data-window="photos">
+          <header class="window-titlebar">
+            <div class="traffic-lights">
+              <button class="traffic close" type="button" data-close aria-label="Close Photos"></button>
+              <button class="traffic minimize" type="button" data-close aria-label="Minimize Photos"></button>
+              <button class="traffic maximize" type="button" data-maximize aria-label="Maximize Photos"></button>
+            </div>
+            <h2 class="window-title">Photos</h2>
+            <span></span>
+          </header>
+          <div class="window-content photos-content">
+            <div class="photo-reel-viewport" tabindex="0" aria-label="Adventure photos. Scroll horizontally to explore.">
+              <div class="photo-reel"></div>
+            </div>
+          </div>
+        </article>
+
+        <div class="desktop-dock" aria-label="Desktop dock">
+          <button class="dock-icon dock-finder" type="button" data-open="about" aria-label="Open About"></button>
+          <button class="dock-icon dock-photos" type="button" data-open="photos" aria-label="Open Photos">
+            <svg viewBox="0 0 72 72" aria-hidden="true">
+              <g transform="translate(36 36)" opacity="0.94">
+                <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#ff3b30"/>
+                <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#ff9500" transform="rotate(45)"/>
+                <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#ffcc00" transform="rotate(90)"/>
+                <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#34c759" transform="rotate(135)"/>
+                <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#00c7be" transform="rotate(180)"/>
+                <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#0a84ff" transform="rotate(225)"/>
+                <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#5856d6" transform="rotate(270)"/>
+                <ellipse cx="0" cy="-14" rx="7.5" ry="15" fill="#ff2d55" transform="rotate(315)"/>
+                <circle r="5.5" fill="#fff"/>
+              </g>
+            </svg>
+          </button>
+          <a class="dock-icon dock-mail" href="mailto:lgravina@stanford.edu" aria-label="Email Lucas">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="none" stroke="currentColor" stroke-width="1.7" d="M3.5 6.5h17v11h-17z"/>
+              <path fill="none" stroke="currentColor" stroke-width="1.7" d="m4 7 8 6 8-6"/>
+            </svg>
+          </a>
+          <button class="dock-icon dock-resume" type="button" data-open="resume" aria-label="Open Resume"></button>
+          <span class="dock-separator" aria-hidden="true"></span>
+          <a class="dock-icon dock-linkedin" href="https://linkedin.com/in/lucas-gravina/" target="_blank" rel="noopener" aria-label="Lucas on LinkedIn">in</a>
         </div>
-      </div>
+      </section>
     </div>
-    <div class="hero-scroll-hint">
-      <span>Scroll</span>
-      <span class="line"></span>
-      <span>01 / 05</span>
-    </div>
-  </section>
+  </main>
 
-  <!-- MARQUEE -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track" id="marquee-track">
-      <span class="marquee-item">Stanford University</span>
-      <span class="marquee-item"><em>Explorer</em></span>
-      <span class="marquee-item">Management Science &amp; Engineering</span>
-      <span class="marquee-item"><em>10M+ Content Views</em></span>
-      <span class="marquee-item">AI Researcher</span>
-      <span class="marquee-item"><em>Founder</em></span>
-      <span class="marquee-item">Builder</span>
-      <span class="marquee-item"><em>Backpacker</em></span>
-      <span class="marquee-item">Stanford University</span>
-      <span class="marquee-item"><em>Explorer</em></span>
-      <span class="marquee-item">Management Science &amp; Engineering</span>
-      <span class="marquee-item"><em>10M+ Content Views</em></span>
-      <span class="marquee-item">AI Researcher</span>
-      <span class="marquee-item"><em>Founder</em></span>
-      <span class="marquee-item">Builder</span>
-      <span class="marquee-item"><em>Backpacker</em></span>
-    </div>
-  </div>
+  <div class="cursor-bubble" aria-hidden="true"></div>
 
-  <!-- ABOUT -->
-  <section class="about sec" id="about">
-    <div class="sec-inner">
-      <div class="about-grid">
-        <div class="about-label reveal" style="font-size: 15px">
-</div>
-        <div class="about-copy">
-          <p class="about-lead reveal reveal-d1">
-            I love <strong>exploring</strong> and <strong>building</strong> interesting things. Software that does something useful. Events people remember. Trips that change how I think.
-          </p>
-          <div class="about-body reveal reveal-d2">
-            <p>I'm a sophomore at Stanford studying Management Science &amp; Engineering and Computer Science. I've co-founded a startup, worked at a private equity firm, and shaped product at two YC-backed companies.</p>
-            <p>Outside the screen: I lead trips for Stanford Outdoors, organize events for 16,000 students through Student Government, and backpack whenever I can. Enthusiastic about good ideas and new places.</p>
-            <p>Reach out if you want to make something happen — <a href="/cdn-cgi/l/email-protection#aec2c9dccfd8c7c0cfeedddacfc0c8c1dcca80cbcadb" class="about-inline-link"><span class="__cf_email__" data-cfemail="a5c9c2d7c4d3cccbc4e5d6d1c4cbc3cad7c18bc0c1d0">[email&#160;protected]</span></a>.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <script>
+    (() => {
+      const screen = document.querySelector(".desktop-screen");
+      const windows = [...document.querySelectorAll(".mac-window")];
+      const openers = [...document.querySelectorAll("[data-open]")];
+      let topZ = 30;
+      let dragState = null;
+      const photoSources = [
+        "assets/photos/photo-01.jpg",
+        "assets/photos/photo-02.jpg",
+        "assets/photos/photo-03.jpg",
+        "assets/photos/photo-04.jpg",
+        "assets/photos/photo-05.jpg",
+        "assets/photos/photo-06.jpg",
+        "assets/photos/photo-07.jpg",
+        "assets/photos/photo-08.jpg"
+      ];
+      const photoReelViewport = document.querySelector(".photo-reel-viewport");
+      const photoReel = document.querySelector(".photo-reel");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const cursorBubble = document.querySelector(".cursor-bubble");
+      let photoDrag = null;
+      let photoLastTime = null;
+      let pointerTargetX = window.innerWidth / 2;
+      let pointerTargetY = window.innerHeight / 2;
+      let pointerX = pointerTargetX;
+      let pointerY = pointerTargetY;
+      let cursorFrame = null;
 
-  <!-- WORK -->
-  <section class="work sec" id="work">
-    <div class="sec-inner">
-      <div class="sec-head">
+      function drawCursorBubble() {
+        const ease = reducedMotion ? 1 : 0.34;
+        pointerX += (pointerTargetX - pointerX) * ease;
+        pointerY += (pointerTargetY - pointerY) * ease;
+        cursorBubble.style.left = `${pointerX}px`;
+        cursorBubble.style.top = `${pointerY}px`;
 
-        <h2 class="sec-title reveal reveal-d1" style="max-width:none;white-space:nowrap">Companies I've <em>contributed</em> to.</h2>
-      </div>
-      <div class="exp-list">
-        <a href="#" class="exp-row reveal" tabindex="-1" onclick="return false">
-          <div class="exp-year">Summer 2026</div>
-          <div class="exp-main">
-            <div class="exp-topline">
-              <div class="exp-company">AfterQuery</div>
-              <div class="exp-role">Strategy &amp; Ops Intern (Incoming)</div>
-            </div>
-            <div class="exp-desc">AfterQuery is an AI research lab backed by Y Combinator and BoxGroup, building frontier human-generated datasets for clients including Meta and Google DeepMind. Joining Strategy &amp; Ops to help scale research operations.</div>
-          </div>
-          <div class="exp-meta">
-            <span class="exp-tag">AI Research</span>
-          </div>
-        </a>
-        <a href="#" class="exp-row reveal" tabindex="-1" onclick="return false">
-          <div class="exp-year">2025 — 2026</div>
-          <div class="exp-main">
-            <div class="exp-topline">
-              <div class="exp-company">Origami</div>
-              <div class="exp-role">Product Intern · YC W25</div>
-            </div>
-            <div class="exp-desc">Built 15+ logic-based lead refinement systems using connected node pipelines. Designed conditional rules and branching logic to progressively filter and qualify tens of thousands of lead datapoints to production-grade.</div>
-          </div>
-          <div class="exp-meta">
-            <span class="exp-tag">Product</span>
-          </div>
-        </a>
-        <a href="#" class="exp-row reveal" tabindex="-1" onclick="return false">
-          <div class="exp-year">Summer 2025</div>
-          <div class="exp-main">
-            <div class="exp-topline">
-              <div class="exp-company">Archer Capital</div>
-              <div class="exp-role">Summer Analyst</div>
-            </div>
-            <div class="exp-desc">Developed and shipped three internal workflow tools adopted by the firm. Led Backend-as-a-Service market research and conducted competitive analysis across 16 fintech companies, directly informing a successful investment deal.</div>
-          </div>
-          <div class="exp-meta">
-            <span class="exp-tag">Finance</span>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROJECTS -->
-  <section class="projects sec" id="projects">
-    <div class="sec-inner">
-      <div class="sec-head">
-
-        <h2 class="sec-title reveal reveal-d1" style="max-width:none;white-space:nowrap">Some of my <em>favorite projects.</em></h2>
-      </div>
-
-      <div class="proj-grid">
-
-        <a href="project-tribe.html" class="proj-card reveal">
-          <div class="proj-visual viz-tribe"></div>
-          <div class="proj-body">
-            <div class="proj-top">
-              <div class="proj-idx">001 / Latest</div>
-              <div class="proj-tags">
-                <span class="proj-tag">AI</span>
-                <span class="proj-tag">Media</span>
-                <span class="proj-tag">2026</span>
-              </div>
-            </div>
-            <div class="proj-bottom">
-              <div class="proj-title">TRIBE v2 <em>News Decoder</em></div>
-              <div class="proj-desc">Description coming soon.</div>
-              <span class="proj-cta">Case Study <span class="arrow">→</span></span>
-            </div>
-          </div>
-        </a>
-
-        <a href="project-weboptimize.html" class="proj-card reveal reveal-d1">
-          <div class="proj-visual viz-checkout"></div>
-          <div class="proj-body">
-            <div class="proj-top">
-              <div class="proj-idx">002</div>
-              <div class="proj-tags">
-                <span class="proj-tag">AI Agents</span>
-                <span class="proj-tag">LLM Systems</span>
-                <span class="proj-tag">2026</span>
-              </div>
-            </div>
-            <div class="proj-bottom">
-              <div class="proj-title">Agentic Checkout <em>Optimization</em></div>
-              <div class="proj-desc">A platform for autonomous agentic checkout testing — hundreds of AI agents stress-test purchase flows and optimize sites for agent-driven commerce.</div>
-              <span class="proj-cta">Case Study <span class="arrow">→</span></span>
-            </div>
-          </div>
-        </a>
-
-        <a href="project-benchmark.html" class="proj-card reveal reveal-d2">
-          <div class="proj-visual viz-benchmark"></div>
-          <div class="proj-body">
-            <div class="proj-top">
-              <div class="proj-idx">006</div>
-              <div class="proj-tags">
-                <span class="proj-tag">Research</span>
-                <span class="proj-tag">LLM Eval</span>
-              </div>
-            </div>
-            <div class="proj-bottom">
-              <div class="proj-title">AI Reasoning <em>Benchmark</em></div>
-              <div class="proj-desc">Novel multimodal web-grounded reasoning benchmark built from scratch to assess frontier LLM performance on human-like complex search tasks.</div>
-              <span class="proj-cta">Case Study <span class="arrow">→</span></span>
-            </div>
-          </div>
-        </a>
-
-        <a href="project-daynmayfield.html" class="proj-card reveal reveal-d3">
-          <div class="proj-visual viz-mayfield"></div>
-          <div class="proj-body">
-            <div class="proj-top">
-              <div class="proj-idx">003</div>
-              <div class="proj-tags">
-                <span class="proj-tag">Events</span>
-                <span class="proj-tag">Leadership</span>
-              </div>
-            </div>
-            <div class="proj-bottom">
-              <div class="proj-title">Day N <em>Mayfield</em></div>
-              <div class="proj-desc">Organized a &gt;$100K Woodstock-themed music festival at Stanford — team of 12, Shakedown Street, 1,000+ attendees.</div>
-              <span class="proj-cta">Case Study <span class="arrow">→</span></span>
-            </div>
-          </div>
-        </a>
-
-        <a href="project-complymate.html" class="proj-card reveal reveal-d3">
-          <div class="proj-visual viz-complymate"></div>
-          <div class="proj-body">
-            <div class="proj-top">
-              <div class="proj-idx">004</div>
-              <div class="proj-tags">
-                <span class="proj-tag">Founder</span>
-              </div>
-            </div>
-            <div class="proj-bottom">
-              <div class="proj-title">Comply<em>mate</em></div>
-              <span class="proj-cta">Read <span class="arrow">→</span></span>
-            </div>
-          </div>
-        </a>
-
-        <a href="project-happening.html" class="proj-card reveal reveal-d3">
-          <div class="proj-visual viz-happening"></div>
-          <div class="proj-body">
-            <div class="proj-top">
-              <div class="proj-idx">005</div>
-              <div class="proj-tags">
-                <span class="proj-tag">Platform</span>
-              </div>
-            </div>
-            <div class="proj-bottom">
-              <div class="proj-title">Happening <em>Stanford</em></div>
-              <span class="proj-cta">Read <span class="arrow">→</span></span>
-            </div>
-          </div>
-        </a>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ADVENTURES CTA -->
-  <a href="adventures.html" class="adventures-cta">
-    <span class="adventures-cta-label">04 — Field Log</span>
-    <span class="adventures-cta-title">Out There</span>
-    <div class="adventures-cta-sub">Backpacking · Hiking · Traveling — a few of my favorite adventures</div>
-  </a>
-
-  <!-- FOOTER / CONTACT -->
-  <footer id="contact">
-    <div class="foot-inner">
-      <div class="reveal">
-        <div class="foot-headline">Let's build<br/>something<em>.</em></div>
-        <div class="foot-label">Reach out — I reply fast.</div>
-      </div>
-      <div class="foot-links reveal reveal-d1">
-        <a href="/cdn-cgi/l/email-protection#412d3422203226332037282f2070797101262c20282d6f222e2c" class="foot-link"><span class="arrow">↗</span> Email</a>
-        <a href="https://linkedin.com/in/lucas-gravina/" target="_blank" rel="noopener" class="foot-link"><span class="arrow">↗</span> LinkedIn</a>
-        <a href="https://www.instagram.com/lucasgravina18/" target="_blank" rel="noopener" class="foot-link"><span class="arrow">↗</span> Instagram</a>
-        <a href="tel:4129801898" class="foot-link"><span class="arrow">↗</span> 412-980-1898</a>
-      </div>
-    </div>
-    <div class="foot-base">
-      <span>© 2026 Lucas Gravina</span>
-      <span>Made with intention in Palo Alto</span>
-      <a href="#top">Back to top ↑</a>
-    </div>
-  </footer>
-
-  <!-- ---------------------------------------------------------------- -->
-  <!--  SCRIPTS                                                         -->
-  <!-- ---------------------------------------------------------------- -->
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    /* HERO SHADER */
-    (function(){
-      const mount = document.getElementById('hero-bg');
-      if(!mount || typeof THREE === 'undefined') return;
-      const cam = new THREE.Camera(); cam.position.z = 1;
-      const sc = new THREE.Scene();
-      const geo = new THREE.PlaneGeometry(2,2);
-      const u = { time:{value:40.0}, resolution:{value:new THREE.Vector2()}, mouse:{value:new THREE.Vector2(0.5,0.5)} };
-      const mat = new THREE.ShaderMaterial({
-        uniforms:u,
-        vertexShader:'void main(){gl_Position=vec4(position,1.0);}',
-        fragmentShader:`
-          precision highp float;
-          uniform vec2 resolution; uniform float time;
-          void main(void){
-            vec2 uv=(gl_FragCoord.xy*2.0-resolution.xy)/min(resolution.x,resolution.y);
-            float t=time*0.05;float lw=0.0022;vec3 col=vec3(0.0);
-            for(int j=0;j<3;j++)for(int i=0;i<5;i++)
-              col[j]+=lw*float(i*i)/abs(fract(t-0.01*float(j)+float(i)*0.01)*4.2-length(uv)+mod(uv.x+uv.y,0.2));
-            gl_FragColor=vec4(col[0],col[1],col[2],1.0);
-          }
-        `
-      });
-      sc.add(new THREE.Mesh(geo, mat));
-      const r = new THREE.WebGLRenderer({antialias:true, alpha:false});
-      r.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
-      mount.appendChild(r.domElement);
-      function resize(){
-        const w = mount.clientWidth, h = mount.clientHeight;
-        r.setSize(w,h,false);
-        u.resolution.value.set(r.domElement.width, r.domElement.height);
+        if (Math.abs(pointerTargetX - pointerX) > 0.15 || Math.abs(pointerTargetY - pointerY) > 0.15) {
+          cursorFrame = window.requestAnimationFrame(drawCursorBubble);
+        } else {
+          cursorFrame = null;
+        }
       }
-      resize(); window.addEventListener('resize', resize);
-      window.addEventListener('mousemove', e => { u.mouse.value.set(e.clientX/window.innerWidth, 1 - e.clientY/window.innerHeight); });
-      (function loop(){ requestAnimationFrame(loop); u.time.value += 0.042; r.render(sc,cam); })();
-    })();
 
-    /* LOADER */
-    function hideLoader(){
-      const l = document.getElementById('loader');
-      if(l) l.classList.add('out');
-    }
-    window.addEventListener('load', () => setTimeout(hideLoader, 900));
-    setTimeout(hideLoader, 2400);
-
-    /* STATUS PILL - show after loader */
-    setTimeout(()=> {
-      const p = document.getElementById('status-pill');
-      if(p) p.classList.add('show');
-    }, 2600);
-
-    /* SCROLL PROGRESS + NAV */
-    (function(){
-      const nav = document.getElementById('nav');
-      const bar = document.getElementById('scroll-progress');
-      const links = document.querySelectorAll('.nav-links a[href^="#"]');
-      const sections = Array.from(links)
-        .map(a => document.querySelector(a.getAttribute('href')))
-        .filter(Boolean);
-      function update(){
-        const sy = window.scrollY;
-        nav.classList.toggle('scrolled', sy > 40);
-        const max = document.documentElement.scrollHeight - window.innerHeight;
-        if(bar) bar.style.width = Math.min(100, (sy/max)*100) + '%';
-        /* active link */
-        let idx = 0;
-        sections.forEach((s,i) => { if(s && s.getBoundingClientRect().top <= window.innerHeight*0.35) idx = i; });
-        links.forEach((l,i)=> l.classList.toggle('active', i === idx));
-      }
-      window.addEventListener('scroll', update, {passive:true});
-      update();
-    })();
-
-    /* CURSOR - only when hover supported */
-    (function(){
-      if(!window.matchMedia('(hover:hover)').matches) return;
-      const dot = document.getElementById('cursor-dot');
-      const ring = document.getElementById('cursor-ring');
-      if(!dot||!ring) return;
-      let mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my;
-      document.addEventListener('mousemove', e => {
-        mx = e.clientX; my = e.clientY;
-        dot.style.left = mx+'px'; dot.style.top = my+'px';
+      document.addEventListener("pointermove", (event) => {
+        if (event.pointerType === "touch") return;
+        pointerTargetX = event.clientX;
+        pointerTargetY = event.clientY;
+        cursorBubble.classList.add("is-visible");
+        cursorBubble.classList.toggle("is-interactive", Boolean(event.target.closest?.("button, a")));
+        if (cursorFrame === null) cursorFrame = window.requestAnimationFrame(drawCursorBubble);
       });
-      document.querySelectorAll('a,button,.proj-card,.exp-row').forEach(el => {
-        el.addEventListener('mouseenter', ()=> ring.classList.add('hover'));
-        el.addEventListener('mouseleave', ()=> ring.classList.remove('hover'));
-      });
-      (function tick(){
-        rx += (mx-rx)*0.14; ry += (my-ry)*0.14;
-        ring.style.left = rx+'px'; ring.style.top = ry+'px';
-        requestAnimationFrame(tick);
-      })();
-    })();
 
-    /* MAGNETIC - footer links */
-    document.querySelectorAll('.foot-link').forEach(el => {
-      el.addEventListener('mousemove', e => {
-        const r = el.getBoundingClientRect();
-        const x = (e.clientX - r.left - r.width/2) * 0.25;
-        const y = (e.clientY - r.top - r.height/2) * 0.25;
-        el.style.transform = `translate(${x}px, ${y}px)`;
-        el.style.transition = 'none';
+      document.addEventListener("pointerdown", (event) => {
+        if (event.pointerType !== "touch") cursorBubble.classList.add("is-pressed");
       });
-      el.addEventListener('mouseleave', () => {
-        el.style.transform = '';
-        el.style.transition = 'transform 0.5s var(--ease), color 0.25s';
-      });
-    });
 
-    /* REVEAL */
-    (function(){
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if(e.isIntersecting){
-            e.target.classList.add('visible');
-            io.unobserve(e.target);
-          }
+      document.addEventListener("pointerup", () => cursorBubble.classList.remove("is-pressed"));
+      document.addEventListener("pointercancel", () => cursorBubble.classList.remove("is-pressed"));
+      document.documentElement.addEventListener("mouseleave", () => cursorBubble.classList.remove("is-visible"));
+
+      [false, true].forEach((duplicate) => {
+        photoSources.forEach((source, index) => {
+          const image = new Image();
+          image.src = source;
+          image.alt = duplicate ? "" : `Adventure photo ${index + 1} of ${photoSources.length}`;
+          image.draggable = false;
+          if (duplicate) image.setAttribute("aria-hidden", "true");
+          photoReel.appendChild(image);
         });
-      }, {threshold:0.08, rootMargin:'0px 0px -40px 0px'});
-      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-    })();
+      });
 
-    /* ROLE ROTATOR */
-    (function(){
-      const rot = document.querySelector('.role-rotator');
-      if(!rot) return;
-      const items = Array.from(rot.querySelectorAll('span'));
-      let i = 0;
-      setInterval(()=>{
-        items[i].classList.remove('active'); items[i].classList.add('past');
-        i = (i+1) % items.length;
-        items.forEach(s => s.classList.remove('past'));
-        items[(i-1+items.length)%items.length].classList.add('past');
-        items[i].classList.add('active');
-      }, 2400);
+      function normalizePhotoScroll() {
+        const loopWidth = photoReel.scrollWidth / 2;
+        if (!loopWidth) return;
+        if (photoReelViewport.scrollLeft >= loopWidth) photoReelViewport.scrollLeft -= loopWidth;
+      }
+
+      function animatePhotoReel(time) {
+        if (photoLastTime === null) photoLastTime = time;
+        const elapsed = Math.min(50, time - photoLastTime);
+        photoLastTime = time;
+        const photosOpen = document.getElementById("window-photos").classList.contains("is-open");
+        if (!reducedMotion && !document.hidden && photosOpen && !photoDrag) {
+          photoReelViewport.scrollLeft += elapsed * 0.028;
+          normalizePhotoScroll();
+        }
+        window.requestAnimationFrame(animatePhotoReel);
+      }
+
+      photoReelViewport.addEventListener("pointerdown", (event) => {
+        photoDrag = {
+          pointerId: event.pointerId,
+          startX: event.clientX,
+          startScrollLeft: photoReelViewport.scrollLeft
+        };
+        photoReelViewport.classList.add("is-dragging");
+        photoReelViewport.setPointerCapture(event.pointerId);
+      });
+
+      photoReelViewport.addEventListener("pointermove", (event) => {
+        if (!photoDrag || photoDrag.pointerId !== event.pointerId) return;
+        photoReelViewport.scrollLeft = photoDrag.startScrollLeft - (event.clientX - photoDrag.startX);
+      });
+
+      function endPhotoDrag(event) {
+        if (!photoDrag || photoDrag.pointerId !== event.pointerId) return;
+        photoDrag = null;
+        photoReelViewport.classList.remove("is-dragging");
+        normalizePhotoScroll();
+      }
+
+      photoReelViewport.addEventListener("pointerup", endPhotoDrag);
+      photoReelViewport.addEventListener("pointercancel", endPhotoDrag);
+      photoReelViewport.addEventListener("wheel", (event) => {
+        const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+        if (!delta) return;
+        event.preventDefault();
+        photoReelViewport.scrollLeft += delta;
+        normalizePhotoScroll();
+      }, { passive: false });
+
+      photoReelViewport.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+        event.preventDefault();
+        photoReelViewport.scrollBy({
+          left: (event.key === "ArrowRight" ? 1 : -1) * photoReelViewport.clientWidth * 0.55,
+          behavior: reducedMotion ? "auto" : "smooth"
+        });
+      });
+
+      window.requestAnimationFrame(animatePhotoReel);
+
+      function setExpanded(name, expanded) {
+        document.querySelectorAll(`.desktop-folder[data-open="${name}"]`).forEach((folder) => {
+          folder.setAttribute("aria-expanded", String(expanded));
+        });
+      }
+
+      function focusWindow(windowEl) {
+        topZ += 1;
+        windowEl.style.zIndex = String(topZ);
+      }
+
+      function openWindow(name) {
+        const windowEl = document.querySelector(`[data-window="${name}"]`);
+        if (!windowEl) return;
+        windowEl.classList.add("is-open");
+        setExpanded(name, true);
+        focusWindow(windowEl);
+      }
+
+      function closeWindow(windowEl) {
+        windowEl.classList.remove("is-open", "is-maximized");
+        setExpanded(windowEl.dataset.window, false);
+      }
+
+      openers.forEach((opener) => {
+        opener.addEventListener("click", () => {
+          document.body.classList.add("desktop-has-been-tried");
+          openWindow(opener.dataset.open);
+        });
+      });
+
+      windows.forEach((windowEl) => {
+        windowEl.addEventListener("pointerdown", () => focusWindow(windowEl));
+
+        windowEl.querySelectorAll("[data-close]").forEach((button) => {
+          button.addEventListener("click", (event) => {
+            event.stopPropagation();
+            closeWindow(windowEl);
+          });
+        });
+
+        windowEl.querySelectorAll("[data-maximize]").forEach((button) => {
+          button.addEventListener("click", (event) => {
+            event.stopPropagation();
+            windowEl.classList.toggle("is-maximized");
+            focusWindow(windowEl);
+          });
+        });
+
+        const titlebar = windowEl.querySelector(".window-titlebar");
+        titlebar.addEventListener("pointerdown", (event) => {
+          if (event.target.closest("button, a") || windowEl.classList.contains("is-maximized")) return;
+          const screenRect = screen.getBoundingClientRect();
+          const windowRect = windowEl.getBoundingClientRect();
+          dragState = {
+            windowEl,
+            pointerId: event.pointerId,
+            offsetX: event.clientX - windowRect.left,
+            offsetY: event.clientY - windowRect.top,
+            screenRect
+          };
+          titlebar.setPointerCapture(event.pointerId);
+          document.body.classList.add("dragging");
+          focusWindow(windowEl);
+        });
+
+        titlebar.addEventListener("pointermove", (event) => {
+          if (!dragState || dragState.pointerId !== event.pointerId || dragState.windowEl !== windowEl) return;
+          const { screenRect } = dragState;
+          const maxLeft = screen.clientWidth - windowEl.offsetWidth;
+          const maxTop = screen.clientHeight - windowEl.offsetHeight;
+          const left = Math.min(maxLeft, Math.max(0, event.clientX - screenRect.left - dragState.offsetX));
+          const top = Math.min(maxTop, Math.max(screen.clientHeight * 0.054, event.clientY - screenRect.top - dragState.offsetY));
+          windowEl.style.left = `${left}px`;
+          windowEl.style.top = `${top}px`;
+        });
+
+        titlebar.addEventListener("pointerup", (event) => {
+          if (!dragState || dragState.pointerId !== event.pointerId) return;
+          dragState = null;
+          document.body.classList.remove("dragging");
+        });
+
+        titlebar.addEventListener("dblclick", (event) => {
+          if (event.target.closest("button, a")) return;
+          windowEl.classList.toggle("is-maximized");
+          focusWindow(windowEl);
+        });
+      });
+
+      function updateClock() {
+        const now = new Date();
+        const formatted = new Intl.DateTimeFormat("en-US", {
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          hour: "numeric",
+          minute: "2-digit"
+        }).format(now);
+        document.getElementById("desktop-clock").textContent = formatted;
+      }
+
+      updateClock();
+      window.setInterval(updateClock, 30000);
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        const openWindows = windows.filter((windowEl) => windowEl.classList.contains("is-open"));
+        openWindows.sort((a, b) => Number(b.style.zIndex || 0) - Number(a.style.zIndex || 0));
+        if (openWindows[0]) closeWindow(openWindows[0]);
+      });
+
+      openWindow("about");
+    })();
+  </script>
+  <script>
+    (() => {
+      const pull = document.querySelector(".lamp-pull");
+      const body = document.body;
+      let drag = null;
+
+      function setLamp(on) {
+        body.classList.toggle("lamp-is-on", on);
+        if (!on) body.classList.remove("desktop-has-been-tried");
+        pull.setAttribute("aria-pressed", String(on));
+        pull.setAttribute("aria-label", `Pull the cord to turn ${on ? "off" : "on"} the lamp and computer`);
+      }
+
+      function resetPull() {
+        pull.classList.remove("is-pulling");
+        pull.style.setProperty("--pull-distance", "0px");
+      }
+
+      pull.addEventListener("pointerdown", (event) => {
+        if (event.button !== 0 && event.pointerType !== "touch") return;
+        event.preventDefault();
+        drag = { pointerId: event.pointerId, startY: event.clientY };
+        pull.classList.add("is-pulling");
+        pull.setPointerCapture(event.pointerId);
+      });
+
+      pull.addEventListener("pointermove", (event) => {
+        if (!drag || drag.pointerId !== event.pointerId) return;
+        const distance = Math.max(0, Math.min(38, event.clientY - drag.startY));
+        pull.style.setProperty("--pull-distance", `${distance}px`);
+      });
+
+      function finishPull(event) {
+        if (!drag || drag.pointerId !== event.pointerId) return;
+        drag = null;
+        setLamp(!body.classList.contains("lamp-is-on"));
+        resetPull();
+      }
+
+      pull.addEventListener("pointerup", finishPull);
+      pull.addEventListener("pointercancel", (event) => {
+        if (!drag || drag.pointerId !== event.pointerId) return;
+        drag = null;
+        resetPull();
+      });
+
+      pull.addEventListener("click", (event) => {
+        if (event.detail !== 0) return;
+        setLamp(!body.classList.contains("lamp-is-on"));
+      });
     })();
   </script>
 </body>
