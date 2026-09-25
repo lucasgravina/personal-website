@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": "budapest",
+    "title": "Budapest",
+    "location": "Hungary",
+    "lat": 47.4979,
+    "lng": 19.0402,
+    "date": "",
+    "bio": "",
+    "photos": []
+  }
+]

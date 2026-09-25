@@ -1,61 +1,38 @@
-:root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; color: #202522; background: #b8ddeb; }
+:root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; color: #252a28; background: #f5f5f3; }
 * { box-sizing: border-box; }
-body { margin: 0; }
-button, input, a { font: inherit; }
-button, a { -webkit-tap-highlight-color: transparent; }
-button { cursor: pointer; }
+body { margin: 0; min-height: 100dvh; display: grid; place-items: center; }
+button { font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 [hidden] { display: none !important; }
-button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid #087dff; outline-offset: 3px; }
-.map-app { height: 100dvh; display: grid; grid-template-rows: auto minmax(0, 1fr); overflow: hidden; }
-.map-toolbar { z-index: 1100; min-height: 66px; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 18px; background: #f8f9f7; border-bottom: 1px solid #d4d9d6; }
-.map-identity { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.map-identity img { border-radius: 8px; box-shadow: 0 1px 3px #1e492820; }
-h1 { margin: 0 0 2px; font-size: 15px; font-weight: 650; letter-spacing: -.025em; }
-.map-identity p { margin: 0; font-size: 11px; color: #747b78; }
-.map-actions { display: flex; align-items: center; gap: 8px; }
-.map-actions button, .map-actions a { padding: 8px 11px; border: 1px solid #d8dedb; border-radius: 7px; color: #326996; background: #fff; font-size: 12px; font-weight: 550; text-decoration: none; white-space: nowrap; }
-.map-actions button:hover, .map-actions a:hover { background: #edf4fa; }
-.map-actions button[aria-expanded="true"] { background: #e3f0fc; border-color: #a8cdec; }
-.is-embedded .back-link { display: none; }
-.map-body { display: flex; position: relative; min-height: 0; }
-.map-surface { position: relative; flex: 1; min-width: 0; min-height: 0; }
+button:focus-visible, a:focus-visible { outline: 3px solid #087dff; outline-offset: 3px; }
+.map-app { display: grid; grid-template-columns: minmax(0, 1fr); width: min(100vw, 100dvh); height: min(100dvh, 100vw); overflow: hidden; }
+.map-app.has-trip { width: min(100vw, calc(100dvh + min(80dvh, 280px))); grid-template-columns: minmax(0, 1fr) min(44.444444%, 280px); }
+.is-embedded .map-app { width: 100vw; height: 100dvh; }
+.map-surface { position: relative; min-width: 0; min-height: 0; }
 #travel-map { height: 100%; width: 100%; background: #aad3df; outline-offset: -4px; }
 .leaflet-container { font-family: inherit; }
-.leaflet-control-zoom { border: 1px solid #ccd3d1 !important; border-radius: 9px !important; box-shadow: 0 2px 12px #173a4020 !important; overflow: hidden; }
-.leaflet-touch .leaflet-bar a { width: 34px; height: 34px; line-height: 34px; color: #495653; }
-.leaflet-control-attribution { font-size: 10px !important; background: #fffffff0 !important; }
-.map-note { position: absolute; z-index: 500; left: 16px; top: 16px; padding: 13px 16px; max-width: calc(100% - 76px); border: 1px solid #ffffffa0; border-radius: 10px; background: #fffffff0; box-shadow: 0 3px 20px #31596218; pointer-events: none; }
-.map-note strong { display: block; margin-bottom: 4px; font-size: 13px; font-weight: 600; }
-.map-note span { display: block; color: #6b7775; font-size: 11px; line-height: 1.4; }
-.map-error { position: absolute; z-index: 600; bottom: 34px; left: 14px; right: 14px; width: fit-content; max-width: calc(100% - 28px); padding: 10px 14px; background: #fff; border: 1px solid #ded7c7; border-radius: 8px; font-size: 12px; }
-.places-panel { z-index: 700; width: 240px; flex: 0 0 240px; overflow-y: auto; padding: 18px 12px; background: #f8f9f7; border-right: 1px solid #d4d9d6; }
-.places-panel label { display: block; margin: 0 4px 8px; font-size: 12px; font-weight: 650; }
-.places-panel input { width: 100%; padding: 10px; background: #e9edeb; border: 1px solid transparent; border-radius: 7px; margin-bottom: 15px; font-size: 12px; }
-.trip-list-item { display: block; width: 100%; padding: 13px 10px; border: 0; border-bottom: 1px solid #dde2df; background: transparent; text-align: left; color: #252b28; }
-.trip-list-item:hover, .trip-list-item[aria-pressed="true"] { background: #e4eef6; border-radius: 7px; }
-.trip-list-item strong { display: block; font-size: 13px; }
-.trip-list-item span { display: block; font-size: 11px; color: #737d78; margin-top: 4px; }
-#search-empty { font-size: 12px; color: #737d78; padding: 4px; }
+.leaflet-control-zoom { border: 1px solid #ccd3d1 !important; border-radius: 8px !important; box-shadow: 0 2px 12px #173a4020 !important; overflow: hidden; }
+.leaflet-touch .leaflet-bar a { width: 28px; height: 28px; line-height: 28px; color: #495653; }
+.leaflet-control-attribution { max-width: calc(100% - 10px); padding: 2px 5px !important; font-size: 9px !important; line-height: 1.3 !important; color: #4d5552; background: #ffffffe8 !important; text-align: right; }
+.map-error { position: absolute; z-index: 600; bottom: 42px; left: 12px; right: 12px; padding: 10px 12px; background: #fff; border: 1px solid #ded7c7; border-radius: 8px; font-size: 12px; }
 .trip-dot { border: 0; background: transparent; }
 .trip-dot::after { content: ""; display: block; margin: 5px; width: 14px; height: 14px; background: #1585ed; border: 3px solid white; border-radius: 50%; box-shadow: 0 1px 5px #00336466; }
-.trip-dot:hover::after, .trip-dot:focus-visible::after { background: #005ac3; transform: scale(1.2); }
-.trip-detail { position: absolute; z-index: 800; left: 16px; bottom: 28px; width: 320px; max-width: calc(100% - 32px); max-height: calc(100% - 44px); overflow-y: auto; padding: 22px; background: #fffffff7; border: 1px solid white; border-radius: 13px; box-shadow: 0 8px 30px #22383b30; }
-.detail-close { position: absolute; right: 9px; top: 9px; width: 28px; height: 28px; background: #edf0ee; color: #68716d; border: 0; border-radius: 50%; font-size: 20px; line-height: 1; }
-.trip-date { margin: 0 28px 7px 0; font-size: 10px; color: #6f7d76; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; }
-.trip-detail h2 { margin: 0 22px 5px 0; font-size: 22px; letter-spacing: -.035em; }
-#trip-location { margin: 0; color: #69766f; font-size: 12px; }
-.trip-bio { font-size: 13px; line-height: 1.6; white-space: pre-line; }
+.trip-dot:hover::after, .trip-dot:focus-visible::after, .trip-dot[aria-expanded="true"]::after { background: #005ac3; transform: scale(1.2); }
+.trip-detail { position: relative; min-width: 0; overflow-y: auto; overscroll-behavior: contain; padding: 24px 20px; background: #fafbf9; border-left: 1px solid #dce1dd; scrollbar-width: thin; }
+.detail-close { position: absolute; right: 10px; top: 10px; width: 26px; height: 26px; padding: 0; background: #e9eeea; color: #69746d; border: 0; border-radius: 50%; font-size: 20px; line-height: 1; }
+.section-label { margin: 0 28px 8px 0; font-size: 10px; font-weight: 650; text-transform: uppercase; letter-spacing: .09em; color: #808a83; }
+.trip-detail h1 { margin: 0 0 4px; font-size: 25px; font-weight: 650; letter-spacing: -.04em; overflow-wrap: anywhere; }
+.trip-location { margin: 0; color: #6d7870; font-size: 12px; }
+.detail-section { margin-top: 22px; padding-top: 16px; border-top: 1px solid #e3e7e1; }
+.detail-section > p { margin: 0; font-size: 12px; line-height: 1.6; }
+.empty-value { color: #929b95; }
+.trip-bio { white-space: pre-line; overflow-wrap: anywhere; }
 .trip-photos { display: grid; gap: 14px; }
 .trip-photos figure { margin: 0; }
 .trip-photos img { display: block; width: 100%; height: auto; border-radius: 7px; }
 .trip-photos figcaption { margin-top: 5px; color: #707a75; font-size: 11px; line-height: 1.4; }
-@media (max-width: 600px) {
-  .map-toolbar { padding: 10px 12px; gap: 8px; min-height: 59px; }
-  .map-identity { gap: 7px; }
-  .map-identity img { width: 26px; height: 26px; }
-  h1 { font-size: 13px; }
-  .map-actions { gap: 5px; }
-  .map-actions button, .map-actions a { padding: 8px; font-size: 11px; }
-  .places-panel { position: absolute; left: 0; top: 0; bottom: 0; width: min(240px, 75%); box-shadow: 4px 0 20px #173a4018; }
-  .map-note { left: 12px; top: 12px; padding: 11px 13px; }
+@media (max-width: 480px), (max-height: 350px) {
+  .trip-detail { padding: 16px 14px; }
+  .trip-detail h1 { font-size: 22px; }
+  .section-label { margin-bottom: 6px; }
+  .detail-section { margin-top: 10px; padding-top: 8px; }
 }

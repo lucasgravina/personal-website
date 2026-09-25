@@ -6,7 +6,7 @@
   <meta name="description" content="Lucas Gravina - Stanford student working across AI research, product, and operations." />
   <meta name="theme-color" content="#090a0b" />
   <title>Lucas Gravina</title>
-  <link rel="stylesheet" href="assets/maps-desktop.css" />
+  <link rel="stylesheet" href="assets/maps-desktop.css?v=20260925-split" />
   <style>
     :root {
       --ink: #111111;
@@ -3151,7 +3151,6 @@
               <button class="traffic maximize" type="button" data-maximize aria-label="Maximize Maps"></button>
             </div>
             <h2 class="window-title">Maps</h2>
-            <a class="titlebar-action" href="map/" target="_blank" rel="noopener">Full map ↗</a>
           </header>
           <div class="window-content maps-window-content">
             <iframe data-travel-map title="Lucas’s travel map" src="about:blank"></iframe>
@@ -3427,8 +3426,9 @@
         if (!windowEl) return;
         windowEl.classList.add("is-open");
         if (name === "maps") {
+          sizeMapsWindow();
           const frame = windowEl.querySelector("[data-travel-map]");
-          if (frame.getAttribute("src") === "about:blank") frame.src = "map/";
+          if (frame.getAttribute("src") === "about:blank") frame.src = "map/?v=20260925-split";
         }
         setExpanded(name, true);
         focusWindow(windowEl);
@@ -3438,7 +3438,29 @@
         windowEl.classList.remove("is-open", "is-maximized");
         setExpanded(windowEl.dataset.window, false);
         if (windowEl.dataset.window === "spotify") resetSpotifyPlayer();
+        if (windowEl.dataset.window === "maps") {
+          windowEl.classList.remove("has-trip");
+          windowEl.querySelector("[data-travel-map]").contentWindow.postMessage({ type: "travel-map:reset" }, location.origin);
+        }
       }
+
+      const mapsWindow = document.getElementById("window-maps");
+      const mapsFrame = mapsWindow.querySelector("[data-travel-map]");
+      function sizeMapsWindow() {
+        const titleHeight = Math.min(40, Math.max(20, screen.clientWidth * 0.0325));
+        const mapSize = Math.max(0, screen.clientHeight * 0.84 - titleHeight - 2);
+        const baseWidth = mapSize + 2;
+        const splitWidth = Math.min(screen.clientWidth * 0.95, baseWidth + Math.min(mapSize * 0.8, 280));
+        mapsWindow.style.setProperty("--maps-base-width", `${baseWidth}px`);
+        mapsWindow.style.setProperty("--maps-split-width", `${splitWidth}px`);
+      }
+      new ResizeObserver(sizeMapsWindow).observe(screen);
+      window.addEventListener("message", event => {
+        if (event.origin !== location.origin || event.source !== mapsFrame.contentWindow) return;
+        if (event.data?.type === "travel-map:detail" && typeof event.data.open === "boolean") {
+          mapsWindow.classList.toggle("has-trip", event.data.open && mapsWindow.classList.contains("is-open"));
+        }
+      });
 
       openers.forEach((opener) => {
         opener.addEventListener("click", () => {
