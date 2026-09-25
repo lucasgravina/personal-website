@@ -6,7 +6,7 @@
   <meta name="description" content="Lucas Gravina - Stanford student working across AI research, product, and operations." />
   <meta name="theme-color" content="#090a0b" />
   <title>Lucas Gravina</title>
-  <link rel="stylesheet" href="assets/maps-desktop.css?v=20260925-split" />
+  <link rel="stylesheet" href="assets/maps-desktop.css?v=20260925-travels" />
   <style>
     :root {
       --ink: #111111;
@@ -761,7 +761,6 @@
         #e9eae8;
     }
 
-    #window-projects .window-content,
     #window-education .window-content {
       display: grid;
       grid-template-rows: auto minmax(0, 1fr);
@@ -856,8 +855,7 @@
     }
 
     .resume-list,
-    .education-block,
-    .projects-grid {
+    .education-block {
       display: grid;
       gap: clamp(12px, 2.2cqw, 30px);
     }
@@ -870,8 +868,7 @@
       margin-bottom: clamp(7px, 1.05cqw, 15px);
     }
 
-    .resume-entry,
-    .project-item {
+    .resume-entry {
       display: grid;
       gap: clamp(4px, 0.72cqw, 10px);
     }
@@ -898,47 +895,63 @@
       font-weight: 600;
     }
 
-    .projects-grid {
-      min-height: 0;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      grid-template-rows: repeat(2, minmax(0, 1fr));
-      gap: clamp(5px, 0.85cqw, 12px);
-      counter-reset: project-card;
+    #window-projects .window-content {
+      display: block;
+      padding: clamp(16px, 2.7cqw, 36px);
+      background: #f7f5ef;
     }
 
+    #window-projects .projects-heading { margin-bottom: clamp(14px, 2.2cqw, 30px); }
+    #window-projects .projects-heading h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(21px, 3.3cqw, 40px);
+      font-weight: 400;
+      letter-spacing: -.045em;
+      line-height: 1.1;
+      color: #303a33;
+    }
+    .projects-list { border-top: 1px solid #b8bbae; }
     .project-item {
-      position: relative;
-      align-content: start;
-      min-height: 0;
-      overflow: visible;
-      padding: clamp(8px, 1.2cqw, 17px);
-      border: 1px solid rgba(0, 0, 0, 0.09);
-      border-radius: clamp(6px, 0.9cqw, 13px);
-      background: rgba(255, 255, 253, 0.9);
-      box-shadow: 0 5px 15px rgba(31, 34, 36, 0.06);
-      counter-increment: project-card;
+      display: grid;
+      grid-template-columns: minmax(76px, .28fr) minmax(0, 1fr);
+      column-gap: clamp(12px, 2cqw, 26px);
+      padding: clamp(10px, 1.6cqw, 22px) 0;
+      border-bottom: 1px solid #d9dbd1;
     }
-
-    .project-item::before {
-      content: "0" counter(project-card);
-      position: absolute;
-      top: clamp(7px, 0.9cqw, 12px);
-      right: clamp(8px, 1cqw, 14px);
-      color: rgba(0, 0, 0, 0.16);
-      font-size: clamp(7px, 0.74cqw, 11px);
-      font-weight: 750;
-      letter-spacing: 0.08em;
-    }
-
-    #window-projects .window-content h3 {
-      font-size: clamp(12px, 1.8cqw, 20px);
-    }
-
-    .project-item p {
-      color: #6b6b67;
-      font-size: clamp(9.5px, 1.15cqw, 14px);
+    .project-kind {
+      padding-top: 3px;
+      color: #78816f;
+      font-size: clamp(9px, 1.2cqw, 13px);
       line-height: 1.4;
     }
+    .project-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+    #window-projects .project-item h3 {
+      margin: 0;
+      color: #2d342e;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(15px, 2.1cqw, 25px);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -.025em;
+      text-wrap: balance;
+    }
+    #window-projects .project-item p {
+      margin: 7px 0 0;
+      color: #666c63;
+      font-size: clamp(11px, 1.38cqw, 15px);
+      line-height: 1.5;
+    }
+    .project-view {
+      flex: none;
+      color: #526849;
+      font-size: clamp(10px, 1.3cqw, 14px);
+      text-decoration: none;
+      text-underline-offset: 3px;
+      white-space: nowrap;
+    }
+    .project-view:hover { color: #1e3420; text-decoration: underline; }
+    .project-view:focus-visible { outline: 2px solid #526849; outline-offset: 4px; border-radius: 2px; }
 
     #window-experience .window-content {
       overflow-y: auto;
@@ -2131,8 +2144,7 @@
       font-size: clamp(10px, 0.9cqw, 12px);
     }
 
-    .entry-date,
-    .project-item::before {
+    .entry-date {
       font-size: clamp(9px, 0.78cqw, 11px);
     }
 
@@ -2140,25 +2152,9 @@
       font-size: clamp(10px, 0.9cqw, 12px);
     }
 
-    #window-projects .window-content h3 {
-      font-size: clamp(13px, 1.8cqw, 20px);
-    }
-
-    .project-item p {
-      font-size: clamp(11px, 1.15cqw, 14px);
-      line-height: 1.32;
-    }
-
     .experience-copy p {
       font-size: clamp(11px, 1.08cqw, 13px);
       line-height: 1.28;
-    }
-
-    .projects-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-template-rows: none;
-      grid-auto-rows: max-content;
-      align-content: start;
     }
 
     .education-fact strong {
@@ -2614,7 +2610,7 @@
       <h1 id="mobile-gate-title">This site works best on desktop :)</h1>
       <nav class="mobile-gate__links" aria-label="Mobile links">
         <a href="assets/Resume_Lucas_Gravina.pdf?v=20260925" download="Lucas_Gravina_Resume.pdf">Download résumé ↓</a>
-        <a href="map/">Maps ↗</a>
+        <a href="map/">Travels ↗</a>
         <a href="mailto:lgravina@stanford.edu">Email ↗</a>
         <a href="https://linkedin.com/in/lucas-gravina/" target="_blank" rel="noopener">LinkedIn ↗</a>
       </nav>
@@ -2821,7 +2817,7 @@
           </button>
           <button class="desktop-folder maps-desktop-icon" type="button" data-open="maps" aria-controls="window-maps" aria-expanded="false">
             <img class="folder-art photos-app-art" src="assets/maps-icon.svg" alt="" />
-            <span class="folder-label">Maps</span>
+            <span class="folder-label">Travels</span>
           </button>
         </div>
 
@@ -2941,33 +2937,56 @@
           </header>
           <div class="window-content">
             <div class="projects-heading">
-              <span class="window-eyebrow">Selected work</span>
-              <h2>Projects</h2>
+              <h2>Things I’ve worked on.</h2>
             </div>
-            <div class="projects-grid">
+            <div class="projects-list">
               <section class="project-item">
-                <h3>Day N Mayfield</h3>
-                <p>Ran a $170,000 Stanford music festival with 100+ staff, 12 bands, and 1,500+ attendees; managed a $90K budget and eight-person staff delivering 60+ campus-wide events per year.</p>
+                <span class="project-kind">Live events</span>
+                <div class="project-copy">
+                  <div class="project-heading"><h3>Day N Mayfield</h3></div>
+                  <p>Ran a $170,000 Stanford music festival with 100+ staff, 12 bands, and 1,500+ attendees. Also managed a $90K budget and eight-person team putting on 60+ campus events a year.</p>
+                </div>
               </section>
               <section class="project-item">
-                <h3>fMRI Media Analysis</h3>
-                <p>Built an fMRI-informed deception-detection layer on Meta’s TRIBE V2 model and collaborated with AllSides’ Head of AI on media-bias applications.</p>
+                <span class="project-kind">Local AI</span>
+                <div class="project-copy">
+                  <div class="project-heading">
+                    <h3>Everen, Local AI Hardware</h3>
+                    <a class="project-view" href="https://everenai.com/" target="_blank" rel="noopener" aria-label="View Everen">View ↗</a>
+                  </div>
+                  <p>Designed a speech-to-LLM system and custom hardware interface for private AI that runs locally.</p>
+                </div>
               </section>
               <section class="project-item">
-                <h3>Online Businesses</h3>
-                <p>Gained 10 million natural views, 100,000+ followers, and five-figure revenue across several ecommerce businesses.</p>
+                <span class="project-kind">Neuroscience</span>
+                <div class="project-copy">
+                  <div class="project-heading">
+                    <h3>TRIBE, fMRI Media Analysis</h3>
+                    <a class="project-view" href="fmri/" target="_blank" rel="noopener" aria-label="View TRIBE fMRI Media Analysis">View ↗</a>
+                  </div>
+                  <p>Built an fMRI-informed deception-detection layer on Meta’s TRIBE V2 model, working with AllSides’ Head of AI on media-bias applications.</p>
+                </div>
               </section>
               <section class="project-item">
-                <h3>Local AI Hardware</h3>
-                <p>Designed a speech-to-LLM software system and custom hardware interface for private local AI.</p>
+                <span class="project-kind">Commerce</span>
+                <div class="project-copy">
+                  <div class="project-heading"><h3>Online Businesses</h3></div>
+                  <p>Grew several ecommerce businesses to 10 million organic views, 100,000+ followers, and five-figure revenue.</p>
+                </div>
               </section>
               <section class="project-item">
-                <h3>Happening Stanford</h3>
-                <p>Coded and scaled a web platform used by 1,500+ students to find campus events at Stanford.</p>
+                <span class="project-kind">Campus software</span>
+                <div class="project-copy">
+                  <div class="project-heading"><h3>Happening Stanford</h3></div>
+                  <p>Built a web platform used by 1,500+ students to find events at Stanford.</p>
+                </div>
               </section>
               <section class="project-item">
-                <h3>Date Drop</h3>
-                <p>Launched GTM for the matchmaking platform Date Drop, growing it from zero to 5,000 users at Stanford.</p>
+                <span class="project-kind">Community</span>
+                <div class="project-copy">
+                  <div class="project-heading"><h3>Date Drop</h3></div>
+                  <p>Led the Stanford launch of matchmaking platform Date Drop, growing it from zero to 5,000 users.</p>
+                </div>
               </section>
             </div>
           </div>
@@ -3143,14 +3162,14 @@
           </div>
         </article>
 
-        <article class="mac-window maps-window" id="window-maps" data-window="maps" aria-label="Travel map">
+        <article class="mac-window maps-window" id="window-maps" data-window="maps" aria-label="Travels">
           <header class="window-titlebar">
             <div class="traffic-lights">
-              <button class="traffic close" type="button" data-close aria-label="Close Maps"></button>
-              <button class="traffic minimize" type="button" data-close aria-label="Minimize Maps"></button>
-              <button class="traffic maximize" type="button" data-maximize aria-label="Maximize Maps"></button>
+              <button class="traffic close" type="button" data-close aria-label="Close Travels"></button>
+              <button class="traffic minimize" type="button" data-close aria-label="Minimize Travels"></button>
+              <button class="traffic maximize" type="button" data-maximize aria-label="Maximize Travels"></button>
             </div>
-            <h2 class="window-title">Maps</h2>
+            <h2 class="window-title">Check out my travels</h2>
           </header>
           <div class="window-content maps-window-content">
             <iframe data-travel-map title="Lucas’s travel map" src="about:blank"></iframe>
@@ -3159,7 +3178,7 @@
 
         <div class="desktop-dock" aria-label="Desktop dock">
           <button class="dock-icon dock-finder" type="button" data-open="about" aria-label="Open About"></button>
-          <button class="dock-icon dock-maps" type="button" data-open="maps" aria-label="Open Maps" aria-controls="window-maps" aria-expanded="false" title="Maps">
+          <button class="dock-icon dock-maps" type="button" data-open="maps" aria-label="Open Travels" aria-controls="window-maps" aria-expanded="false" title="Travels">
             <img src="assets/maps-icon.svg" alt="" />
           </button>
           <button class="dock-icon dock-photos" type="button" data-open="photos" aria-label="Open Photos">
@@ -3426,9 +3445,8 @@
         if (!windowEl) return;
         windowEl.classList.add("is-open");
         if (name === "maps") {
-          sizeMapsWindow();
           const frame = windowEl.querySelector("[data-travel-map]");
-          if (frame.getAttribute("src") === "about:blank") frame.src = "map/?v=20260925-split";
+          if (frame.getAttribute("src") === "about:blank") frame.src = "map/?v=20260925-travels";
         }
         setExpanded(name, true);
         focusWindow(windowEl);
@@ -3439,28 +3457,9 @@
         setExpanded(windowEl.dataset.window, false);
         if (windowEl.dataset.window === "spotify") resetSpotifyPlayer();
         if (windowEl.dataset.window === "maps") {
-          windowEl.classList.remove("has-trip");
           windowEl.querySelector("[data-travel-map]").contentWindow.postMessage({ type: "travel-map:reset" }, location.origin);
         }
       }
-
-      const mapsWindow = document.getElementById("window-maps");
-      const mapsFrame = mapsWindow.querySelector("[data-travel-map]");
-      function sizeMapsWindow() {
-        const titleHeight = Math.min(40, Math.max(20, screen.clientWidth * 0.0325));
-        const mapSize = Math.max(0, screen.clientHeight * 0.84 - titleHeight - 2);
-        const baseWidth = mapSize + 2;
-        const splitWidth = Math.min(screen.clientWidth * 0.95, baseWidth + Math.min(mapSize * 0.8, 280));
-        mapsWindow.style.setProperty("--maps-base-width", `${baseWidth}px`);
-        mapsWindow.style.setProperty("--maps-split-width", `${splitWidth}px`);
-      }
-      new ResizeObserver(sizeMapsWindow).observe(screen);
-      window.addEventListener("message", event => {
-        if (event.origin !== location.origin || event.source !== mapsFrame.contentWindow) return;
-        if (event.data?.type === "travel-map:detail" && typeof event.data.open === "boolean") {
-          mapsWindow.classList.toggle("has-trip", event.data.open && mapsWindow.classList.contains("is-open"));
-        }
-      });
 
       openers.forEach((opener) => {
         opener.addEventListener("click", () => {

@@ -4,9 +4,8 @@ body { margin: 0; min-height: 100dvh; display: grid; place-items: center; }
 button { font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 [hidden] { display: none !important; }
 button:focus-visible, a:focus-visible { outline: 3px solid #087dff; outline-offset: 3px; }
-.map-app { display: grid; grid-template-columns: minmax(0, 1fr); width: min(100vw, 100dvh); height: min(100dvh, 100vw); overflow: hidden; }
-.map-app.has-trip { width: min(100vw, calc(100dvh + min(80dvh, 280px))); grid-template-columns: minmax(0, 1fr) min(44.444444%, 280px); }
-.is-embedded .map-app { width: 100vw; height: 100dvh; }
+.map-app { display: grid; grid-template-columns: minmax(0, 1fr); width: 100vw; height: 100dvh; overflow: hidden; }
+.map-app.has-trip { grid-template-columns: minmax(0, 1fr) min(42%, 280px); }
 .map-surface { position: relative; min-width: 0; min-height: 0; }
 #travel-map { height: 100%; width: 100%; background: #aad3df; outline-offset: -4px; }
 .leaflet-container { font-family: inherit; }
@@ -14,9 +13,10 @@ button:focus-visible, a:focus-visible { outline: 3px solid #087dff; outline-offs
 .leaflet-touch .leaflet-bar a { width: 28px; height: 28px; line-height: 28px; color: #495653; }
 .leaflet-control-attribution { max-width: calc(100% - 10px); padding: 2px 5px !important; font-size: 9px !important; line-height: 1.3 !important; color: #4d5552; background: #ffffffe8 !important; text-align: right; }
 .map-error { position: absolute; z-index: 600; bottom: 42px; left: 12px; right: 12px; padding: 10px 12px; background: #fff; border: 1px solid #ded7c7; border-radius: 8px; font-size: 12px; }
-.trip-dot { border: 0; background: transparent; }
-.trip-dot::after { content: ""; display: block; margin: 5px; width: 14px; height: 14px; background: #1585ed; border: 3px solid white; border-radius: 50%; box-shadow: 0 1px 5px #00336466; }
-.trip-dot:hover::after, .trip-dot:focus-visible::after, .trip-dot[aria-expanded="true"]::after { background: #005ac3; transform: scale(1.2); }
+.trip-pin { border: 0; background: transparent; }
+.trip-pin::before { content: ""; position: absolute; left: 3px; top: 2px; width: 18px; height: 18px; border: 2px solid #fff; border-radius: 50% 50% 50% 0; background: #c45d48; box-shadow: -1px 2px 4px #55372d55; transform: rotate(-45deg); }
+.trip-pin::after { content: ""; position: absolute; left: 10px; top: 9px; width: 4px; height: 4px; border-radius: 50%; background: #fff; pointer-events: none; }
+.trip-pin:hover::before, .trip-pin:focus-visible::before, .trip-pin[aria-expanded="true"]::before { background: #a73e30; }
 .trip-detail { position: relative; min-width: 0; overflow-y: auto; overscroll-behavior: contain; padding: 24px 20px; background: #fafbf9; border-left: 1px solid #dce1dd; scrollbar-width: thin; }
 .detail-close { position: absolute; right: 10px; top: 10px; width: 26px; height: 26px; padding: 0; background: #e9eeea; color: #69746d; border: 0; border-radius: 50%; font-size: 20px; line-height: 1; }
 .section-label { margin: 0 28px 8px 0; font-size: 10px; font-weight: 650; text-transform: uppercase; letter-spacing: .09em; color: #808a83; }

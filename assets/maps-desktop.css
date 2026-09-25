@@ -9,17 +9,15 @@
 #window-maps {
   left: 2.5% !important;
   top: 7% !important;
-  width: var(--maps-base-width, 44%);
+  width: 83%;
   height: 84%;
   background: #e6edf0;
 }
 
-#window-maps.has-trip { width: var(--maps-split-width, 83%); }
-
 #window-maps.is-maximized {
   left: 1.2% !important;
   top: 6.2% !important;
-  width: 97.6%;
+  width: 84.5%;
   height: 85.8%;
 }
 

@@ -8,6 +8,7 @@
   const markers = new Map();
   let selectedId = null;
   let lastTrigger = null;
+  let resetPending = true;
 
   function showError(message) {
     error.textContent = message;
@@ -49,30 +50,30 @@
     if (error.textContent.startsWith("Some map")) error.hidden = true;
   });
 
-  // Fractional zoom fits the world to the pane, with no empty tile margins.
+  // Size the overview to the full app, not the shrinking detail-view pane.
+  // Keeping the same zoom and center crops both sides when details open.
   function resizeMap(reset = false) {
+    if (reset) resetPending = true;
     const surface = document.getElementById("travel-map");
     if (!surface.clientWidth || !surface.clientHeight) return;
-    map.invalidateSize({ pan: false });
-    const minZoom = Math.max(0, Math.log2(Math.max(surface.clientWidth, surface.clientHeight) / 256));
+    map.invalidateSize({ pan: true, animate: false });
+    const minZoom = Math.max(0, Math.log2(app.clientWidth / 256), Math.log2(app.clientHeight / (256 * 0.6)));
     map.setMinZoom(minZoom);
-    if (reset || selectedId === null) {
-      map.setView([0, 0], minZoom, { animate: false });
+    if (resetPending) {
+      map.setView([18, 0], minZoom, { animate: false });
+      resetPending = false;
     } else map.panInsideBounds(worldBounds, { animate: false });
   }
   resizeMap(true);
   new ResizeObserver(() => resizeMap()).observe(document.getElementById("travel-map"));
 
-  function notifyParent(open) {
-    if (embedded) window.parent.postMessage({ type: "travel-map:detail", open }, location.origin);
-  }
-  function closeDetail(restoreFocus = false) {
+  function closeDetail(restoreFocus = false, reset = false) {
     detail.hidden = true;
     app.classList.remove("has-trip");
     selectedId = null;
     markers.forEach(marker => marker.getElement()?.setAttribute("aria-expanded", "false"));
-    notifyParent(false);
-    requestAnimationFrame(() => resizeMap(true));
+    if (reset) resetPending = true;
+    requestAnimationFrame(() => resizeMap());
     if (restoreFocus && lastTrigger?.isConnected) lastTrigger.focus();
   }
   document.getElementById("detail-close").addEventListener("click", () => closeDetail(true));
@@ -81,7 +82,7 @@
   });
   window.addEventListener("message", event => {
     if (event.origin !== location.origin || event.source !== window.parent) return;
-    if (event.data?.type === "travel-map:reset") closeDetail();
+    if (event.data?.type === "travel-map:reset") closeDetail(false, true);
   });
 
   function photoURL(src) {
@@ -127,11 +128,11 @@
     app.classList.add("has-trip");
     detail.scrollTop = 0;
     markers.forEach((marker, id) => marker.getElement()?.setAttribute("aria-expanded", String(id === selectedId)));
-    notifyParent(true);
     requestAnimationFrame(() => {
       resizeMap();
-      const zoom = Number.isFinite(trip.zoom) ? Math.min(18, Math.max(map.getMinZoom(), trip.zoom)) : Math.max(map.getMinZoom(), 4);
-      map.setView([trip.lat, trip.lng], zoom, { animate: false });
+      if (Number.isFinite(trip.zoom)) {
+        map.setView([trip.lat, trip.lng], Math.min(18, Math.max(map.getMinZoom(), trip.zoom)), { animate: false });
+      } else map.panInside([trip.lat, trip.lng], { padding: [30, 30], animate: false });
     });
     document.getElementById("detail-close").focus({ preventScroll: true });
   }
@@ -148,12 +149,12 @@
         if (!trip || typeof trip.id !== "string" || !trip.id || ids.has(trip.id) || typeof trip.title !== "string" || !trip.title.trim() || !Number.isFinite(trip.lat) || Math.abs(trip.lat) > 85 || !Number.isFinite(trip.lng) || Math.abs(trip.lng) > 180 || (trip.photos !== undefined && (!Array.isArray(trip.photos) || trip.photos.some(photo => !photo || typeof photo.src !== "string")))) throw new Error("Invalid trip entry");
         ids.add(trip.id);
       });
-      const icon = L.divIcon({ className: "trip-dot", iconSize: [24, 24], iconAnchor: [12, 12], html: "" });
+      const icon = L.divIcon({ className: "trip-pin", iconSize: [24, 30], iconAnchor: [12, 24], html: "" });
       data.forEach(trip => {
         const marker = L.marker([trip.lat, trip.lng], { icon, title: trip.title, alt: trip.title, keyboard: true, riseOnHover: true }).addTo(map);
         const label = document.createElement("span");
         label.textContent = trip.title;
-        marker.bindTooltip(label, { direction: "top", offset: [0, -8] });
+        marker.bindTooltip(label, { direction: "top", offset: [0, -24] });
         marker.getElement().setAttribute("aria-controls", "trip-detail");
         marker.getElement().setAttribute("aria-expanded", "false");
         marker.on("click", () => selectTrip(trip, marker.getElement()));
