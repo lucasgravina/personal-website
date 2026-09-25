@@ -1,5 +1,125 @@
 [
   {
+    "id": "germany",
+    "title": "Germany",
+    "location": "",
+    "lat": 51.1657,
+    "lng": 10.4515,
+    "date": "",
+    "bio": "",
+    "photos": []
+  },
+  {
+    "id": "bosnia-and-herzegovina",
+    "title": "Bosnia and Herzegovina",
+    "location": "",
+    "lat": 43.9159,
+    "lng": 17.6791,
+    "date": "",
+    "bio": "",
+    "photos": []
+  },
+  {
+    "id": "croatia",
+    "title": "Croatia",
+    "location": "",
+    "lat": 45.1,
+    "lng": 15.2,
+    "date": "",
+    "bio": "",
+    "photos": []
+  },
+  {
+    "id": "montenegro",
+    "title": "Montenegro",
+    "location": "",
+    "lat": 42.7087,
+    "lng": 19.3744,
+    "date": "",
+    "bio": "",
+    "photos": []
+  },
+  {
+    "id": "el-salvador",
+    "title": "El Salvador",
+    "location": "",
+    "lat": 13.7942,
+    "lng": -88.8965,
+    "date": "",
+    "bio": "",
+    "photos": []
+  },
+  {
+    "id": "guatemala",
+    "title": "Guatemala",
+    "location": "",
+    "lat": 15.7835,
+    "lng": -90.2308,
+    "date": "",
+    "bio": "",
+    "photos": []
+  },
+  {
+    "id": "mexico",
+    "title": "Mexico",
+    "location": "",
+    "lat": 23.6345,
+    "lng": -102.5528,
+    "date": "",
+    "bio": "",
+    "photos": []
+  },
+  {
+    "id": "france",
+    "title": "France",
+    "location": "",
+    "lat": 46.2276,
+    "lng": 2.2137,
+    "date": "",
+    "bio": "",
+    "photos": []
+  },
+  {
+    "id": "switzerland",
+    "title": "Switzerland",
+    "location": "",
+    "lat": 46.8182,
+    "lng": 8.2275,
+    "date": "",
+    "bio": "",
+    "photos": []
+  },
+  {
+    "id": "italy",
+    "title": "Italy",
+    "location": "",
+    "lat": 41.8719,
+    "lng": 12.5674,
+    "date": "",
+    "bio": "",
+    "photos": []
+  },
+  {
+    "id": "iceland",
+    "title": "Iceland",
+    "location": "",
+    "lat": 64.9631,
+    "lng": -19.0208,
+    "date": "",
+    "bio": "",
+    "photos": []
+  },
+  {
+    "id": "cuba",
+    "title": "Cuba",
+    "location": "",
+    "lat": 21.5218,
+    "lng": -77.7812,
+    "date": "",
+    "bio": "",
+    "photos": []
+  },
+  {
     "id": "budapest",
     "title": "Budapest",
     "location": "Hungary",
@@ -7,6 +127,56 @@
     "lng": 19.0402,
     "date": "",
     "bio": "",
+    "photos": []
+  },
+  {
+    "id": "czech-republic",
+    "title": "Czech Republic",
+    "location": "",
+    "lat": 49.8175,
+    "lng": 15.473,
+    "date": "",
+    "bio": "",
+    "photos": []
+  },
+  {
+    "id": "serbia",
+    "title": "Serbia",
+    "location": "",
+    "lat": 44.0165,
+    "lng": 21.0059,
+    "date": "",
+    "bio": "",
+    "photos": []
+  },
+  {
+    "id": "costa-rica",
+    "title": "Costa Rica",
+    "location": "",
+    "lat": 9.7489,
+    "lng": -83.7534,
+    "date": "",
+    "bio": "",
+    "photos": []
+  },
+  {
+    "id": "pittsburgh-home",
+    "title": "Home",
+    "location": "Pittsburgh, Pennsylvania, United States",
+    "lat": 40.4406,
+    "lng": -79.9959,
+    "date": "",
+    "bio": "Where I’m from.",
+    "photos": []
+  },
+  {
+    "id": "stanford-school",
+    "title": "School",
+    "location": "Stanford University, California, United States",
+    "lat": 37.4275,
+    "lng": -122.17,
+    "date": "",
+    "bio": "I study at Stanford.",
     "photos": []
   }
 ]
