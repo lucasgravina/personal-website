@@ -6,6 +6,7 @@
   <meta name="description" content="Lucas Gravina - Stanford student working across AI research, product, and operations." />
   <meta name="theme-color" content="#090a0b" />
   <title>Lucas Gravina</title>
+  <link rel="stylesheet" href="assets/maps-desktop.css" />
   <style>
     :root {
       --ink: #111111;
@@ -2612,6 +2613,8 @@
     <div class="mobile-gate__content">
       <h1 id="mobile-gate-title">This site works best on desktop :)</h1>
       <nav class="mobile-gate__links" aria-label="Mobile links">
+        <a href="assets/Resume_Lucas_Gravina.pdf?v=20260925" download="Lucas_Gravina_Resume.pdf">Download résumé ↓</a>
+        <a href="map/">Maps ↗</a>
         <a href="mailto:lgravina@stanford.edu">Email ↗</a>
         <a href="https://linkedin.com/in/lucas-gravina/" target="_blank" rel="noopener">LinkedIn ↗</a>
       </nav>
@@ -2816,6 +2819,10 @@
             </svg>
             <span class="folder-label">Photos</span>
           </button>
+          <button class="desktop-folder maps-desktop-icon" type="button" data-open="maps" aria-controls="window-maps" aria-expanded="false">
+            <img class="folder-art photos-app-art" src="assets/maps-icon.svg" alt="" />
+            <span class="folder-label">Maps</span>
+          </button>
         </div>
 
         <article class="mac-window resume-pdf-window" id="window-resume" data-window="resume">
@@ -2826,10 +2833,10 @@
               <button class="traffic maximize" type="button" data-maximize aria-label="Maximize Resume"></button>
             </div>
             <h2 class="window-title">Resume</h2>
-            <a class="titlebar-action" href="assets/Resume_Lucas_Gravina.pdf" target="_blank" rel="noopener">Open PDF ↗</a>
+            <a class="titlebar-action" href="assets/Resume_Lucas_Gravina.pdf?v=20260925" download="Lucas_Gravina_Resume.pdf">Download PDF ↓</a>
           </header>
           <div class="window-content">
-            <img class="resume-page" src="assets/resume-page.png" alt="Lucas Gravina resume" />
+            <img class="resume-page" src="assets/resume-page.png?v=20260925" alt="Lucas Gravina résumé: Stanford University, Strategic Projects Intern at AfterQuery (June–August 2026), Origami, Archer Capital Group, Complymate, leadership, projects, and skills. Use Download PDF for the accessible document." />
           </div>
         </article>
 
@@ -2884,8 +2891,8 @@
                 </a>
                 <div class="experience-copy">
                   <h3>AfterQuery</h3>
-                  <span class="experience-role">Summer Strategic Projects Intern</span>
-                  <p>Helped train the world’s leading AI models.</p>
+                  <span class="experience-role">Strategic Projects Intern · Jun–Aug 2026</span>
+                  <p>Delivered six training products with 100+ experts, shipped 10+ evaluation harnesses and synthetic-generation pipelines, and automated QA to eliminate 200+ errors.</p>
                 </div>
               </section>
               <section class="experience-card">
@@ -2894,8 +2901,8 @@
                 </a>
                 <div class="experience-copy">
                   <h3>Origami (YC F24)</h3>
-                  <span class="experience-role">Winter Product Intern</span>
-                  <p>Contributed to the next GTM unicorn.</p>
+                  <span class="experience-role">Winter Product Intern · Nov–Dec 2025</span>
+                  <p>Built 15+ lead refinement systems to qualify 50,000+ data points and engineered workflows that informed AI product development.</p>
                 </div>
               </section>
               <section class="experience-card">
@@ -2904,8 +2911,8 @@
                 </a>
                 <div class="experience-copy">
                   <h3>Archer Capital Group</h3>
-                  <span class="experience-role">Summer Analyst</span>
-                  <p>Build sick internal tools and informed interesting deals.</p>
+                  <span class="experience-role">Summer Analyst · Jun–Sep 2025</span>
+                  <p>Shipped four diligence tools adopted by 40%+ of the firm, interviewed 10+ associates, and analyzed 16 BaaS companies to inform dealmaking.</p>
                 </div>
               </section>
               <section class="experience-card">
@@ -2914,8 +2921,8 @@
                 </div>
                 <div class="experience-copy">
                   <h3>Complymate</h3>
-                  <span class="experience-role">Co-Founder &amp; CEO</span>
-                  <p>Worked with $1B+ enterprise partners for environmental compliance startup.</p>
+                  <span class="experience-role">Co-Founder &amp; CEO · Oct 2024–Jun 2025</span>
+                  <p>Secured three $1B+ enterprise design partners and shipped an environmental compliance MVP in C++ and Python; wound down to find a bigger problem.</p>
                 </div>
               </section>
             </div>
@@ -3001,11 +3008,10 @@
                   <span class="window-meta">Coursework</span>
                   <ul class="education-list">
                     <li>Introduction to Probability for Computer Scientists</li>
-                    <li>Introduction to Applied Statistics</li>
                     <li>Introduction to Stochastic Modeling</li>
+                    <li>Linear Algebra</li>
                     <li>Introduction to Matrix Methods</li>
                     <li>Programming Abstractions</li>
-                    <li>Data Science for Social Impact</li>
                   </ul>
                 </div>
                 <div class="education-fact">
@@ -3137,8 +3143,26 @@
           </div>
         </article>
 
+        <article class="mac-window maps-window" id="window-maps" data-window="maps" aria-label="Travel map">
+          <header class="window-titlebar">
+            <div class="traffic-lights">
+              <button class="traffic close" type="button" data-close aria-label="Close Maps"></button>
+              <button class="traffic minimize" type="button" data-close aria-label="Minimize Maps"></button>
+              <button class="traffic maximize" type="button" data-maximize aria-label="Maximize Maps"></button>
+            </div>
+            <h2 class="window-title">Maps</h2>
+            <a class="titlebar-action" href="map/" target="_blank" rel="noopener">Full map ↗</a>
+          </header>
+          <div class="window-content maps-window-content">
+            <iframe data-travel-map title="Lucas’s travel map" src="about:blank"></iframe>
+          </div>
+        </article>
+
         <div class="desktop-dock" aria-label="Desktop dock">
           <button class="dock-icon dock-finder" type="button" data-open="about" aria-label="Open About"></button>
+          <button class="dock-icon dock-maps" type="button" data-open="maps" aria-label="Open Maps" aria-controls="window-maps" aria-expanded="false" title="Maps">
+            <img src="assets/maps-icon.svg" alt="" />
+          </button>
           <button class="dock-icon dock-photos" type="button" data-open="photos" aria-label="Open Photos">
             <svg viewBox="0 0 72 72" aria-hidden="true">
               <g transform="translate(36 36)" opacity="0.94">
@@ -3388,7 +3412,7 @@
       document.addEventListener("spotify:reset", resetSpotifyPlayer);
 
       function setExpanded(name, expanded) {
-        document.querySelectorAll(`.desktop-folder[data-open="${name}"]`).forEach((folder) => {
+        document.querySelectorAll(`[data-open="${name}"]`).forEach((folder) => {
           folder.setAttribute("aria-expanded", String(expanded));
         });
       }
@@ -3402,6 +3426,10 @@
         const windowEl = document.querySelector(`[data-window="${name}"]`);
         if (!windowEl) return;
         windowEl.classList.add("is-open");
+        if (name === "maps") {
+          const frame = windowEl.querySelector("[data-travel-map]");
+          if (frame.getAttribute("src") === "about:blank") frame.src = "map/";
+        }
         setExpanded(name, true);
         focusWindow(windowEl);
       }
