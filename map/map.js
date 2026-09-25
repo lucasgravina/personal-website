@@ -4,11 +4,14 @@
   if (embedded) document.documentElement.classList.add("is-embedded");
   const app = document.querySelector(".map-app");
   const detail = document.getElementById("trip-detail");
+  const overview = document.getElementById("countries-overview");
+  const countryList = document.getElementById("country-list");
   const error = document.getElementById("map-error");
   const markers = new Map();
   let selectedId = null;
   let lastTrigger = null;
   let resetPending = true;
+  let overviewCenter = [18, 0];
 
   function showError(message) {
     error.textContent = message;
@@ -50,8 +53,7 @@
     if (error.textContent.startsWith("Some map")) error.hidden = true;
   });
 
-  // Size the overview to the full app, not the shrinking detail-view pane.
-  // Keeping the same zoom and center crops both sides when details open.
+  // Keep the map scale consistent across the list and trip-detail views.
   function resizeMap(reset = false) {
     if (reset) resetPending = true;
     const surface = document.getElementById("travel-map");
@@ -60,7 +62,7 @@
     const minZoom = Math.max(0, Math.log2(app.clientWidth / 256), Math.log2(app.clientHeight / (256 * 0.6)));
     map.setMinZoom(minZoom);
     if (resetPending) {
-      map.setView([18, 0], minZoom, { animate: false });
+      map.setView(overviewCenter, minZoom, { animate: false });
       resetPending = false;
     } else map.panInsideBounds(worldBounds, { animate: false });
   }
@@ -69,10 +71,13 @@
 
   function closeDetail(restoreFocus = false, reset = false) {
     detail.hidden = true;
-    app.classList.remove("has-trip");
+    overview.hidden = false;
     selectedId = null;
     markers.forEach(marker => marker.getElement()?.setAttribute("aria-expanded", "false"));
-    if (reset) resetPending = true;
+    if (reset) {
+      resetPending = true;
+      overview.scrollTop = 0;
+    }
     requestAnimationFrame(() => resizeMap());
     if (restoreFocus && lastTrigger?.isConnected) lastTrigger.focus();
   }
@@ -125,7 +130,7 @@
     });
     document.getElementById("photos-empty").hidden = photos.childElementCount > 0;
     detail.hidden = false;
-    app.classList.add("has-trip");
+    overview.hidden = true;
     detail.scrollTop = 0;
     markers.forEach((marker, id) => marker.getElement()?.setAttribute("aria-expanded", String(id === selectedId)));
     requestAnimationFrame(() => {
@@ -135,6 +140,61 @@
       } else map.panInside([trip.lat, trip.lng], { padding: [30, 30], animate: false });
     });
     document.getElementById("detail-close").focus({ preventScroll: true });
+  }
+
+  function renderCountries(trips) {
+    // Map insertion order preserves Lucas's list, grouping the two US stops.
+    const countries = new Map();
+    trips.forEach(trip => {
+      const country = trip.country || trip.title;
+      if (!countries.has(country)) countries.set(country, []);
+      countries.get(country).push(trip);
+    });
+    countryList.replaceChildren();
+    countries.forEach((stops, country) => {
+      const item = document.createElement("li");
+      const row = document.createElement(stops.length === 1 ? "button" : "div");
+      row.className = "country-row";
+      const flag = document.createElement("span");
+      flag.className = "country-flag";
+      flag.setAttribute("aria-hidden", "true");
+      const code = stops[0].countryCode;
+      flag.textContent = /^[A-Z]{2}$/.test(code || "")
+        ? [...code].map(letter => String.fromCodePoint(127397 + letter.charCodeAt(0))).join("")
+        : "";
+      const name = document.createElement("span");
+      name.className = "country-name";
+      name.textContent = country;
+      row.append(flag, name);
+      if (stops.length === 1) {
+        row.type = "button";
+        row.setAttribute("aria-controls", "trip-detail");
+        row.addEventListener("click", () => selectTrip(stops[0], row));
+        const arrow = document.createElement("span");
+        arrow.className = "country-arrow";
+        arrow.setAttribute("aria-hidden", "true");
+        arrow.textContent = "›";
+        row.append(arrow);
+      }
+      item.append(row);
+      if (stops.length > 1) {
+        const list = document.createElement("ul");
+        list.className = "country-stops";
+        stops.forEach(trip => {
+          const stop = document.createElement("li");
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "country-stop";
+          button.textContent = trip.listLabel || trip.title;
+          button.setAttribute("aria-controls", "trip-detail");
+          button.addEventListener("click", () => selectTrip(trip, button));
+          stop.append(button);
+          list.append(stop);
+        });
+        item.append(list);
+      }
+      countryList.append(item);
+    });
   }
 
   fetch("trips.json", { cache: "no-cache" })
@@ -149,17 +209,27 @@
         if (!trip || typeof trip.id !== "string" || !trip.id || ids.has(trip.id) || typeof trip.title !== "string" || !trip.title.trim() || !Number.isFinite(trip.lat) || Math.abs(trip.lat) > 85 || !Number.isFinite(trip.lng) || Math.abs(trip.lng) > 180 || (trip.photos !== undefined && (!Array.isArray(trip.photos) || trip.photos.some(photo => !photo || typeof photo.src !== "string")))) throw new Error("Invalid trip entry");
         ids.add(trip.id);
       });
+      if (data.length) {
+        const latitudes = data.map(trip => trip.lat);
+        const longitudes = data.map(trip => trip.lng);
+        overviewCenter = [
+          (Math.min(...latitudes) + Math.max(...latitudes)) / 2,
+          (Math.min(...longitudes) + Math.max(...longitudes)) / 2
+        ];
+        resizeMap(true);
+      }
       const icon = L.divIcon({ className: "trip-pin", iconSize: [24, 30], iconAnchor: [12, 24], html: "" });
       data.forEach(trip => {
         const marker = L.marker([trip.lat, trip.lng], { icon, title: trip.title, alt: trip.title, keyboard: true, riseOnHover: true }).addTo(map);
         const label = document.createElement("span");
         label.textContent = trip.title;
-        marker.bindTooltip(label, { direction: "top", offset: [0, -24] });
+        marker.bindTooltip(label, { direction: "top", offset: [0, -19] });
         marker.getElement().setAttribute("aria-controls", "trip-detail");
         marker.getElement().setAttribute("aria-expanded", "false");
         marker.on("click", () => selectTrip(trip, marker.getElement()));
         markers.set(trip.id, marker);
       });
+      renderCountries(data);
     })
     .catch(() => showError("Trip notes are unavailable right now. You can still explore the map."));
 })();

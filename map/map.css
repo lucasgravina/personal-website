@@ -4,8 +4,7 @@ body { margin: 0; min-height: 100dvh; display: grid; place-items: center; }
 button { font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 [hidden] { display: none !important; }
 button:focus-visible, a:focus-visible { outline: 3px solid #087dff; outline-offset: 3px; }
-.map-app { display: grid; grid-template-columns: minmax(0, 1fr); width: 100vw; height: 100dvh; overflow: hidden; }
-.map-app.has-trip { grid-template-columns: minmax(0, 1fr) min(42%, 280px); }
+.map-app { display: grid; grid-template-columns: minmax(0, 1fr) min(44%, 290px); width: 100vw; height: 100dvh; overflow: hidden; }
 .map-surface { position: relative; min-width: 0; min-height: 0; }
 #travel-map { height: 100%; width: 100%; background: #aad3df; outline-offset: -4px; }
 .leaflet-container { font-family: inherit; }
@@ -14,11 +13,25 @@ button:focus-visible, a:focus-visible { outline: 3px solid #087dff; outline-offs
 .leaflet-control-attribution { max-width: calc(100% - 10px); padding: 2px 5px !important; font-size: 9px !important; line-height: 1.3 !important; color: #4d5552; background: #ffffffe8 !important; text-align: right; }
 .map-error { position: absolute; z-index: 600; bottom: 42px; left: 12px; right: 12px; padding: 10px 12px; background: #fff; border: 1px solid #ded7c7; border-radius: 8px; font-size: 12px; }
 .trip-pin { border: 0; background: transparent; }
-.trip-pin::before { content: ""; position: absolute; left: 3px; top: 2px; width: 18px; height: 18px; border: 2px solid #fff; border-radius: 50% 50% 50% 0; background: #c45d48; box-shadow: -1px 2px 4px #55372d55; transform: rotate(-45deg); }
-.trip-pin::after { content: ""; position: absolute; left: 10px; top: 9px; width: 4px; height: 4px; border-radius: 50%; background: #fff; pointer-events: none; }
+.trip-pin::before { content: ""; position: absolute; left: 6px; top: 10px; width: 12px; height: 12px; border: 1.5px solid #fff; border-radius: 50% 50% 50% 0; background: #c45d48; box-shadow: -1px 2px 3px #55372d55; transform: rotate(-45deg); }
+.trip-pin::after { content: ""; position: absolute; left: 10.75px; top: 14.75px; width: 2.5px; height: 2.5px; border-radius: 50%; background: #fff; pointer-events: none; }
 .trip-pin:hover::before, .trip-pin:focus-visible::before, .trip-pin[aria-expanded="true"]::before { background: #a73e30; }
-.trip-detail { position: relative; min-width: 0; overflow-y: auto; overscroll-behavior: contain; padding: 24px 20px; background: #fafbf9; border-left: 1px solid #dce1dd; scrollbar-width: thin; }
-.detail-close { position: absolute; right: 10px; top: 10px; width: 26px; height: 26px; padding: 0; background: #e9eeea; color: #69746d; border: 0; border-radius: 50%; font-size: 20px; line-height: 1; }
+.countries-overview, .trip-detail { position: relative; min-width: 0; overflow-y: auto; overscroll-behavior: contain; padding: 24px 20px; background: #fafbf9; border-left: 1px solid #dce1dd; scrollbar-width: thin; }
+.countries-overview h1 { margin: 0 0 18px; color: #303a33; font-size: 21px; font-weight: 600; line-height: 1.22; letter-spacing: -.035em; }
+.travels-intro { margin: 0 0 20px; color: #68736b; font-size: 12px; line-height: 1.6; white-space: pre-line; }
+.travels-intro:empty { display: none; }
+.country-list, .country-stops { list-style: none; margin: 0; padding: 0; }
+.country-list > li { border-top: 1px solid #e5e8e2; }
+.country-row { display: flex; align-items: center; gap: 9px; width: 100%; min-height: 39px; padding: 8px 0; border: 0; background: transparent; color: #38433b; text-align: left; font-size: 12px; line-height: 1.35; }
+button.country-row:hover, .country-stop:hover { background: #edf1e9; }
+.country-name { flex: 1; min-width: 0; }
+.country-flag { flex: 0 0 22px; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; font-size: 19px; line-height: 1; }
+.country-arrow { margin-left: auto; padding-right: 3px; color: #96a092; font-size: 17px; }
+.country-stops { padding: 0 0 8px 31px; }
+.country-stop { display: block; width: 100%; border: 0; padding: 7px 0; background: transparent; color: #66755f; text-align: left; font-size: 11px; line-height: 1.35; }
+.country-list button:focus-visible { outline-offset: -2px; }
+.detail-back { display: block; margin: 0 0 18px; padding: 0; border: 0; background: transparent; color: #66755f; font-size: 12px; line-height: 1.5; }
+.detail-back:hover { color: #31442b; }
 .section-label { margin: 0 28px 8px 0; font-size: 10px; font-weight: 650; text-transform: uppercase; letter-spacing: .09em; color: #808a83; }
 .trip-detail h1 { margin: 0 0 4px; font-size: 25px; font-weight: 650; letter-spacing: -.04em; overflow-wrap: anywhere; }
 .trip-location { margin: 0; color: #6d7870; font-size: 12px; }
@@ -31,7 +44,10 @@ button:focus-visible, a:focus-visible { outline: 3px solid #087dff; outline-offs
 .trip-photos img { display: block; width: 100%; height: auto; border-radius: 7px; }
 .trip-photos figcaption { margin-top: 5px; color: #707a75; font-size: 11px; line-height: 1.4; }
 @media (max-width: 480px), (max-height: 350px) {
-  .trip-detail { padding: 16px 14px; }
+  .countries-overview, .trip-detail { padding: 16px 14px; }
+  .countries-overview h1 { font-size: 18px; margin-bottom: 14px; }
+  .country-row { min-height: 34px; font-size: 11px; }
+  .detail-back { margin-bottom: 14px; }
   .trip-detail h1 { font-size: 22px; }
   .section-label { margin-bottom: 6px; }
   .detail-section { margin-top: 10px; padding-top: 8px; }

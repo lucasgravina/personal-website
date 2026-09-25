@@ -8,9 +8,9 @@
   <title>Travels — Lucas Gravina</title>
   <link rel="icon" href="../assets/maps-icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="../assets/vendor/leaflet/leaflet.css" />
-  <link rel="stylesheet" href="map.css?v=20260925-travels" />
+  <link rel="stylesheet" href="map.css?v=20260925-countries" />
   <script src="../assets/vendor/leaflet/leaflet.js" defer></script>
-  <script src="map.js?v=20260925-travels" defer></script>
+  <script src="map.js?v=20260925-countries" defer></script>
 </head>
 <body>
   <main class="map-app" aria-label="Travel map">
@@ -18,8 +18,14 @@
       <div id="travel-map" aria-label="Interactive world map. Select a trip pin for details. Use arrow keys to pan and plus or minus to zoom."></div>
       <div class="map-error" id="map-error" role="status" hidden></div>
     </div>
+    <section class="countries-overview" id="countries-overview" aria-labelledby="countries-title">
+      <h1 id="countries-title">Countries I've Backpacked/<wbr>Traveled!</h1>
+      <!-- Add Lucas's introductory paragraph here when he supplies it. Empty text is hidden. -->
+      <p class="travels-intro" id="travels-intro"></p>
+      <ul class="country-list" id="country-list" aria-label="Countries in my travel list"></ul>
+    </section>
     <section class="trip-detail" id="trip-detail" aria-labelledby="trip-title" hidden>
-      <button class="detail-close" id="detail-close" type="button" aria-label="Close trip details">×</button>
+      <button class="detail-back" id="detail-close" type="button" aria-label="Back to countries">← Countries</button>
       <p class="section-label">Where</p>
       <h1 id="trip-title"></h1>
       <p class="trip-location" id="trip-location"></p>
