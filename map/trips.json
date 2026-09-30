@@ -9,7 +9,11 @@
     "lng": 10.4515,
     "date": "",
     "bio": "",
-    "photos": []
+    "photos": [
+      { "src": "../assets/trips/germany/IMG_4579.jpg", "alt": "Germany travel photo" },
+      { "src": "../assets/trips/germany/IMG_4586.jpg", "alt": "Germany travel photo" },
+      { "src": "../assets/trips/germany/IMG_4599.jpg", "alt": "Germany travel photo" }
+    ]
   },
   {
     "id": "bosnia-and-herzegovina",
@@ -33,7 +37,14 @@
     "lng": 15.2,
     "date": "",
     "bio": "",
-    "photos": []
+    "photos": [
+      { "src": "../assets/trips/croatia/IMG_4377.jpg", "alt": "Croatia travel photo" },
+      { "src": "../assets/trips/croatia/IMG_4385.jpg", "alt": "Croatia travel photo" },
+      { "src": "../assets/trips/croatia/IMG_4397.jpg", "alt": "Croatia travel photo" },
+      { "src": "../assets/trips/croatia/IMG_4446.jpg", "alt": "Croatia travel photo" },
+      { "src": "../assets/trips/croatia/IMG_4541.jpg", "alt": "Croatia travel photo" },
+      { "src": "../assets/trips/croatia/IMG_4549.jpg", "alt": "Croatia travel photo" }
+    ]
   },
   {
     "id": "montenegro",
@@ -45,7 +56,14 @@
     "lng": 19.3744,
     "date": "",
     "bio": "",
-    "photos": []
+    "photos": [
+      { "src": "../assets/trips/montenegro/IMG_4276.jpg", "alt": "Montenegro travel photo" },
+      { "src": "../assets/trips/montenegro/IMG_4298.jpg", "alt": "Montenegro travel photo" },
+      { "src": "../assets/trips/montenegro/IMG_4326.jpg", "alt": "Montenegro travel photo" },
+      { "src": "../assets/trips/montenegro/IMG_4351.jpg", "alt": "Montenegro travel photo" },
+      { "src": "../assets/trips/montenegro/IMG_4356.jpg", "alt": "Montenegro travel photo" },
+      { "src": "../assets/trips/montenegro/IMG_4357.jpg", "alt": "Montenegro travel photo" }
+    ]
   },
   {
     "id": "el-salvador",
@@ -81,7 +99,13 @@
     "lng": -102.5528,
     "date": "",
     "bio": "",
-    "photos": []
+    "photos": [
+      { "src": "../assets/trips/mexico/IMG_1628.jpg", "alt": "Mexico travel photo" },
+      { "src": "../assets/trips/mexico/IMG_1762.jpg", "alt": "Mexico travel photo" },
+      { "src": "../assets/trips/mexico/IMG_1813.jpg", "alt": "Mexico travel photo" },
+      { "src": "../assets/trips/mexico/IMG_1817.jpg", "alt": "Mexico travel photo" },
+      { "src": "../assets/trips/mexico/IMG_1830.jpg", "alt": "Mexico travel photo" }
+    ]
   },
   {
     "id": "france",
@@ -105,7 +129,20 @@
     "lng": 8.2275,
     "date": "",
     "bio": "",
-    "photos": []
+    "photos": [
+      { "src": "../assets/trips/switzerland/DSC02412.jpg", "alt": "Switzerland travel photo" },
+      { "src": "../assets/trips/switzerland/IMG_3594.jpg", "alt": "Switzerland travel photo" },
+      { "src": "../assets/trips/switzerland/IMG_3657.jpg", "alt": "Switzerland travel photo" },
+      { "src": "../assets/trips/switzerland/IMG_4209.jpg", "alt": "Switzerland travel photo" },
+      { "src": "../assets/trips/switzerland/IMG_4327.jpg", "alt": "Switzerland travel photo" },
+      { "src": "../assets/trips/switzerland/IMG_4349.jpg", "alt": "Switzerland travel photo" },
+      { "src": "../assets/trips/switzerland/IMG_6343.jpg", "alt": "Switzerland travel photo" },
+      { "src": "../assets/trips/switzerland/IMG_6492.jpg", "alt": "Switzerland travel photo" },
+      { "src": "../assets/trips/switzerland/IMG_6568.jpg", "alt": "Switzerland travel photo" },
+      { "src": "../assets/trips/switzerland/IMG_6795.jpg", "alt": "Switzerland travel photo" },
+      { "src": "../assets/trips/switzerland/IMG_7083.jpg", "alt": "Switzerland travel photo" },
+      { "src": "../assets/trips/switzerland/IMG_7122.jpg", "alt": "Switzerland travel photo" }
+    ]
   },
   {
     "id": "italy",
@@ -117,7 +154,14 @@
     "lng": 12.5674,
     "date": "",
     "bio": "",
-    "photos": []
+    "photos": [
+      { "src": "../assets/trips/italy/IMG_7280.jpg", "alt": "Italy travel photo" },
+      { "src": "../assets/trips/italy/IMG_7494.jpg", "alt": "Italy travel photo" },
+      { "src": "../assets/trips/italy/IMG_7501.jpg", "alt": "Italy travel photo" },
+      { "src": "../assets/trips/italy/IMG_7519.jpg", "alt": "Italy travel photo" },
+      { "src": "../assets/trips/italy/IMG_7585.jpg", "alt": "Italy travel photo" },
+      { "src": "../assets/trips/italy/IMG_7606.jpg", "alt": "Italy travel photo" }
+    ]
   },
   {
     "id": "cuba",
@@ -129,7 +173,15 @@
     "lng": -77.7812,
     "date": "",
     "bio": "",
-    "photos": []
+    "photos": [
+      { "src": "../assets/trips/cuba/IMG_0764.jpg", "alt": "Cuba travel photo" },
+      { "src": "../assets/trips/cuba/IMG_0890.jpg", "alt": "Cuba travel photo" },
+      { "src": "../assets/trips/cuba/IMG_0980.jpg", "alt": "Cuba travel photo" },
+      { "src": "../assets/trips/cuba/IMG_4771.jpg", "alt": "Cuba travel photo" },
+      { "src": "../assets/trips/cuba/IMG_4819.jpg", "alt": "Cuba travel photo" },
+      { "src": "../assets/trips/cuba/IMG_4932.jpg", "alt": "Cuba travel photo" },
+      { "src": "../assets/trips/cuba/IMG_4998.jpg", "alt": "Cuba travel photo" }
+    ]
   },
   {
     "id": "budapest",
@@ -141,7 +193,13 @@
     "lng": 19.0402,
     "date": "",
     "bio": "",
-    "photos": []
+    "photos": [
+      { "src": "../assets/trips/budapest/IMG_5263.jpg", "alt": "Budapest travel photo" },
+      { "src": "../assets/trips/budapest/IMG_5286.jpg", "alt": "Budapest travel photo" },
+      { "src": "../assets/trips/budapest/IMG_5294.jpg", "alt": "Budapest travel photo" },
+      { "src": "../assets/trips/budapest/IMG_5444.jpg", "alt": "Budapest travel photo" },
+      { "src": "../assets/trips/budapest/IMG_5479.jpg", "alt": "Budapest travel photo" }
+    ]
   },
   {
     "id": "czech-republic",
@@ -153,7 +211,10 @@
     "lng": 15.473,
     "date": "",
     "bio": "",
-    "photos": []
+    "photos": [
+      { "src": "../assets/trips/czech-republic/IMG_5062.jpg", "alt": "Czech Republic travel photo" },
+      { "src": "../assets/trips/czech-republic/IMG_5063.jpg", "alt": "Czech Republic travel photo" }
+    ]
   },
   {
     "id": "costa-rica",

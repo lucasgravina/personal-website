@@ -4,7 +4,7 @@ The Travels dock icon opens this flat map inside the desktop, titled “Check ou
 
 ## Adding trips over time
 
-Published places live in `trips.json`. Start with just a pin and a title; add the date, description, and photos whenever ready. No locations are inferred from photos or other personal data. The current list covers 14 requested countries, plus two US pins: Pittsburgh (“Home — where I’m from”) and Stanford (“School”). Switzerland appears once, and the original Budapest pin represents Hungary. Iceland and Serbia were removed at Lucas's request because they were only flight layovers. Dates and photos remain intentionally empty; only the two user-provided home/school descriptions are filled in.
+Published places live in `trips.json`. Add the date and description whenever ready; photos are stored under `assets/trips/` and referenced by relative path. No locations are inferred from photos or other personal data. The current list covers 14 requested countries, plus two US pins: Pittsburgh (“Home — where I’m from”) and Stanford (“School”). Switzerland appears once, and the original Budapest pin represents Hungary. Iceland and Serbia were removed at Lucas's request because they were only flight layovers. Dates remain intentionally empty; only the two user-provided home/school descriptions are filled in.
 
 Country pins use approximate country reference coordinates, not claims about specific cities visited. Coordinates were checked against [Google's country reference table](https://developers.google.com/public-data/docs/canonical/countries_csv) and rounded. Pittsburgh is a city-level marker, not a residential address; Stanford marks the university campus. Nearby pins can be separated with the map's zoom controls.
 
