@@ -1,6 +1,6 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const {normalizeNotebook,validNotebook,visibleArticles,removeGroup,publicUrl,readerArticle,formatDate}=require('../core.js');
+const {normalizeNotebook,validNotebook,visibleArticles,removeGroup,publicUrl,readerArticle,formatDate}=require('../app.js');
 const article=(id,createdAt,groupId='')=>({id,title:id,createdAt,groupId,url:'',blocks:[{id:'b0',type:'p',text:'A passage to read and annotate.'}],annotations:[]});
 
 test('older desktop backups retain comments, dates, and highlight offsets',()=>{
