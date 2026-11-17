@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Save articles, highlight passages, and add notes.">
+  <meta name="referrer" content="no-referrer">
+  <title>Margin</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css?v=2">
+  <script src="./core.js?v=2" defer></script>
+  <script src="./app.js?v=2" defer></script>
+</head>
+<body>
+  <aside class="library" id="library" aria-label="Library">
+    <div class="library-heading"><span class="brand">Margin</span><span id="article-count" class="muted">0 articles</span></div>
+    <button class="primary add-button" id="new-article"><span>＋ Add article</span><kbd>⌘ K</kbd></button>
+    <label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><input id="search" placeholder="Search" aria-label="Search articles and notes" type="search"></label>
+    <div class="groups-heading"><span>Groups</span><button class="icon-button" id="new-group" aria-label="New group" title="New group">＋</button></div>
+    <nav id="group-list" aria-label="Article groups"></nav>
+    <div class="section-label"><span id="list-heading">All articles</span><span id="filtered-count"></span></div>
+    <nav id="article-list" aria-label="Articles"></nav>
+    <div class="library-footer">
+      <details><summary>Backup & restore</summary><div class="backup-actions"><button id="desktop-connect" class="text-button">Connect Desktop folder</button><button id="download-backup" class="text-button">Download backup</button><button id="restore-backup" class="text-button">Restore backup</button></div></details>
+      <p id="storage-caption">Saved in this browser.</p>
+      <input id="restore-file" type="file" accept="application/json,.json" hidden>
+    </div>
+  </aside>
+  <button id="sidebar-scrim" class="sidebar-scrim" aria-label="Close library" hidden></button>
+  <main class="workspace">
+    <header class="topbar">
+      <div class="topbar-left"><button id="toggle-library" class="icon-button" title="Hide library" aria-label="Hide library" aria-controls="library" aria-expanded="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg></button><span id="current-source" class="breadcrumb">Library</span></div>
+      <div class="topbar-actions"><span id="save-status" role="status">Loading…</span><button id="topbar-add" class="icon-button" title="Add article" aria-label="Add article">＋</button><button id="toggle-notes" class="icon-button" title="Hide notes" aria-label="Hide notes" aria-controls="notes-panel" aria-expanded="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M15 4v16"/></svg></button></div>
+    </header>
+    <div id="welcome" class="welcome">
+      <div class="empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5zM14 3v5h5M8 12h8M8 16h6"/></svg></div>
+      <h1>Your library</h1><p>Add a link or paste an article.<br>Highlight passages and leave notes as you read.</p>
+      <button class="primary" id="welcome-add">＋ Add article</button>
+      <button class="text-button" id="welcome-restore">Restore an existing backup</button>
+    </div>
+    <div id="reading-layout" class="reading-layout" hidden>
+      <section class="reader-scroll" id="reader-scroll" aria-label="Article reader">
+        <div class="article-toolbar"><label class="article-group-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7V5h7l2 2h9v13H3z"/></svg><select id="article-group" aria-label="Move article to group"><option value="">Ungrouped</option></select></label><div><a id="source-link" class="text-button" target="_blank" rel="noopener noreferrer">Original ↗</a><button id="export-notes" class="text-button">Export notes</button><button id="delete-article" class="icon-button" title="Remove article" aria-label="Remove article"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7M14 10v7"/></svg></button></div></div>
+        <article class="article"><div class="eyebrow" id="article-domain"></div><h1 id="article-title"></h1><div id="article-author" class="byline"></div><div id="article-meta" class="article-meta"></div><div class="article-divider"></div><div id="article-body"></div></article>
+      </section>
+      <aside class="notes-panel" id="notes-panel" aria-label="Notes"><div class="notes-header"><h2>Notes <span id="note-count">0</span></h2></div><p class="notes-guide">Select text to highlight or comment.</p><div id="notes-list"></div><div id="notes-empty" class="notes-empty">No notes yet.</div></aside>
+    </div>
+  </main>
+  <div id="selection-toolbar" class="selection-toolbar" hidden><button id="highlight-selection">Highlight</button><span></span><button id="comment-selection">Comment</button></div>
+  <dialog id="import-dialog"><form id="import-form">
+    <div class="dialog-heading"><h2>Add article</h2><button type="button" id="close-import" class="icon-button" aria-label="Close">×</button></div>
+    <div class="tabs" role="tablist" aria-label="Import method"><button type="button" class="active" id="tab-link" role="tab" aria-selected="true">Link</button><button type="button" id="tab-text" role="tab" aria-selected="false">Text</button></div>
+    <div id="link-fields"><label for="article-url">Article URL</label><input type="url" id="article-url" placeholder="https://" autocomplete="off"><p class="field-hint" id="import-provider">Link imports use <a href="https://jina.ai/reader/" target="_blank" rel="noopener noreferrer">Jina Reader</a>. Your notes stay in this browser.</p></div>
+    <div id="text-fields" hidden><label for="paste-title">Title</label><input id="paste-title" placeholder="Article title" maxlength="500"><label for="paste-body">Article text</label><textarea id="paste-body" placeholder="Paste text here" rows="9"></textarea></div>
+    <label for="import-group">Group</label><select id="import-group"><option value="">Ungrouped</option></select>
+    <div id="import-error" class="form-error" role="alert" hidden></div>
+    <button class="primary import-submit" id="import-submit" type="submit">Add article</button><p class="dialog-footnote">If a site blocks imports, use Text instead.</p>
+  </form></dialog>
+  <dialog id="group-dialog"><form id="group-form"><div class="dialog-heading"><h2 id="group-dialog-title">New group</h2><button type="button" id="close-group" class="icon-button" aria-label="Close group dialog">×</button></div><label for="group-name">Name</label><input id="group-name" required maxlength="80" placeholder="e.g. Research" autocomplete="off"><div id="group-error" class="form-error" role="alert" hidden></div><div class="group-dialog-actions"><button id="delete-group" class="text-button danger" type="button" hidden>Delete group</button><button class="primary" type="submit">Save group</button></div></form></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>
