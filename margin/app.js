@@ -61,6 +61,29 @@
     if(!blocks.length || blocks.reduce((n,b)=>n+b.text.length,0)<30) throw new Error('The page did not include readable article text. Use Text instead.');
     return {title,url,author:'',blocks};
   }
+  function upgradeArticle(original, fresh) {
+    const normalized=text=>text.replace(/\s+/g,' ').trim();
+    const used=new Set(),reserved=new Set(original.blocks.map(b=>b.id));
+    const blocks=fresh.blocks.map((block,index)=>{
+      const existing=original.blocks.find(b=>!used.has(b.id) && normalized(b.text)===normalized(block.text));
+      if(existing){used.add(existing.id);return {...existing};}
+      let id='expanded-'+index;while(reserved.has(id)||used.has(id))id+='-new';used.add(id);
+      return {...block,id};
+    });
+    for(const note of original.annotations)for(const span of note.spans) {
+      if(!blocks.some(b=>b.id===span.blockId))throw new Error('The source changed a highlighted passage. Your saved copy and notes were kept.');
+    }
+    return {...original,blocks,author:original.author||fresh.author||''};
+  }
+  function readerOptions(url) {
+    const host=new URL(url).hostname;
+    if(host!=='fastcompany.com'&&host!=='www.fastcompany.com')return null;
+    return {url,targetSelector:'article.article-container',injectPageScript:`new Promise(resolve=>{
+      const expand=()=>{const button=Array.from(document.querySelectorAll('button')).find(b=>/^expand to continue reading/i.test(b.textContent.trim()));if(!button)return false;button.click();resolve();return true;};
+      if(expand())return;
+      const observer=new MutationObserver(()=>{if(expand())observer.disconnect();});observer.observe(document.documentElement,{childList:true,subtree:true});setTimeout(()=>{observer.disconnect();resolve();},8000);
+    })`};
+  }
   function mergeNotebooks(base,local,remote) {
     const equal=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
     const mergeList=(before,left,right,combine)=>{
@@ -86,7 +109,7 @@
     const result={...remote,groups:mergeList(base.groups||[],local.groups||[],remote.groups||[],(old,a,z)=>[a]),articles:mergeList(base.articles||[],local.articles||[],remote.articles||[],(old,a,z)=>[{...z,...a,annotations:mergeList(old?.annotations||[],a.annotations,z.annotations,combineNotes)}])};
     return normalizeNotebook(result);
   }
-  const api={normalizeNotebook,validNotebook,visibleArticles,removeGroup,formatDate,publicUrl,readerArticle,mergeNotebooks};
+  const api={normalizeNotebook,validNotebook,visibleArticles,removeGroup,formatDate,publicUrl,readerArticle,mergeNotebooks,upgradeArticle,readerOptions};
   if(typeof module!=='undefined' && module.exports)module.exports=api;else root.MarginCore=api;
 })(typeof window!=='undefined'?window:globalThis);
 
@@ -96,7 +119,7 @@ if(typeof document === 'undefined') return;
 'use strict';
 const $ = id => document.getElementById(id);
 const uid = () => crypto.randomUUID();
-const {normalizeNotebook, validNotebook, visibleArticles, removeGroup, formatDate, publicUrl, readerArticle, mergeNotebooks} = MarginCore;
+const {normalizeNotebook, validNotebook, visibleArticles, removeGroup, formatDate, publicUrl, readerArticle, mergeNotebooks, upgradeArticle, readerOptions} = MarginCore;
 const cloudMode=['lucasgravina.com','www.lucasgravina.com'].includes(location.hostname);
 const CLOUD='https://margin-cloud-lucas.lucasgravina180.chatgpt.site';
 let cloudToken='',cloudBase=normalizeNotebook({articles:[]}),cloudConfig=null;
@@ -339,6 +362,7 @@ function openArticle(id, closeMobile=false) {
   $('article-author').textContent = a.author || '';
   $('article-meta').textContent = `Added ${formatDate(a.createdAt,true)} · ${Math.max(1,Math.ceil(wordCount(a)/230))} min read · ${wordCount(a).toLocaleString()} words`;
   groupOptions($('article-group'),a.groupId);
+  $('expand-article').hidden = !a.url || !readerOptions(a.url) || !a.blocks.some(b=>/expand to continue reading/i.test(b.text));
   $('source-link').hidden = !a.url;
   if (a.url) $('source-link').href = a.url;
   renderBody(); renderNotes(); renderLibrary();
@@ -443,7 +467,8 @@ async function importLink(value) {
   if(nativeServer)return request('/api/import',{url});
   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),60000);
   try {
-    const response=await fetch('https://r.jina.ai/'+url,{headers:{Accept:'application/json'},credentials:'omit',referrerPolicy:'no-referrer',signal:controller.signal});
+    const options=readerOptions(url);
+    const response=await fetch('https://r.jina.ai/'+(options?'':url),{method:options?'POST':'GET',headers:{Accept:'application/json',...(options?{'Content-Type':'application/json','X-No-Cache':'true'}:{})},...(options?{body:JSON.stringify(options)}:{}),credentials:'omit',referrerPolicy:'no-referrer',signal:controller.signal});
     if(!response.ok)throw new Error(response.status===429?'Link imports are temporarily rate limited. Try again later or paste the text.':'This site could not be imported. Use Text instead.');
     const payload=await response.json();
     if(payload.code && payload.code!==200)throw new Error('This site could not be imported. Use Text instead.');
@@ -454,6 +479,17 @@ async function importLink(value) {
     throw error;
   } finally {clearTimeout(timer);}
 }
+$('expand-article').addEventListener('click',async()=>{
+  const article=current();if(!article?.url)return;
+  const button=$('expand-article');button.disabled=true;button.textContent='Loading full article…';
+  try {
+    const fresh=await importLink(article.url);
+    if(fresh.blocks.some(b=>/expand to continue reading/i.test(b.text)))throw new Error('The source still returned a preview. Open Original, expand it, then use Text to paste the article. Your notes were kept.');
+    const latest=state.articles.find(a=>a.id===article.id);if(!latest)return;
+    const upgraded=upgradeArticle(latest,fresh);state.articles=state.articles.map(a=>a.id===article.id?upgraded:a);changed();if(activeId===article.id)openArticle(article.id);toast('Full article loaded. Your highlights and comments were kept.');
+  } catch(e){toast(e.message,10000);}
+  finally{button.disabled=false;button.textContent='Load full article';}
+});
 async function importArticle(event) {
   event.preventDefault(); $('import-error').hidden=true; $('import-submit').disabled=true;
   $('import-submit').textContent='Importing…';

@@ -1,6 +1,6 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const {normalizeNotebook,validNotebook,visibleArticles,removeGroup,publicUrl,readerArticle,formatDate,mergeNotebooks}=require('../app.js');
+const {normalizeNotebook,validNotebook,visibleArticles,removeGroup,publicUrl,readerArticle,formatDate,mergeNotebooks,upgradeArticle,readerOptions}=require('../app.js');
 const article=(id,createdAt,groupId='')=>({id,title:id,createdAt,groupId,url:'',blocks:[{id:'b0',type:'p',text:'A passage to read and annotate.'}],annotations:[]});
 
 test('older desktop backups retain comments, dates, and highlight offsets',()=>{
@@ -62,4 +62,17 @@ test('conflicting edits to one comment preserve both texts',()=>{
   const base=normalizeNotebook({articles:[article('a',1)]});base.articles[0].annotations=[{id:'n',quote:'passage',comment:'Original',spans:[{blockId:'b0',start:2,end:9}]}];
   const left=structuredClone(base),right=structuredClone(base);left.articles[0].annotations[0].comment='Left';right.articles[0].annotations[0].comment='Right';
   const merged=mergeNotebooks(base,left,right);assert.deepEqual(new Set(merged.articles[0].annotations.map(n=>n.comment)),new Set(['Left','Right']));assert.equal(validNotebook(merged),true);
+});
+
+test('expanding an article removes page clutter and preserves highlighted blocks and original dates',()=>{
+  const original=article('a',1234);original.blocks.unshift({id:'nav',text:'Navigation',type:'p'});original.annotations=[{id:'n',quote:'passage',comment:'Saved comment',spans:[{blockId:'b0',start:2,end:9}]}];
+  const fresh={blocks:[{id:'b0',type:'p',text:'A passage  to read and annotate.'},{id:'b1',type:'p',text:'Previously collapsed text.'}]};
+  const result=upgradeArticle(original,fresh);assert.equal(result.createdAt,1234);assert.deepEqual(result.annotations,original.annotations);assert.deepEqual(result.blocks[0],original.blocks[1]);assert.equal(result.blocks.length,2);assert.equal(validNotebook({articles:[result]}),true);
+});
+test('expansion refuses source changes that would lose a highlighted passage',()=>{
+  const original=article('a',1);original.annotations=[{id:'n',quote:'passage',comment:'Keep',spans:[{blockId:'b0',start:2,end:9}]}];
+  assert.throws(()=>upgradeArticle(original,{blocks:[{id:'new',text:'Rewritten source text.',type:'p'}]}),/saved copy and notes were kept/);assert.equal(original.blocks[0].id,'b0');
+});
+test('Fast Company imports expand the ordinary reading button and target the article only',()=>{
+  const options=readerOptions('https://www.fastcompany.com/article');assert.equal(options.targetSelector,'article.article-container');assert.match(options.injectPageScript,/expand to continue reading/);assert.equal(readerOptions('https://example.com'),null);assert.equal(readerOptions('https://fastcompany.com.example.com'),null);
 });
