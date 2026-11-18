@@ -1,6 +1,6 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const {normalizeNotebook,validNotebook,visibleArticles,removeGroup,publicUrl,readerArticle,formatDate}=require('../app.js');
+const {normalizeNotebook,validNotebook,visibleArticles,removeGroup,publicUrl,readerArticle,formatDate,mergeNotebooks}=require('../app.js');
 const article=(id,createdAt,groupId='')=>({id,title:id,createdAt,groupId,url:'',blocks:[{id:'b0',type:'p',text:'A passage to read and annotate.'}],annotations:[]});
 
 test('older desktop backups retain comments, dates, and highlight offsets',()=>{
@@ -46,4 +46,20 @@ test('missing article content produces a useful import failure',()=>{
 test('missing legacy dates are not silently replaced with today',()=>{
   assert.equal(formatDate(undefined),'Date unavailable');
   assert.equal(formatDate(0),'Date unavailable');
+});
+test('cloud merging combines separate libraries without changing saved passages',()=>{
+  const left=normalizeNotebook({articles:[article('local',1)]}),right=normalizeNotebook({articles:[article('online',2)]});
+  const result=mergeNotebooks(normalizeNotebook({articles:[]}),left,right);
+  assert.equal(result.articles.length,2);assert.deepEqual(result.articles.find(a=>a.id==='local').blocks,left.articles[0].blocks);
+});
+test('concurrent comments and highlights are retained from both windows',()=>{
+  const base=normalizeNotebook({articles:[article('a',1)]});const left=structuredClone(base),right=structuredClone(base);
+  left.articles[0].annotations.push({id:'left',quote:'passage',comment:'One',spans:[{blockId:'b0',start:2,end:9}]});
+  right.articles[0].annotations.push({id:'right',quote:'passage',comment:'Two',spans:[{blockId:'b0',start:2,end:9}]});
+  assert.equal(mergeNotebooks(base,left,right).articles[0].annotations.length,2);
+});
+test('conflicting edits to one comment preserve both texts',()=>{
+  const base=normalizeNotebook({articles:[article('a',1)]});base.articles[0].annotations=[{id:'n',quote:'passage',comment:'Original',spans:[{blockId:'b0',start:2,end:9}]}];
+  const left=structuredClone(base),right=structuredClone(base);left.articles[0].annotations[0].comment='Left';right.articles[0].annotations[0].comment='Right';
+  const merged=mergeNotebooks(base,left,right);assert.deepEqual(new Set(merged.articles[0].annotations.map(n=>n.comment)),new Set(['Left','Right']));assert.equal(validNotebook(merged),true);
 });

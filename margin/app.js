@@ -61,7 +61,32 @@
     if(!blocks.length || blocks.reduce((n,b)=>n+b.text.length,0)<30) throw new Error('The page did not include readable article text. Use Text instead.');
     return {title,url,author:'',blocks};
   }
-  const api={normalizeNotebook,validNotebook,visibleArticles,removeGroup,formatDate,publicUrl,readerArticle};
+  function mergeNotebooks(base,local,remote) {
+    const equal=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+    const mergeList=(before,left,right,combine)=>{
+      const b=new Map(before.map(x=>[x.id,x])),l=new Map(left.map(x=>[x.id,x])),r=new Map(right.map(x=>[x.id,x]));
+      const result=[];
+      for(const id of new Set([...l.keys(),...r.keys(),...b.keys()])) {
+        const old=b.get(id),a=l.get(id),z=r.get(id);
+        if(!a&&!z)continue;
+        if(!a){if(!old||!equal(old,z))result.push(z);continue;}
+        if(!z){if(!old||!equal(old,a))result.push(a);continue;}
+        if(equal(a,z)||equal(old,z))result.push(a);
+        else if(equal(old,a))result.push(z);
+        else result.push(...combine(old,a,z));
+      }
+      return result;
+    };
+    const combineNotes=(old,a,z)=>{
+      // Two edits to the same comment are both retained instead of overwriting.
+      if(a.comment===z.comment)return [{...z,...a}];
+      let hash=2166136261;for(const c of z.comment)hash=Math.imul(hash^c.charCodeAt(0),16777619);
+      return [a,{...z,id:z.id+'-conflict-'+(hash>>>0).toString(16)}];
+    };
+    const result={...remote,groups:mergeList(base.groups||[],local.groups||[],remote.groups||[],(old,a,z)=>[a]),articles:mergeList(base.articles||[],local.articles||[],remote.articles||[],(old,a,z)=>[{...z,...a,annotations:mergeList(old?.annotations||[],a.annotations,z.annotations,combineNotes)}])};
+    return normalizeNotebook(result);
+  }
+  const api={normalizeNotebook,validNotebook,visibleArticles,removeGroup,formatDate,publicUrl,readerArticle,mergeNotebooks};
   if(typeof module!=='undefined' && module.exports)module.exports=api;else root.MarginCore=api;
 })(typeof window!=='undefined'?window:globalThis);
 
@@ -71,7 +96,10 @@ if(typeof document === 'undefined') return;
 'use strict';
 const $ = id => document.getElementById(id);
 const uid = () => crypto.randomUUID();
-const {normalizeNotebook, validNotebook, visibleArticles, removeGroup, formatDate, publicUrl, readerArticle} = MarginCore;
+const {normalizeNotebook, validNotebook, visibleArticles, removeGroup, formatDate, publicUrl, readerArticle, mergeNotebooks} = MarginCore;
+const cloudMode=['lucasgravina.com','www.lucasgravina.com'].includes(location.hostname);
+const CLOUD='https://margin-cloud-lucas.lucasgravina180.chatgpt.site';
+let cloudToken='',cloudBase=normalizeNotebook({articles:[]}),cloudConfig=null;
 let state = normalizeNotebook({articles: []});
 let activeId = null, editingId = null, selection = null, importMode = 'link';
 let dirty = false, saving = false, saveTimer, generation = 0, desktopHandle = null, nativeDesktop = false, nativeServer = false, dataDir = '';
@@ -129,7 +157,7 @@ function status(message, error = false) {
   $('save-status').classList.toggle('error', error);
 }
 function remember() {
-  try { localStorage.setItem(PENDING, JSON.stringify({state, dirty, editedAt: Date.now()})); }
+  try { localStorage.setItem(PENDING, JSON.stringify({state, dirty, base:cloudMode?cloudBase:undefined, editedAt: Date.now()})); }
   catch { if(dirty)toast('Recovery storage is full. Keep this tab open until saving finishes.'); }
 }
 function changed() {
@@ -143,19 +171,67 @@ async function request(path, body) {
   if (!response.ok) throw new Error(data.error || 'Something went wrong.');
   return data;
 }
+async function cloudRequest(path,body) {
+  const response=await fetch(CLOUD+path,{method:body?'POST':'GET',cache:'no-store',credentials:'omit',headers:{...(cloudToken?{Authorization:'Bearer '+cloudToken}:{}),...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});
+  const data=await response.json();
+  if(!response.ok){const error=new Error(data.error || 'Cloud save failed.');error.status=response.status;error.state=data.state;throw error;}
+  return data;
+}
+async function saveCloud() {
+  for(let attempt=0;attempt<4;attempt++) {
+    const snapshot=JSON.parse(JSON.stringify(state));
+    try {
+      const result=await cloudRequest('/v1/notebook',{state:snapshot,revision:cloudBase.revision});
+      cloudBase={...snapshot,...result};return result;
+    } catch(error) {
+      if(error.status!==409)throw error;
+      const latest=normalizeNotebook(error.state || (await cloudRequest('/v1/notebook')).state);
+      state=mergeNotebooks(cloudBase,state,latest);cloudBase=latest;
+      renderBody();renderNotes();renderGroups();renderLibrary();
+      if(editingId)$('note-'+editingId)?.querySelector('textarea')?.focus({preventScroll:true});
+    }
+  }
+  throw new Error('The library is changing in another window. Your edits are retained here; try saving again.');
+}
+async function unlockCloud(event) {
+  event.preventDefault();$('unlock-button').disabled=true;$('lock-error').hidden=true;
+  try {
+    cloudConfig=cloudConfig || await cloudRequest('/v1/config');
+    const password=$('library-password').value;
+    const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveBits']);
+    const bits=new Uint8Array(await crypto.subtle.deriveBits({name:'PBKDF2',salt:new TextEncoder().encode(cloudConfig.salt),iterations:cloudConfig.iterations,hash:'SHA-256'},key,256));
+    cloudToken=btoa(String.fromCharCode(...bits)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+    const remote=normalizeNotebook((await cloudRequest('/v1/notebook')).state);
+    let pending;try{pending=JSON.parse(getPref(PENDING)||'null');}catch{}
+    const browser=normalizeNotebook(await loadBrowser());
+    cloudBase=JSON.parse(JSON.stringify(remote));
+    if(!getPref('margin-cloud-migrated'))state=mergeNotebooks(normalizeNotebook({articles:[]}),browser,remote);
+    else if(pending?.dirty&&validNotebook(pending.state))state=mergeNotebooks(pending.base||remote,normalizeNotebook(pending.state),remote);
+    else state=remote;
+    $('library-password').value='';document.body.classList.remove('cloud-locked');$('lock-screen').hidden=true;
+    $('storage-caption').textContent='Private cloud library.';$('import-provider').hidden=false;
+    $('import-provider').lastChild.textContent='. Your notes are saved to your private cloud library.';
+    renderGroups();openArticle(state.articles.find(a=>a.id===getPref('margin-active'))?.id || state.articles[0]?.id || null);
+    if(JSON.stringify(state.articles)!==JSON.stringify(remote.articles)||JSON.stringify(state.groups)!==JSON.stringify(remote.groups)){changed();await save();}
+    else status('Saved to cloud');
+    if(!dirty)setPref('margin-cloud-migrated','1');
+  }catch(error){cloudToken='';$('lock-error').textContent=error.status===401?'Incorrect password.':error.message;$('lock-error').hidden=false;}
+  finally{$('unlock-button').disabled=false;}
+}
 async function save() {
-  if (saving || !dirty || saveBlocked) return;
+  if (saving || !dirty || saveBlocked || (cloudMode&&!cloudToken)) return;
   saving = true;
   const stamp = generation;
   const snapshot = JSON.parse(JSON.stringify(state));
   try {
-    const result = nativeServer ? await request('/api/state', {state: snapshot, revision: state.revision}) : await saveBrowser(snapshot,state.revision);
+    const result = cloudMode ? await saveCloud() : nativeServer ? await request('/api/state', {state: snapshot, revision: state.revision}) : await saveBrowser(snapshot,state.revision);
     state.revision = result.revision; state.updatedAt = result.updatedAt;
     dirty = generation !== stamp; remember();
-    status(dirty ? 'Saving…' : nativeDesktop ? 'Saved to Desktop' : nativeServer ? 'Saved on this Mac' : 'Saved in this browser');
+    status(dirty ? 'Saving…' : cloudMode ? 'Saved to cloud' : nativeDesktop ? 'Saved to Desktop' : nativeServer ? 'Saved on this Mac' : 'Saved in this browser');
+    if(cloudMode&&!dirty)setPref('margin-cloud-migrated','1');
     snapshot.revision=state.revision; snapshot.updatedAt=state.updatedAt;
     if (desktopHandle) {
-      try { await writeDesktop(snapshot); }
+      try { await writeDesktop(cloudMode?JSON.parse(JSON.stringify(cloudBase)):snapshot); }
       catch { desktopHandle = null; $('desktop-connect').textContent = 'Reconnect Desktop folder'; toast('Saved. Reconnect the Desktop folder to continue backups.', 6000); }
     }
   } catch (e) {
@@ -498,13 +574,17 @@ $('restore-backup').addEventListener('click',()=>$('restore-file').click()); $('
 $('welcome-restore').addEventListener('click',()=>$('restore-file').click());
 $('export-notes').addEventListener('click',()=>{const a=current();if(a)download(a.title.replace(/[^a-zA-Z0-9 -]/g,'').slice(0,60)+' - notes.md',markdown([a]),'text/markdown');});
 $('desktop-connect').addEventListener('click',connectDesktop);
-$('save-status').addEventListener('click',()=>{if(dirty)save();else toast(nativeServer?'Autosaving to '+dataDir:'Articles and notes are saved in this browser. Connect a Desktop folder for an additional backup.',5000);});
+$('unlock-form')?.addEventListener('submit',unlockCloud);
+window.addEventListener('online',()=>{if(dirty){saveBlocked=false;save();}});
+$('save-status').addEventListener('click',()=>{if(dirty)save();else toast(cloudMode?'Your articles, highlights, and comments are saved to your private cloud library.':nativeServer?'Autosaving to '+dataDir:'Articles and notes are saved in this browser. Connect a Desktop folder for an additional backup.',5000);});
 document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();showImport();}if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='s'){e.preventDefault();save();}if(e.key==='Escape')hideSelection();});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&dirty)save();});
 window.addEventListener('beforeunload',e=>{if(dirty){remember();e.preventDefault();e.returnValue='';}});
 
 async function boot() {
   try {
+    if(cloudMode){document.body.classList.add('cloud-locked');$('lock-screen').hidden=false;status('Locked');$('library-password').focus();return;}
+    document.body.classList.remove('cloud-locked');$('lock-screen').hidden=true;
     if(['localhost','127.0.0.1'].includes(location.hostname)) {
       try {
         const response=await fetch('/api/state');
