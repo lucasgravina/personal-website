@@ -8,7 +8,7 @@
   <title>Margin</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./style.css?v=4">
-  <script src="./app.js?v=4" defer></script>
+  <script src="./app.js?v=5" defer></script>
 </head>
 <body class="cloud-locked">
   <div id="lock-screen" class="lock-screen"><form id="unlock-form"><h1>Margin</h1><p>Private library</p><label for="library-password">Password</label><input type="password" id="library-password" autocomplete="current-password" required><div id="lock-error" class="form-error" role="alert" hidden></div><button class="primary" type="submit" id="unlock-button">Unlock</button></form></div>
@@ -21,7 +21,7 @@
     <div class="section-label"><span id="list-heading">All articles</span><span id="filtered-count"></span></div>
     <nav id="article-list" aria-label="Articles"></nav>
     <div class="library-footer">
-      <details><summary>Backup & restore</summary><div class="backup-actions"><button id="desktop-connect" class="text-button">Connect Desktop folder</button><button id="download-backup" class="text-button">Download backup</button><button id="restore-backup" class="text-button">Restore backup</button></div></details>
+      <details><summary>Backup & restore</summary><div class="backup-actions"><button id="desktop-connect" class="text-button">Connect Desktop folder</button><button id="download-backup" class="text-button">Download backup</button><button id="restore-backup" class="text-button">Restore backup</button><button id="paste-backup" class="text-button">Paste backup</button></div></details>
       <p id="storage-caption">Saved in this browser.</p>
       <input id="restore-file" type="file" accept="application/json,.json" hidden>
     </div>
@@ -57,6 +57,7 @@
     <button class="primary import-submit" id="import-submit" type="submit">Add article</button><p class="dialog-footnote">If a site blocks imports, use Text instead.</p>
   </form></dialog>
   <dialog id="group-dialog"><form id="group-form"><div class="dialog-heading"><h2 id="group-dialog-title">New group</h2><button type="button" id="close-group" class="icon-button" aria-label="Close group dialog">×</button></div><label for="group-name">Name</label><input id="group-name" required maxlength="80" placeholder="e.g. Research" autocomplete="off"><div id="group-error" class="form-error" role="alert" hidden></div><div class="group-dialog-actions"><button id="delete-group" class="text-button danger" type="button" hidden>Delete group</button><button class="primary" type="submit">Save group</button></div></form></dialog>
+  <dialog id="restore-dialog"><form id="restore-form"><div class="dialog-heading"><h2>Restore backup</h2><button type="button" id="close-restore" class="icon-button" aria-label="Close restore dialog">×</button></div><label for="backup-json">Backup contents</label><textarea id="backup-json" rows="10" required placeholder="Paste the contents of a Margin.json backup" spellcheck="false"></textarea><div id="restore-error" class="form-error" role="alert" hidden></div><button class="primary import-submit" type="submit">Restore articles</button></form></dialog>
   <div id="toast" class="toast" role="status" hidden></div>
 </body>
 </html>

@@ -521,10 +521,8 @@ async function connectDesktop() {
     navigator.storage?.persist?.().catch(()=>{});
   } catch(e) {if(e.name!=='AbortError') toast('Could not connect that folder. Please try a writable folder on your Desktop.');}
 }
-async function restoreFile(event) {
-  const file=event.target.files[0]; if(!file) return;
-  try {
-    const raw=JSON.parse(await file.text()); if(!validNotebook(raw)) throw new Error('Choose a valid Margin.json backup.');
+function restoreData(raw) {
+    if(!validNotebook(raw))throw new Error('Choose a valid Margin.json backup.');
     const data=normalizeNotebook(raw),groupMapping=new Map();
     for(const group of data.groups) {
       const same=state.groups.find(g=>g.name.toLocaleLowerCase()===group.name.toLocaleLowerCase());
@@ -538,8 +536,19 @@ async function restoreFile(event) {
     }
     activeGroup='all';changed();openArticle(state.articles[0]?.id||null,true);toast(`${added} ${added===1?'article restored':'articles restored'}.`);
     navigator.storage?.persist?.().catch(()=>{});
-  } catch(e){toast(e.message);} finally {event.target.value='';}
 }
+async function restoreFile(event) {
+  const file=event.target.files[0]; if(!file)return;
+  try {restoreData(JSON.parse(await file.text()));}
+  catch(e){toast(e.message);} finally {event.target.value='';}
+}
+$('paste-backup').addEventListener('click',()=>{$('restore-error').hidden=true;$('restore-dialog').showModal();$('backup-json').focus();});
+$('close-restore').addEventListener('click',()=>$('restore-dialog').close());
+$('restore-form').addEventListener('submit',event=>{
+  event.preventDefault();
+  try {restoreData(JSON.parse($('backup-json').value));$('backup-json').value='';$('restore-dialog').close();}
+  catch(e){$('restore-error').hidden=false;$('restore-error').textContent=e instanceof SyntaxError?'Paste valid JSON from a Margin backup.':e.message;}
+});
 
 $('new-article').addEventListener('click',showImport); $('welcome-add').addEventListener('click',showImport);$('topbar-add').addEventListener('click',showImport);
 $('toggle-library').addEventListener('click',()=>setSidebar(!document.body.classList.contains('sidebar-hidden')));
