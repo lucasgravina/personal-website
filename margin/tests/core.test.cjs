@@ -73,6 +73,6 @@ test('expansion refuses source changes that would lose a highlighted passage',()
   const original=article('a',1);original.annotations=[{id:'n',quote:'passage',comment:'Keep',spans:[{blockId:'b0',start:2,end:9}]}];
   assert.throws(()=>upgradeArticle(original,{blocks:[{id:'new',text:'Rewritten source text.',type:'p'}]}),/saved copy and notes were kept/);assert.equal(original.blocks[0].id,'b0');
 });
-test('Fast Company imports expand the ordinary reading button and target the article only',()=>{
-  const options=readerOptions('https://www.fastcompany.com/article');assert.equal(options.targetSelector,'article.article-container');assert.match(options.injectPageScript,/expand to continue reading/);assert.equal(readerOptions('https://example.com'),null);assert.equal(readerOptions('https://fastcompany.com.example.com'),null);
+test('Fast Company imports target the complete article HTML without page navigation',()=>{
+  const options=readerOptions('https://www.fastcompany.com/article');assert.equal(options.targetSelector,'article.article-container');assert.equal(options.engine,'curl');assert.equal(readerOptions('https://example.com'),null);assert.equal(readerOptions('https://fastcompany.com.example.com'),null);
 });

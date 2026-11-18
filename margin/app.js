@@ -78,11 +78,7 @@
   function readerOptions(url) {
     const host=new URL(url).hostname;
     if(host!=='fastcompany.com'&&host!=='www.fastcompany.com')return null;
-    return {url,targetSelector:'article.article-container',injectPageScript:`new Promise(resolve=>{
-      const expand=()=>{const button=Array.from(document.querySelectorAll('button')).find(b=>/^expand to continue reading/i.test(b.textContent.trim()));if(!button)return false;button.click();resolve();return true;};
-      if(expand())return;
-      const observer=new MutationObserver(()=>{if(expand())observer.disconnect();});observer.observe(document.documentElement,{childList:true,subtree:true});setTimeout(()=>{observer.disconnect();resolve();},8000);
-    })`};
+    return {url,targetSelector:'article.article-container',engine:'curl'};
   }
   function mergeNotebooks(base,local,remote) {
     const equal=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
