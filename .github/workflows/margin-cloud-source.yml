@@ -1,0 +1,23 @@
+name: Publish Margin cloud source
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Read the exact requested source revision
+        shell: bash
+        run: |
+          git init source
+          git -C source remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git -C source fetch --depth=1 origin "${GITHUB_SHA}"
+          git -C source checkout --detach FETCH_HEAD
+      - name: Check cloud storage behavior
+        run: node --test source/margin-service/tests/cloud.test.mjs
+      - name: Push only the Margin service source
+        env:
+          MARGIN_SITE_SOURCE_CREDENTIAL: ${{ secrets.MARGIN_SITE_SOURCE_CREDENTIAL }}
+        run: node source/margin-service/scripts/push-source.mjs
