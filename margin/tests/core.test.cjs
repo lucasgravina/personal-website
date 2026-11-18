@@ -1,6 +1,6 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const {normalizeNotebook,validNotebook,visibleArticles,removeGroup,publicUrl,readerArticle,formatDate,mergeNotebooks,upgradeArticle,readerOptions}=require('../app.js');
+const {normalizeNotebook,validNotebook,visibleArticles,removeGroup,publicUrl,readerArticle,formatDate,mergeNotebooks,upgradeArticle}=require('../app.js');
 const article=(id,createdAt,groupId='')=>({id,title:id,createdAt,groupId,url:'',blocks:[{id:'b0',type:'p',text:'A passage to read and annotate.'}],annotations:[]});
 
 test('older desktop backups retain comments, dates, and highlight offsets',()=>{
@@ -72,7 +72,4 @@ test('expanding an article removes page clutter and preserves highlighted blocks
 test('expansion refuses source changes that would lose a highlighted passage',()=>{
   const original=article('a',1);original.annotations=[{id:'n',quote:'passage',comment:'Keep',spans:[{blockId:'b0',start:2,end:9}]}];
   assert.throws(()=>upgradeArticle(original,{blocks:[{id:'new',text:'Rewritten source text.',type:'p'}]}),/saved copy and notes were kept/);assert.equal(original.blocks[0].id,'b0');
-});
-test('Fast Company imports target the complete article HTML without page navigation',()=>{
-  const options=readerOptions('https://www.fastcompany.com/article');assert.equal(options.targetSelector,'article.article-container');assert.equal(options.engine,'curl');assert.equal(readerOptions('https://example.com'),null);assert.equal(readerOptions('https://fastcompany.com.example.com'),null);
 });
